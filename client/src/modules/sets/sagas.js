@@ -1,30 +1,36 @@
-import { takeEvery, put } from 'redux-saga/effects';
+import {takeEvery, put, call} from 'redux-saga/effects';
 
 import {
   ADD_SET_REQUEST,
-  addSet
+  addSet,
+  addSetFailure
 } from './actions'
 
-// import { web3 } from '../../utils/getWeb3'
-const delay = (ms) => new Promise(res => setTimeout(res, ms))
+import {contractHasMethods} from '../../utils/contracts';
+import {web3} from '../../utils/getWeb3';
+import {abi} from '../../contracts/ITCR20.json';
 
 export function* setsSaga() {
   yield takeEvery(ADD_SET_REQUEST, handleAddSetRequest)
 }
 
-function* handleAddSetRequest(action){
-  //TODO - Should go to the contract and get basic information
-  console.log(action)
+function* handleAddSetRequest(action) {
+  let result = yield call(() => contractHasMethods(action.payload))
 
-  yield delay(1000)
+  if (!result) {
+    yield put(addSetFailure(action.payload))
+    return false
+  }
 
-  console.log('POST DELAY')
+  const contract = new web3.eth.Contract(abi, action.payload);
 
-  // If everything goes well
+  const name = yield call(() => contract.methods.name().call())
+  const description = yield call(() => contract.methods.description().call())
+
   let set = {
     address: action.payload,
-    name: 'Added via sagas',
-    description: 'Lorem ipsum',
+    name,
+    description,
     symbol: 'RTK',
     tokens: 40
   }

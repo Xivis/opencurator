@@ -12,9 +12,10 @@ import TextField from '@material-ui/core/TextField';
 import Slide from '@material-ui/core/Slide';
 
 import {web3} from '../../utils/getWeb3'
-import SetOverview from "../../components/SetOverview/SetOverview";
-import './HomePage.scss'
 import {addAddress} from "../../modules/sets/actions";
+import SetOverview from "../../components/SetOverview";
+import EmptyState from "../../components/EmptyState";
+import './HomePage.scss'
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -23,14 +24,23 @@ function Transition(props) {
 class HomePage extends React.Component {
   state = {
     open: false,
-    address: '',
-    invalidAddress: false
+    address: '0x6c85cfa7140395a880613eb0ef208cb6565584b3',
+    invalidAddress: null
   }
 
   componentWillReceiveProps(nextProps) {
     let {sets} = this.props
     if (sets.loading && !nextProps.sets.loading && this.state.open) {
-      this.setState({open: false})
+      if(nextProps.sets.data[this.state.address]){
+        this.setState({open: false, address: ''})
+      }
+    }
+    if (nextProps.sets.failedAddresses){
+      if (sets.failedAddresses.length !== nextProps.sets.failedAddresses.length){
+        if (nextProps.sets.failedAddresses.indexOf(this.state.address) > -1) {
+          this.setState({invalidAddress: 'Address does not belong to TCR standard', address: ''})
+        }
+      }
     }
   }
 
@@ -42,7 +52,11 @@ class HomePage extends React.Component {
 
   handleClose = () => {
     if (this.state.open) {
-      this.setState({open: false})
+      this.setState({
+        open: false,
+        invalidAddress: null,
+        address: ''
+      })
     }
   }
 
@@ -61,10 +75,18 @@ class HomePage extends React.Component {
 
     if (!sets.loading) {
       if (web3.utils.isAddress(address)) {
-        this.setState({invalidAddress: false})
-        this.props.addAddress(address)
+        if (sets.failedAddresses.indexOf(address) > -1){
+          this.setState({invalidAddress: 'Address does not belong to TCR standard', address: ''})
+        } else {
+          if (sets.data[this.state.address]) {
+            this.setState({invalidAddress: 'Address already in dashboard', address: ''})
+          } else {
+            this.setState({invalidAddress: null})
+            this.props.addAddress(address)
+          }
+        }
       } else {
-        this.setState({invalidAddress: true})
+        this.setState({invalidAddress: 'Please input a valid address'})
       }
     }
   }
@@ -88,11 +110,11 @@ class HomePage extends React.Component {
             <h1>Participate</h1>
           </Grid>
           <Grid item xs={6} className={'create-set'}>
-            <div className={'create-link'}>
-              <Button onClick={this.navigate}>Create set</Button>
-            </div>
             <div className={'add-button'}>
               <Button onClick={this.openModal}>Add set</Button>
+            </div>
+            <div className={'create-link'}>
+              <Button onClick={this.navigate}>Create set</Button>
             </div>
           </Grid>
         </Grid>
@@ -113,6 +135,13 @@ class HomePage extends React.Component {
         {setsMap.map(set => {
           return <SetOverview key={set.address} set={set}/>
         })}
+
+        {(!setsMap || setsMap.length === 0) && (
+          <EmptyState>
+            No sets to show.<br/>
+            Please add with the button at the top right corner.
+          </EmptyState>
+        )}
 
         <Dialog
           open={this.state.open}
@@ -136,15 +165,15 @@ class HomePage extends React.Component {
               id="address"
               label="TCR Address"
               type="email"
-              placeholder="0x000.."
+              placeholder="0x00000"
               fullWidth
-              error={this.state.invalidAddress}
+              error={!(!this.state.invalidAddress)}
               onChange={this.handleInput}
               value={this.state.address}
             />
             {this.state.invalidAddress && (
               <span className={'input-error'}>
-                Please enter a valid address
+                {this.state.invalidAddress}
               </span>
             )}
           </DialogContent>

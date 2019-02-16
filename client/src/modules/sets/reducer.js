@@ -1,6 +1,7 @@
 import {
   ADD_SET_REQUEST,
   ADD_SET_SUCCESS,
+  ADD_SET_FAILURE,
   REMOVE_SET_ADDRESS
 } from './actions'
 
@@ -44,11 +45,13 @@ let INITIAL_STATE = {
       'tokens': 40
     }
   },
-  loading: false
+  loading: false,
+  failedAddresses: []
 }
 
 export function setsReducer(state = null, action) {
   switch (action.type) {
+
     case ADD_SET_REQUEST: {
       return {
         ...state,
@@ -63,21 +66,34 @@ export function setsReducer(state = null, action) {
           ...state.data,
           [action.payload.address]: action.payload
         },
+        failedAddresses: [],
         loading: false
       }
       localStorage.setItem('sets', JSON.stringify(newState))
       return newState
     }
+
     case REMOVE_SET_ADDRESS: {
       let newSets = {...state.data}
       newSets = _.omit(newSets, action.payload)
       let reducedState = {
         ...state,
+        failedAddresses: [],
         data: newSets
       }
       localStorage.setItem('sets', JSON.stringify(reducedState))
       return reducedState
     }
+
+    case ADD_SET_FAILURE:
+      // TODO - Remove duplicates
+      let failedAddresses = _.uniq([...state.failedAddresses, action.payload])
+      return {
+        ...state,
+        loading: false,
+        failedAddresses
+      }
+
     default:
       break;
   }

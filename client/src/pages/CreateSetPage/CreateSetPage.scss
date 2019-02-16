@@ -1,0 +1,63 @@
+@import '../../styles/variables.scss';
+
+.create-page{
+
+  .create-title{
+    padding-top: 50px;
+    text-align: center;
+
+    h1{
+      font-size: 30px;
+      font-weight: 500;
+    }
+
+  }
+
+  .set-name-input-container{
+    padding: 40px 0 20px;
+    input{
+      font-size: 40px;
+    }
+  }
+
+  .set-description-input-container{
+    padding: 40px 0 20px;
+    textarea{
+      font-size: 20px;
+      line-height: 26px;
+    }
+  }
+
+  .set-type-input-container{
+    padding: 40px 0 20px;
+    .set-type-group{
+      margin-top: 20px;
+    }
+
+    .radio-input{
+      padding: 8px;
+    }
+  }
+
+  .input-label{
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: $secondary-font;
+    color: $grey-font;
+  }
+
+  .set-confirm-button{
+    padding: 40px 0;
+    text-align: center;
+
+    button{
+      text-transform: uppercase;
+      background-color: $green !important;
+      color: $white !important;
+      border-radius: 100px !important;
+      border-color: $white !important;
+      width: 130px;
+    }
+  }
+
+}

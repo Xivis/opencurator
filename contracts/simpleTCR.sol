@@ -1,9 +1,9 @@
 pragma solidity ^0.4.24;
 
-import "./ITCR20.sol";
-import "openzeppelin-eth/contracts/token/ERC20/ERC20.sol";
+import "./TCR20.sol";
+import "./zeppelin/ERC20.sol";
 
-contract simpleTCR is ITCR20 {
+contract simpleTCR is TCR20 {
     string public name = "Awesome Cryptokitties";
     string public description = "Really awesome Cryptokitties";
 
@@ -28,29 +28,28 @@ contract simpleTCR is ITCR20 {
     }
 
     // Main functions
-    function submit(bytes32 _listingHash, uint _tokenAmount, string calldata _data) external {
-        emit _Application(_listingHash, 100, 180000, "{'name':'Shoshannah','URI':'https://www.cryptokitties.co/kitty/927111'}", "0xD4b5dA5E7090749Fe7597EDC63c4145dd04C7340");
-        return true;
+    function submit(bytes32 _listingHash, uint _tokenAmount, string _data) external {
+        emit _Application(_listingHash, 100, 180000, "{'name':'Shoshannah','URI':'https://www.cryptokitties.co/kitty/927111'}", parseAddr("0xD4b5dA5E7090749Fe7597EDC63c4145dd04C7340"));
     }
 
-    function getListingData(bytes32 _listingHash) external returns (string memory jsonData) {
+    function getListingData(bytes32 _listingHash) public returns (string memory jsonData) {
         return "{'id': 1, 'name': 'name'}";
     }
 
-    function challenge(bytes32 _listingHash, uint _tokenAmount, string calldata _data) external returns (uint challengeID) {
-        emit _Challenge(_listingHash, 1, "{}", _data, 2000000, "0xEa6a814D3E6E40186B68a63C98bcd37167B0027E");
+    function challenge(bytes32 _listingHash, uint _tokenAmount, string _data) external returns (uint challengeID) {
+        emit _Challenge(_listingHash, 1, _data, 2000000, 2500000, parseAddr("0xEa6a814D3E6E40186B68a63C98bcd37167B0027E"));
         return 1;
     }
 
-    function vote(bytes32 _challengeID, uint _tokenAmount, string[] calldata _data) external {
-        emit _Vote(1, 200, "0xAE67a98301c3F3e5229ea391240078e7d5F7051E");
+    function vote(uint _challengeID, uint _tokenAmount, uint[] _data) external {
+        emit _Vote(1, 200, parseAddr("0xAE67a98301c3F3e5229ea391240078e7d5F7051E"));
     }
 
-    function claimChallengeReward(uint _challengeID) public {}
+    function claimChallengeReward(uint _challengeID) external {}
 
-    function claimVoterReward(uint _challengeID) public {}
+    function claimVoterReward(uint _challengeID) external {}
 
-    function exit(bytes32 _listingHash, string calldata _data) external {
+    function exit(bytes32 _listingHash, string _data) external {
         emit _ListingExited(_listingHash);
     }
 
@@ -70,4 +69,5 @@ contract simpleTCR is ITCR20 {
     function challengeReward(address _applierOrChallenger, uint _challengeID) public view returns (uint tokenAmount) {
         return 300;
     }
+    function parseAddr(string _a) internal returns (address);
 }

@@ -1,8 +1,8 @@
 pragma solidity ^0.4.24;
 
-import "openzeppelin-eth/contracts/token/ERC20/IERC20.sol";
+import "./zeppelin/IERC20.sol";
 
-interface ITCR20 {
+contract TCR20 {
     string public name;
     string public description;
 
@@ -24,13 +24,13 @@ interface ITCR20 {
     mapping(uint => Challenge) public challenges;
 
     // Main functions
-    function submit(bytes32 _listingHash, uint _tokenAmount, string calldata _data) external;
-    function getListingData(bytes32 _listingHash) external returns (string memory jsonData);
-    function challenge(bytes32 _listingHash, uint _tokenAmount, string calldata _data) external returns (uint challengeID);
-    function vote(bytes32 _challengeID, uint _tokenAmount, string[] calldata _data) external;
-    function claimChallengeReward(uint _challengeID) public;
-    function claimVoterReward(uint _challengeID) public;
-    function exit(bytes32 _listingHash, string calldata _data) external;
+    function submit(bytes32 _listingHash, uint _tokenAmount, string _data) external;
+    function getListingData(bytes32 _listingHash) public returns (string memory jsonData);
+    function challenge(bytes32 _listingHash, uint _tokenAmount, string _data) external returns (uint challengeID);
+    function vote(uint _challengeID, uint _tokenAmount, uint[] _data) external;
+    function claimChallengeReward(uint _challengeID) external;
+    function claimVoterReward(uint _challengeID) external;
+    function exit(bytes32 _listingHash, string _data) external;
 
     // Helpers/optional functions
     function isWhitelisted(bytes32 _listingHash) public view returns (bool whitelisted);
@@ -41,7 +41,7 @@ interface ITCR20 {
 
     event _Application(bytes32 indexed listingHash, uint deposit, uint appEndDate, string data, address indexed applicant);
     event _Challenge(bytes32 indexed listingHash, uint challengeID, string data, uint commitEndDate, uint revealEndDate,
-     address indexed challenger);
+    address indexed challenger);
     event _Vote(uint indexed challengeID, uint numTokens, address indexed voter);
     event _ChallengeResolved(bytes32 indexed listingHash, uint indexed challengeID, uint rewardPool, uint totalTokens, bool success);
     event _ApplicationWhitelisted(bytes32 indexed listingHash);

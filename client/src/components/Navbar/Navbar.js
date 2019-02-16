@@ -32,7 +32,7 @@ class Navbar extends React.Component {
     let { account } = this.props;
 
     return (
-      <AppBar position="static" color="default" className={"curator-navbar"}>
+      <AppBar position="fixed" color="default" className={"curator-navbar"}>
         <Toolbar>
           <Grid container className={"container"}>
             <Grid item xs={3}>

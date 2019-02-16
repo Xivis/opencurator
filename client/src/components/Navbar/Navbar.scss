@@ -4,6 +4,8 @@
 
   background: $white !important;
   padding: 10px 0;
+  box-shadow: none !important;
+  border-bottom: 1px solid $light-grey;
 
   .container {
     .logo-holder{
@@ -101,7 +103,6 @@
           margin-right: 50px;
         }
         canvas {
-          margin-right: 5px;
           position: absolute;
           top: 15px;
           right: 5px;

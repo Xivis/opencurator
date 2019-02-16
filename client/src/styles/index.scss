@@ -3,6 +3,7 @@
 body {
   margin: 0 !important;
   font-family: $main-font;
+  padding-top: 100px;
 }
 
 .container {
@@ -35,4 +36,16 @@ body {
   .container {
     max-width: 1140px;
   }
+}
+
+.truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.input-error{
+  color: red;
+  font-size: 12px;
 }

@@ -1,0 +1,41 @@
+@import '../../styles/variables.scss';
+
+.home-page {
+
+  .table-page{
+    margin-top: 40px;
+    .th{
+      color: $medium-grey;
+      font-family: $secondary-font;
+      font-size: 12px;
+      margin-left: 20px;
+      font-weight: lighter;
+    }
+  }
+
+  .create-set{
+    text-align: right;
+
+    .create-link{
+      button{
+        margin-top: 10px;
+        background-color: $green !important;
+        color: $white !important;
+        border-radius: 100px !important;
+        border-color: $white !important;
+        width: 130px;
+      }
+    }
+
+    .add-button{
+      button {
+        margin-top: 5px;
+        background-color: $white !important;
+        color: $green !important;
+        border-radius: 100px !important;
+        border-color: $green !important;
+        width: 130px;
+      }
+    }
+  }
+}

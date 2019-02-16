@@ -1,0 +1,25 @@
+@import "../../styles/index.scss";
+
+.exchange-buttons{
+
+  text-align: right;
+
+  button{
+    width: 150px;
+  }
+
+  .buy {
+    background-color: $green !important;
+    color: $white !important;
+    border-radius: 100px !important;
+    border-color: $white !important;
+  }
+
+  .sell {
+    background-color: $white !important;
+    color: $green !important;
+    border-color: $green !important;
+    border-radius: 100px !important;
+  }
+
+}

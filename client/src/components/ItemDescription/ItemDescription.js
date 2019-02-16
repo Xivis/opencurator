@@ -18,8 +18,8 @@ class ItemDescription extends React.Component {
 		return (
 			<div>
 			<Grid container alignItems='center' >
-				<Grid item xs={5}>
-					<img src={this.state.item.asset} width={'300px'}/>
+				<Grid item className={'asset-image-container'} xs={5}>
+					<img src={this.state.item.asset} className={'asset-image'}/>
 				</Grid>
 				<Grid item xs={7}>
 

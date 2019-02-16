@@ -23,7 +23,7 @@ class SetItem extends React.Component {
 				<div>
 				<Grid container className={'item-container'} alignItems={'center'} spacing={24}>
 					<Grid item xs={3}>
-						<img alt='listing' width={'150px'} src={this.state.itemAsset} />
+						<img alt='listing' className={'asset-image'} src={this.state.itemAsset} />
 					</Grid>
 					<Grid item xs={5}>
 						<h2 className={'item-name'}>{this.state.itemName}</h2>

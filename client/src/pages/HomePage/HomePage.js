@@ -24,7 +24,7 @@ function Transition(props) {
 class HomePage extends React.Component {
   state = {
     open: false,
-    address: '',
+    address: '0x6c85cfa7140395a880613eb0ef208cb6565584b3',
     invalidAddress: null
   }
 
@@ -165,7 +165,7 @@ class HomePage extends React.Component {
               id="address"
               label="TCR Address"
               type="email"
-              placeholder="0x000.."
+              placeholder="0x00000"
               fullWidth
               error={!(!this.state.invalidAddress)}
               onChange={this.handleInput}

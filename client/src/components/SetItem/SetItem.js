@@ -1,7 +1,8 @@
 import React from "react";
 
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+
+import StatusButton from '../../components/StatusButton/index';
 
 import './SetItem.scss';
 
@@ -14,19 +15,6 @@ class SetItem extends React.Component {
 		itemStatus: this.props.item.status
 	};
 
-	 getStatusButton = status => {
-		switch (status) {
-			case 'challenge':
-				return <Button className={'status-button challenge'} variant="outlined">CHALLENGE</Button>;
-			case 'submitted':
-				return <Button className={'status-button submitted'} variant="outlined">SUBMITTED</Button>;
-			case 'active':
-				return <Button className={'status-button active'} variant="outlined">ACTIVE</Button>;
-			default:
-				return <div/>;
-
-		}
-	};
 
 	render() {
 		return (
@@ -42,7 +30,7 @@ class SetItem extends React.Component {
 						2h
 					</Grid>
 					<Grid item xs={3}>
-						{this.getStatusButton(this.state.itemStatus)}
+						<StatusButton status={this.state.itemStatus}/>
 					</Grid>
 				</Grid>
 		)

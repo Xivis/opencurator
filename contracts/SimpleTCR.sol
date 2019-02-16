@@ -2,6 +2,7 @@ pragma solidity ^0.4.24;
 
 import "./ITCR20.sol";
 import "./zeppelin/ERC20.sol";
+import "./zeppelin/SafeMath.sol";
 
 contract SimpleTCR is ITCR20 {
     // -------
@@ -9,19 +10,33 @@ contract SimpleTCR is ITCR20 {
     // -------
 
     event _Application(bytes32 indexed listingHash, uint deposit, uint appEndDate, string data, address indexed applicant);
-    event _Challenge(bytes32 indexed listingHash, uint challengeID, string data, uint commitEndDate, uint revealEndDate, address indexed challenger);
+    event _Challenge(bytes32 indexed listingHash, uint challengeID, string data, uint commitEndDate, uint revealEndDate,
+    address indexed challenger);
     event _Vote(uint indexed challengeID, uint numTokens, address indexed voter);
     event _ChallengeResolved(bytes32 indexed listingHash, uint indexed challengeID, uint rewardPool, uint totalTokens, bool success);
     event _ApplicationWhitelisted(bytes32 indexed listingHash);
     event _ListingExited(bytes32 indexed listingHash);
 
+    using SafeMath for uint;
+
+    // Base registry parameters
     string private _name;
+    IERC20 private _token;
     string private _description;
     string private _acceptedDataType;
     string private _voteScheme;
     string private _tokenScheme;
     string private _exitScheme;
-    IERC20 private _token;
+
+    // TCR basic parameters
+    uint private _minDeposit;
+    uint private _applyStageLen;
+    uint private _commitStageLen;
+    uint private _revealStageLen;
+    uint private _dispensationPct;
+    uint private _voteQuorum;
+    uint private _exitTimeDelay;
+    uint private _exitPeriodLen;
 
     struct Listing {
         uint applicationExpiry; // Expiration date of apply stage
@@ -51,14 +66,44 @@ contract SimpleTCR is ITCR20 {
     // Maps parameters string hashes to values
     mapping(bytes32 => uint) public params;
 
-
-    constructor(string name, string description) {
+    /**
+     * @dev Initializer. Can only be called once.
+     * @param token The address where the ERC20 token contract is deployed
+     */
+    constructor(string name, string description, string acceptedDataType, address token, uint[] parameters) {
+        require(token != 0 && address(token) == 0);
+        
+        // Base registry parameters
         _name = name;
         _description = description;
         _voteScheme = "Simple";
         _tokenScheme = "ERC20";
         _exitScheme = "Simple";
-        _token = new ERC20();
+        _acceptedDataType = acceptedDataType;
+
+        // required deposit for listing to be whitelisted. No more, no less.
+        set("requiredDeposit", parameters[0]);
+
+        // period over which applicants wait to be whitelisted
+        set("applyStageLen", parameters[1]);
+
+        // length of commit period for voting
+        set("commitStageLen", parameters[2]);
+
+        // length of reveal period for voting
+        set("revealStageLen", parameters[3]);
+
+        // percentage of losing party's deposit distributed to winning party
+        set("dispensationPct", parameters[4]);
+
+        // type of majority out of 100 necessary for candidate success
+        set("voteQuorum", parameters[5]);
+
+        // minimum length of time user has to wait to exit the registry
+        set("exitTimeDelay", parameters[6]);
+
+        // maximum length of time user can wait to exit the registry
+        set("exitPeriodLen", parameters[7]);
     }
 
     function name() public view returns(string){
@@ -71,6 +116,10 @@ contract SimpleTCR is ITCR20 {
 
     function acceptedDataType() public view returns(string){
         return _acceptedDataType;
+    }
+
+    function getParameter(string pName) public view returns (uint pValue) {
+        return get(pName);
     }
 
     function voteScheme() public view returns(string){
@@ -104,9 +153,9 @@ contract SimpleTCR is ITCR20 {
         listing.unstakedDeposit = _tokenAmount;
 
         // Transfers tokens from user to Registry contract
-        require(token.transferFrom(listing.owner, this, _tokenAmount));
+        require(_token.transferFrom(listing.owner, this, _tokenAmount));
 
-        emit _Application(_listingHash, _amount, listing.applicationExpiry, _data, msg.sender);
+        emit _Application(_listingHash, _tokenAmount, listing.applicationExpiry, _data, msg.sender);
     }
 
     function getListingData(bytes32 _listingHash) external view returns (string memory jsonData) {
@@ -149,5 +198,34 @@ contract SimpleTCR is ITCR20 {
 
     function challengeReward(address _applierOrChallenger, uint _challengeID) public view returns (uint tokenAmount) {
         return 300;
+    }
+
+
+
+    /**
+     * Returns true if apply was called for this listingHash
+     * @param _listingHash The listingHash whose status is to be examined
+     */
+    function appWasMade(bytes32 _listingHash) view public returns (bool exists) {
+        return listings[_listingHash].applicationExpiry > 0;
+    }
+
+
+    /**
+     * Gets the parameter keyed by the provided name value from the params mapping
+     * @param name The key whose value is to be determined
+     * @return name The key whose value is to be determined
+     */
+    function get(string name) public view returns (uint value) {
+        return params[keccak256(abi.encodePacked(name))];
+    }
+
+    /**
+     * Sets the param keyed by the provided name to the provided value
+     * @param name The name of the param to be set
+     * @param value The value to set the param to be set
+     */
+    function set(string name, uint value) private {
+        params[keccak256(abi.encodePacked(name))] = value;
     }
 }

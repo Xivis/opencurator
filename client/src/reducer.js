@@ -1,9 +1,7 @@
 import {combineReducers} from 'redux'
 
-const fakeReducer = (state = null, action) => {
-  return state
-}
+import { accountReducer as account } from './modules/account/reducer'
 
 export const rootReducer = combineReducers({
-  fakeReducer
+  account
 })

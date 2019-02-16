@@ -14,22 +14,26 @@ export default class Routes extends React.Component {
   renderRoutes = () => {
     return (
       <Router>
-        <Switch>
-          {/*Home*/}
-          <Route exact path={'/'} component={HomePage}/>
+        <div>
+          <Navbar/>
+          <Switch>
 
-          {/*Set*/}
-          <Route exact path={'/set/:address'} component={SetPage}/>
+            {/*Home*/}
+            <Route exact path={'/'} component={HomePage}/>
 
-          {/*Listing*/}
-          <Route exact path={'/set/:address/listing/:listingHash'} component={ListingPage}/>
+            {/*Set*/}
+            <Route exact path={'/set/:address'} component={SetPage}/>
 
-          {/*Listing*/}
-          <Route exact path={'/create-set'} component={CreateSetPage}/>
+            {/*Listing*/}
+            {/*<Route exact path={'/set/:address/listing/:listingHash'} component={ListingPage}/>*/}
 
-          {/*Everything else*/}
-          <Redirect to={'/'}/>
-        </Switch>
+            {/*Listing*/}
+            {/*<Route exact path={'/create-set'} component={CreateSetPage}/>*/}
+
+            {/*Everything else*/}
+            <Redirect to={'/'}/>
+          </Switch>
+        </div>
       </Router>
     )
   }
@@ -37,7 +41,6 @@ export default class Routes extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar/>
         <div>
           {this.renderRoutes()}
         </div>

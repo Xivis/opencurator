@@ -14,4 +14,12 @@ const store = createStore(rootReducer, middleware)
 
 sagasMiddleware.run(rootSaga)
 
+export function dispatch(action) {
+  if (typeof action === 'string') {
+    store.dispatch({ type: action })
+  } else {
+    store.dispatch(action)
+  }
+}
+
 export {store}

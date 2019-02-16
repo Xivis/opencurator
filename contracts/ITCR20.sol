@@ -23,7 +23,8 @@ interface ITCR20 {
     function exit(bytes32 _listingHash, string _data) external;
 
     // Getters and Helpers functions
-    function getParameter(string pName) public view returns(uint pValue);
+    function getParameter(string pName) public view returns (uint pValue);
+
     function isWhitelisted(bytes32 _listingHash) public view returns (bool whitelisted);
     function challengeExists(bytes32 _listingHash) public view returns (uint lastChallengeID);
     function challengeCanBeResolved(bytes32 _listingHash) public view returns (bool need);

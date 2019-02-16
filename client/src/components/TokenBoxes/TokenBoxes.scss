@@ -1,0 +1,22 @@
+@import "../../styles/index.scss";
+
+.tokenBox {
+  height: 40%;
+  padding: 2px !important;
+}
+
+.text {
+  margin: 8%;
+}
+
+.secondary{
+  font: $secondary-font;
+}
+
+.green{
+  color: $green;
+}
+
+.grey{
+  color: $grey-font;
+}

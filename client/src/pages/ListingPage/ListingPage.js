@@ -41,10 +41,12 @@ class ListingPage extends React.Component {
 				<SetInfo set={this.state.set}/>
 				<Grid container className={'options-container'}>
 					<Grid className={'options-side'} item xs={3}>
-							<Link className={'back'} to={'/set/lala'}>
-								<ArrowBack/>
+						<div className={'back'}>
+							<Link to={'/set/lala'}>
+								<ArrowBack className={'back-icon'} />
 								BACK TO THE LIST
 							</Link>
+						</div>
 					</Grid>
 					<Grid className={'items-container'} item xs={9}>
 						<ItemDescription item={this.state.item} />

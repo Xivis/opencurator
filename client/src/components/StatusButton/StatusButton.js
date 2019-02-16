@@ -10,11 +10,11 @@ class StatusButton extends React.Component {
 	getStatusButton = () => {
 		switch (this.props.status) {
 			case 'challenge':
-				return <Button className={'status-button challenge'} variant="outlined">CHALLENGE</Button>;
+				return <div className={'status-button challenge'} variant="outlined">CHALLENGE</div>;
 			case 'submitted':
-				return <Button className={'status-button submitted'} variant="outlined">SUBMITTED</Button>;
+				return <div className={'status-button submitted'} variant="outlined">SUBMITTED</div>;
 			case 'active':
-				return <Button className={'status-button active'} variant="outlined">ACTIVE</Button>;
+				return <div className={'status-button active'} variant="outlined">ACTIVE</div>;
 			default:
 				return <div/>;
 

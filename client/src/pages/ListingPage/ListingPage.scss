@@ -3,4 +3,18 @@
 .back {
   color: $light-black;
   text-decoration: none;
+  position: relative;
+  padding: 20px 0 0 30px;
+
+  a{
+    text-decoration: none;
+    color: $grey-font;
+  }
+
+  .back-icon{
+    position: absolute;
+    top: 18px;
+    left: 0;
+  }
+
 }

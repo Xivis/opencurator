@@ -1,0 +1,19 @@
+@import '../../styles/variables.scss';
+
+.home-page {
+
+  .table-page{
+    .th{
+      color: $medium-grey;
+      font-family: $secondary-font;
+      font-size: 12px;
+      margin-left: 20px;
+      font-weight: lighter;
+    }
+  }
+
+  .create-set{
+    text-align: right;
+  }
+
+}

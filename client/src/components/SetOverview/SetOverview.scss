@@ -1,0 +1,65 @@
+@import '../../styles/variables.scss';
+
+.set-overview {
+  margin: 15px 0;
+  position: relative;
+
+  .set-overview-container{
+
+    border: 1px solid $medium-grey;
+    border-radius: 4px;
+    padding: 5px 10px;
+
+    .set-cell{
+      padding: 10px 0;
+      height: calc(100% - 20px);
+
+      &.bordered{
+        border-left: 1px solid $light-grey;
+      }
+
+    }
+
+    .set-name{
+      font-size: 23px;
+      color: $dark-grey-font;
+      line-height: 30px;
+      padding: 0 20px 0 10px;
+    }
+
+    .set-description{
+      color: $medium-grey;
+      font-size: 14px;
+      line-height: 20px;
+      padding: 0 20px 0 10px;
+      margin-top: 5px;
+    }
+
+    .set-address{
+      padding: 0 30px;
+    }
+
+    .set-symbol{
+      text-align: center;
+    }
+
+    .set-tokens{
+      text-align: center;
+      font-size: 18px;
+      color: $green;
+      font-weight: bold;
+    }
+
+  }
+
+  .set-remove{
+    transform: rotate(-45deg);
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: $white;
+    color: $dark-grey-font;
+    cursor: pointer
+  }
+
+}

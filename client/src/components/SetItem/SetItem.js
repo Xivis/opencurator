@@ -1,41 +1,50 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import {connect} from "react-redux";
 
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 import './SetItem.scss';
 
 class SetItem extends React.Component {
 
 	state = {
- 		tokenName: 'MEOW',
-	  tokenAmount: '40'
- 	};
+		itemName: this.props.item.name,
+		itemInfo: this.props.item.info,
+		itemAsset: this.props.item.asset,
+		itemStatus: this.props.item.status
+	};
 
+	 getStatusButton = status => {
+		switch (status) {
+			case 'challenge':
+				return <Button className={'status-button challenge'} variant="outlined">CHALLENGE</Button>;
+			case 'submitted':
+				return <Button className={'status-button submitted'} variant="outlined">SUBMITTED</Button>;
+			case 'active':
+				return <Button className={'status-button active'} variant="outlined">ACTIVE</Button>;
+			default:
+				return <div/>;
 
+		}
+	};
 
 	render() {
 		return (
-			<div>
-				<Grid container justify="center" spacing={26}>
-					<Grid item sx={2}>
-						Hola
+				<Grid container className={'item-container'} alignItems={'center'} spacing={24}>
+					<Grid item xs={3}>
+						<img alt='listing' width={'150px'} src={this.state.itemAsset} />
 					</Grid>
-					<Grid item sx={6}>
-						Hola
+					<Grid item xs={5}>
+						<h2 className={'item-name'}>{this.state.itemName}</h2>
+						<h3 className={'item-info'}>{this.state.itemInfo}</h3>
 					</Grid>
-					<Grid item sx={1}>
-						Hola
+					<Grid item xs={1}>
+						2h
 					</Grid>
-					<Grid item sx={3}>
-						Hola
+					<Grid item xs={3}>
+						{this.getStatusButton(this.state.itemStatus)}
 					</Grid>
 				</Grid>
-			</div>
 		)
 	}
 }

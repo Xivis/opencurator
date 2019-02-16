@@ -1,6 +1,41 @@
+@import "../../styles/index";
+
+.item-container{
+
+  border: 1px solid #E7E7E7;
+  margin: 1% !important;
+  min-height: 100px;
+
+}
+
+.item-name{
+  font: $main-font;
+  color: $light-black;
+}
 
 
-.tokenBox {
-  padding: 10px;
-  textAlign: 'center';
+.item-info{
+  font: $secondary-font;
+  color: $dark-grey-font;
+}
+
+.status-button {
+  border-radius: 4px !important;
+  font: $main-font !important;
+  width: 150px;
+}
+
+.challenge {
+  border: 1px solid $light-red !important;
+  color: $light-red !important;
+}
+
+.active {
+  color: $light-blue !important;
+  border: 1px solid $light-blue !important;
+}
+
+.submitted {
+  color: $light-orange !important;
+  border: 1px solid $light-orange !important;
 }

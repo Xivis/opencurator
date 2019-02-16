@@ -92,11 +92,11 @@ Returns the name of the Token Curated Registry, e.g., `"Decentraland Robots"`, `
 Returns a brief description of the expected listings or the intended curation of the Registry, e.g., `"A list of curated Robots avatars to be used as a whitelist in any Land in Decentraland proyect"`.
 
 
-**`acceptedDataTypes` function**
+**`acceptedDataType` function**
 ``` solidity
  function acceptedDataType() public view returns(string);
 ```
-An array of supported type of listtings that the registry accepts as a valid listing. It's strongly recommended that in any implementation, this Accepted Types are validated in the ´apply´ function.
+Returns the valid type of listing that the registry accepts in the `apply` function. It's strongly recommended that in any implementation, this accepted type is validated in the ´apply´ function.
 An example could be one of the followings: `"ERC721"`, `"ERC20"`, `"SHA3-STRING"`, etc.
 This function could allow any Dapp, to validate the data to be send in the `apply` function to be explained in the following lines.
 
@@ -105,10 +105,10 @@ This function could allow any Dapp, to validate the data to be send in the `appl
 ``` solidity
  function applyScheme() public view returns(string)
 ```
-Returns an string of the implemented voting scheme. This generalization allow many types of apply schemas to be implemented following the same standard.
+Returns an string of the implemented apply scheme. This generalization allow many types of apply schemas to be implemented following the same standard.
 An example of some vote schemes could be one of the followings: 
 
-`"SIMPLE"`: This is the simplest schema, just a counter for votes to "Keep" or "Kick" the challenged listing. After the challenge period ends, the side with the most amount of votes registeres will "Keep" or "Kick" the listing from the registry.
+`"SIMPLE"`: 
 
 Other schemas could be added in the future.
 

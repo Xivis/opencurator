@@ -19,7 +19,7 @@ class SetItem extends React.Component {
 
 	render() {
 		return (
-			<Link className={'link-container'} to={'/set/lala/listing/lalal'}>
+			<Link className={'link-item-container'} to={'/set/lala/listing/lalal'}>
 				<div>
 				<Grid container className={'item-container'} alignItems={'center'} spacing={24}>
 					<Grid item xs={3}>

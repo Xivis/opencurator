@@ -7,7 +7,7 @@ interface ITCR20 {
     function name() public returns(string);
     function description() public returns(string);
 
-    function acceptedDataTypes() public returns(string);
+    function acceptedDataType() public returns(string);
     function voteScheme() public returns(string);
     function tokenScheme() public returns(string);
     function exitScheme() public returns(string);
@@ -15,7 +15,7 @@ interface ITCR20 {
     function token() public returns(IERC20);
 
     // Main functions
-    function submit(bytes32 _listingHash, uint _tokenAmount, string _data) external;
+    function apply(bytes32 _listingHash, uint _tokenAmount, string _data) external;
     function getListingData(bytes32 _listingHash) external returns (string memory jsonData);
     function challenge(bytes32 _listingHash, uint _tokenAmount, string _data) external returns (uint challengeID);
     function vote(uint _challengeID, uint _tokenAmount, uint[] _data) external;

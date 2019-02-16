@@ -42,9 +42,10 @@ interface ITCR20 {
     function description() public view returns(string);
 
     function acceptedDataType() public view returns(string);
+    function applyScheme() public view returns(string);
     function voteScheme() public view returns(string);
-    function tokenScheme() public view returns(string);
     function exitScheme() public view returns(string);
+    function tokenScheme() public view returns(string);
 
     function token() public view returns(IERC20);
 
@@ -52,7 +53,7 @@ interface ITCR20 {
     function apply(bytes32 _listingHash, uint _tokenAmount, string _data) external;
     function getListingData(bytes32 _listingHash) external view returns (string memory jsonData);
     function challenge(bytes32 _listingHash, uint _tokenAmount, string _data) external returns (uint challengeID);
-    function vote(uint _challengeID, uint _tokenAmount, uint[] _data) external;
+    function vote(uint _challengeID, uint _tokenAmount, string _data) external;
     function claimChallengeReward(uint _challengeID) public;
     function claimVoterReward(uint _challengeID) public;
     function exit(bytes32 _listingHash, string _data) external;
@@ -64,13 +65,12 @@ interface ITCR20 {
     function voterReward(address _voter, uint _challengeID) public view returns (uint tokenAmount);
     function challengeReward(address _applierOrChallenger, uint _challengeID) public view returns (uint tokenAmount);
 
-    event _Application(bytes32 indexed listingHash, uint deposit, uint appEndDate, string data, address indexed applicant);
-    event _Challenge(bytes32 indexed listingHash, uint challengeID, string data, uint commitEndDate, uint revealEndDate,
-     address indexed challenger);
-    event _Vote(uint indexed challengeID, uint numTokens, address indexed voter);
+    event _Application(bytes32 indexed listingHash, uint deposit, uint appEndDate, address indexed applier, string data);
+    event _Challenge(bytes32 indexed listingHash, uint challengeID, uint voteEndDate, address indexed challenger, string data);
+    event _Vote(uint indexed challengeID, uint numTokens, address indexed voter, uint[] _data);
     event _ChallengeResolved(bytes32 indexed listingHash, uint indexed challengeID, uint rewardPool, uint totalTokens, bool success);
     event _ApplicationWhitelisted(bytes32 indexed listingHash);
-    event _ListingExited(bytes32 indexed listingHash);
+    event _ListingExited(bytes32 indexed listingHash, uint voteEndDate, string data);
 }
 ```
 
@@ -99,6 +99,18 @@ Returns a brief description of the expected listings or the intended curation of
 An array of supported type of listtings that the registry accepts as a valid listing. It's strongly recommended that in any implementation, this Accepted Types are validated in the ´apply´ function.
 An example could be one of the followings: `"ERC721"`, `"ERC20"`, `"SHA3-STRING"`, etc.
 This function could allow any Dapp, to validate the data to be send in the `apply` function to be explained in the following lines.
+
+
+**`voteScheme` function**
+``` solidity
+ function applyScheme() public view returns(string)
+```
+Returns an string of the implemented voting scheme. This generalization allow many types of apply schemas to be implemented following the same standard.
+An example of some vote schemes could be one of the followings: 
+
+`"SIMPLE"`: This is the simplest schema, just a counter for votes to "Keep" or "Kick" the challenged listing. After the challenge period ends, the side with the most amount of votes registeres will "Keep" or "Kick" the listing from the registry.
+
+Other schemas could be added in the future.
 
 
 **`voteScheme` function**

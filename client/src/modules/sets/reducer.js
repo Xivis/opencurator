@@ -1,5 +1,6 @@
 import {
-  ADD_SET_ADDRESS,
+  ADD_SET_REQUEST,
+  ADD_SET_SUCCESS,
   REMOVE_SET_ADDRESS
 } from './actions'
 
@@ -42,20 +43,27 @@ let INITIAL_STATE = {
       'symbol': 'RTK',
       'tokens': 40
     }
-  }
+  },
+  loading: false
 }
 
 export function setsReducer(state = null, action) {
-  console.log(action)
-
   switch (action.type) {
-    case ADD_SET_ADDRESS: {
+    case ADD_SET_REQUEST: {
+      return {
+        ...state,
+        loading: true
+      }
+    }
+
+    case ADD_SET_SUCCESS: {
       let newState = {
         ...state,
         data: {
           ...state.data,
           [action.payload.address]: action.payload
-        }
+        },
+        loading: false
       }
       localStorage.setItem('sets', JSON.stringify(newState))
       return newState

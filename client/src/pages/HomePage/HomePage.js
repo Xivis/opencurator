@@ -12,9 +12,10 @@ import TextField from '@material-ui/core/TextField';
 import Slide from '@material-ui/core/Slide';
 
 import {web3} from '../../utils/getWeb3'
-import SetOverview from "../../components/SetOverview/SetOverview";
-import './HomePage.scss'
 import {addAddress} from "../../modules/sets/actions";
+import SetOverview from "../../components/SetOverview";
+import EmptyState from "../../components/EmptyState";
+import './HomePage.scss'
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -113,6 +114,13 @@ class HomePage extends React.Component {
         {setsMap.map(set => {
           return <SetOverview key={set.address} set={set}/>
         })}
+
+        {(!setsMap || setsMap.length === 0) && (
+          <EmptyState>
+            No sets to show.<br/>
+            Please add with the button at the top right corner.
+          </EmptyState>
+        )}
 
         <Dialog
           open={this.state.open}

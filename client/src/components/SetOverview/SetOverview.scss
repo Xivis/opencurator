@@ -4,6 +4,11 @@
   margin: 15px 0;
   position: relative;
 
+  a{
+    text-decoration: none !important;
+    color: $dark-grey-font;
+  }
+
   .set-overview-container{
 
     border: 1px solid $medium-grey;

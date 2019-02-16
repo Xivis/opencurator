@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { Link } from 'react-router-dom'
 import { Grid } from '@material-ui/core'
 import ControlPoint from '@material-ui/icons/ControlPoint'
 
@@ -23,39 +24,41 @@ class SetOverview extends React.Component {
 
     return (
       <div className={"set-overview"}>
-        <Grid container className={'set-overview-container'}>
-          <Grid item xs={6}>
-            <div className={'set-cell'}>
-              <div className={'set-name'}>
-                {set.name}
+        <Link to={`/set/${set.address}`}>
+          <Grid container className={'set-overview-container'}>
+            <Grid item xs={6}>
+              <div className={'set-cell'}>
+                <div className={'set-name'}>
+                  {set.name}
+                </div>
+                <div className={'set-description truncate'}>
+                  {set.description}
+                </div>
               </div>
-              <div className={'set-description truncate'}>
-                {set.description}
+            </Grid>
+            <Grid item xs={2}>
+              <div className={'set-cell bordered'}>
+                <div className={'set-address truncate'}>
+                  {set.address}
+                </div>
               </div>
-            </div>
+            </Grid>
+            <Grid item xs={2}>
+              <div className={'set-cell bordered'}>
+                <div className={'set-symbol'}>
+                  {set.symbol}
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs={2}>
+              <div className={'set-cell bordered'}>
+                <div className={'set-tokens'}>
+                  {set.tokens}
+                </div>
+              </div>
+            </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <div className={'set-cell bordered'}>
-              <div className={'set-address truncate'}>
-                {set.address}
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={2}>
-            <div className={'set-cell bordered'}>
-              <div className={'set-symbol'}>
-                {set.symbol}
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={2}>
-            <div className={'set-cell bordered'}>
-              <div className={'set-tokens'}>
-                {set.tokens}
-              </div>
-            </div>
-          </Grid>
-        </Grid>
+        </Link>
         <ControlPoint className={'set-remove'} onClick={this.handleRemove} />
       </div>
     )

@@ -22,4 +22,8 @@ export function dispatch(action) {
   }
 }
 
+export function getState() {
+  return store.getState()
+}
+
 export {store}

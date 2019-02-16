@@ -7,8 +7,10 @@ import {
 } from './actions'
 
 import {contractHasMethods} from '../../utils/contracts';
+import {abi as abiTCR} from '../../contracts/ITCR20.json';
+import {abi as abiERC} from '../../contracts/IERC20.json';
+import {getState} from "../../store";
 import {web3} from '../../utils/getWeb3';
-import {abi} from '../../contracts/ITCR20.json';
 
 export function* setsSaga() {
   yield takeEvery(ADD_SET_REQUEST, handleAddSetRequest)
@@ -22,17 +24,29 @@ function* handleAddSetRequest(action) {
     return false
   }
 
-  const contract = new web3.eth.Contract(abi, action.payload);
+  const contract = new web3.eth.Contract(abiTCR, action.payload);
 
   const name = yield call(() => contract.methods.name().call())
   const description = yield call(() => contract.methods.description().call())
+  const tokenAddres = yield call(() => contract.methods.token().call())
+
+  const token = new web3.eth.Contract(abiERC, tokenAddres)
+
+  const account = getState().account;
+  let balance = '-'
+  if (account.loggedIn) {
+    balance = yield call(() => token.methods.balanceOf(account.walletAddress).call())
+  }
+  // const balance = yield call(() => token.methods.balanceOf())
+  // const symbol = yield call(() => token.methods.symbol().call())
+
 
   let set = {
     address: action.payload,
     name,
     description,
-    symbol: 'RTK',
-    tokens: 40
+    symbol: 'RAM',
+    tokens: balance
   }
   yield put(addSet(set))
 }

@@ -1,15 +1,16 @@
 {
-  "name": "zepkit",
+  "name": "open_curator",
   "version": "1.0.0",
-  "description": "Truffle box containing React, ZeppelinOS & OpenZeppelin",
+  "description": "OpenCurator is a decentralized application that allows to curate aggregated Token Curated Registries",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start-blank": "rm -rf client/src && cp -rf barebones/src client/"
+    "deploy:rinkeby": "truffle migrate --network rinkeby --compile-all --reset",
+    "deploy:development": "truffle migrate --network development --compile-all --reset",
+    "deploy:mainnet": "truffle migrate --network mainnet --compile-all --reset"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rrecuero/zepkit.git"
+    "url": "git+https://github.com/Xivis/opencurator"
   },
   "keywords": [
     "zeppelinos",
@@ -17,16 +18,17 @@
     "truffle",
     "react"
   ],
-  "author": "Ramon Recuero <ramon@dapis.io>",
+  "author": "Xivis Team <info@xivis.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rrecuero/zepkit/issues"
+    "url": "https://github.com/Xivis/opencurator/issues"
   },
-  "homepage": "https://github.com/rrecuero/zepkit#readme",
+  "homepage": "https://github.com/Xivis/opencurator#readme",
   "dependencies": {
     "dotenv": "^6.2.0",
     "openzeppelin-eth": "^2.1.3",
     "truffle": "5.0.4",
+    "solc": "0.4.15",
     "truffle-hdwallet-provider": "^1.0.3",
     "zos-lib": "2.2.0"
   }

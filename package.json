@@ -1,7 +1,7 @@
 {
-  "name": "zepkit",
+  "name": "Open Curator",
   "version": "1.0.0",
-  "description": "Truffle box containing React, ZeppelinOS & OpenZeppelin",
+  "description": "OpenCurator is a decentralized application that allows to curate aggregated Token Curated Registries",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rrecuero/zepkit.git"
+    "url": "git+https://github.com/Xivis/opencurator"
   },
   "keywords": [
     "zeppelinos",
@@ -17,12 +17,12 @@
     "truffle",
     "react"
   ],
-  "author": "Ramon Recuero <ramon@dapis.io>",
+  "author": "Xivis Team <info@xivis.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rrecuero/zepkit/issues"
+    "url": "https://github.com/Xivis/opencurator/issues"
   },
-  "homepage": "https://github.com/rrecuero/zepkit#readme",
+  "homepage": "https://github.com/Xivis/opencurator#readme",
   "dependencies": {
     "dotenv": "^6.2.0",
     "openzeppelin-eth": "^2.1.3",

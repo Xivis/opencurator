@@ -1,7 +1,7 @@
 ---
 eip: <to be assigned>
 title: Token Curated Registry Standard
-author: Martin Sanchez <marto@xivis.com>, Agustin Ferreira <agustin@xivis.com>, Ramiro Gonzales <ramiro@xivis.com>, Agustin Lavarello <alavarello@xivis.com>
+author: Xivis Team <info@xivis.com>, Martin Sanchez <marto@xivis.com>, Agustin Ferreira <agustin@xivis.com>, Ramiro Gonzales <ramiro@xivis.com>, Agustin Lavarello <alavarello@xivis.com>
 discussions-to: <URL>
 status: Draft
 type: Standards Track
@@ -114,7 +114,7 @@ An example of some vote schemes could be one of the followings:
 
 `"COMMIT-REVEAL"`: More details about the use cases and common implementation of this schema here (https://medium.com/gitcoin/commit-reveal-scheme-on-ethereum-25d1d1a25428).
 
-Many more schemas could be added in the future.
+Other schemas could be added in the future.
 
 
 **`tokenScheme` function**

@@ -88,11 +88,11 @@ class HomePage extends React.Component {
             <h1>Participate</h1>
           </Grid>
           <Grid item xs={6} className={'create-set'}>
-            <div className={'create-link'}>
-              <Button onClick={this.navigate}>Create set</Button>
-            </div>
             <div className={'add-button'}>
               <Button onClick={this.openModal}>Add set</Button>
+            </div>
+            <div className={'create-link'}>
+              <Button onClick={this.navigate}>Create set</Button>
             </div>
           </Grid>
         </Grid>

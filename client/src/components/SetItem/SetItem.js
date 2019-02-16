@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid';
 
@@ -18,6 +19,8 @@ class SetItem extends React.Component {
 
 	render() {
 		return (
+			<Link className={'link-container'} to={'/set/lala/listing/lalal'}>
+				<div>
 				<Grid container className={'item-container'} alignItems={'center'} spacing={24}>
 					<Grid item xs={3}>
 						<img alt='listing' width={'150px'} src={this.state.itemAsset} />
@@ -33,6 +36,8 @@ class SetItem extends React.Component {
 						<StatusButton status={this.state.itemStatus}/>
 					</Grid>
 				</Grid>
+				</div>
+			</Link>
 		)
 	}
 }

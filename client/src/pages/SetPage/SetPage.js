@@ -64,8 +64,8 @@ class SetPage extends React.Component {
 		return (
 				<div className="Page container">
 						<SetInfo set={this.state.set}/>
-					<Grid container className={'list-container'}>
-						<Grid className={'options-container'} item xs={3}>
+					<Grid container className={'options-container'}>
+						<Grid className={'options-side'} item xs={3}>
 							<h4 className={'active-option'}>All (117)</h4>
 							<h4>Submited (14)</h4>
 							<h4>Challenged (3)</h4>

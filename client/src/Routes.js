@@ -7,7 +7,7 @@ import {
 import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
 import SetPage from './pages/SetPage'
-// import ListingPage from './pages/ListingPage'
+import ListingPage from './pages/ListingPage'
 import CreateSetPage from './pages/CreateSetPage'
 
 export default class Routes extends React.Component {
@@ -25,7 +25,7 @@ export default class Routes extends React.Component {
             <Route exact path={'/set/:address'} component={SetPage}/>
 
             {/*Listing*/}
-            {/*<Route exact path={'/set/:address/listing/:listingHash'} component={ListingPage}/>*/}
+            {<Route exact path={'/set/:address/listing/:listingHash'} component={ListingPage}/>}
 
             {/*Listing*/}
             <Route exact path={'/create-set'} component={CreateSetPage}/>

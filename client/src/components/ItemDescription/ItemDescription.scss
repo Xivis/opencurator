@@ -1,0 +1,28 @@
+@import "../../styles/index.scss";
+
+.item-info{
+  color: $medium-grey;
+  font: $secondary-font;
+  margin-top: 2%;
+}
+
+.item-info-text {
+  margin-bottom: 1%;
+  margin-top: 0%;
+  color: $medium-grey;
+  font: $secondary-font;
+}
+
+.hr {
+  border-color: $light-grey;
+}
+
+.market-buttons {
+
+  button {
+    border: 1px solid #506AE9;
+    border-radius: 19.5px;
+    width: 80px;
+  }
+
+}

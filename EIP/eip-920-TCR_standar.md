@@ -1,7 +1,7 @@
 ---
 eip: <to be assigned>
 title: Token Curated Registry Standard
-author: Martin Sanchez <marto@xivis.com>, Agustin Ferreira <agustin@xivis.com>, Ramiro Gonzales <ramiro@xivis.com>, Agustin Lavarello <alavarello@xivis.com>
+author: Xivis Team <info@xivis.com>, Martin Sanchez <marto@xivis.com>, Agustin Ferreira <agustin@xivis.com>, Ramiro Gonzales <ramiro@xivis.com>, Agustin Lavarello <alavarello@xivis.com>
 discussions-to: <URL>
 status: Draft
 type: Standards Track
@@ -111,7 +111,7 @@ An example of some vote schemes could be one of the followings:
 
 `"COMMIT-REVEAL"`: link to wiki or medium.
 
-Many more schemas could be added in the future.
+Other schemas could be added in the future.
 
 -TODO ACA DEJE 16/2-
 

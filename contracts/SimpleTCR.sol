@@ -29,9 +29,37 @@ contract SimpleTCR is ITCR20 {
         _token = new ERC20();
     }
 
+    function name() public returns(string){
+        return _name;
+    }
+
+    function description() public returns(string){
+        return _description;
+    }
+
+    function acceptedDataType() public returns(string){
+        return _acceptedDataType;
+    }
+
+    function voteScheme() public returns(string){
+        return _voteScheme;
+    }
+
+    function tokenScheme() public returns(string){
+        return _tokenScheme;
+    }
+
+    function exitScheme() public returns(string){
+        return _exitScheme;
+    }
+
+    function token() public returns(IERC20) {
+        return _token;
+    }
+
     // Main functions
     function apply(bytes32 _listingHash, uint _tokenAmount, string _data) external {
-        emit _Application(_listingHash, 100, 180000, "{'name':'Shoshannah','URI':'https://www.cryptokitties.co/kitty/927111'}", parseAddr("0xD4b5dA5E7090749Fe7597EDC63c4145dd04C7340"));
+        emit _Application(_listingHash, 100, 180000, "{'name':'Shoshannah','URI':'https://www.cryptokitties.co/kitty/927111'}", address(this));
     }
 
     function getListingData(bytes32 _listingHash) public returns (string memory jsonData) {
@@ -39,12 +67,12 @@ contract SimpleTCR is ITCR20 {
     }
 
     function challenge(bytes32 _listingHash, uint _tokenAmount, string _data) external returns (uint challengeID) {
-        emit _Challenge(_listingHash, 1, _data, 2000000, 2500000, parseAddr("0xEa6a814D3E6E40186B68a63C98bcd37167B0027E"));
+        emit _Challenge(_listingHash, 1, _data, 2000000, 2500000, address(this));
         return 1;
     }
 
     function vote(uint _challengeID, uint _tokenAmount, uint[] _data) external {
-        emit _Vote(1, 200, parseAddr("0xAE67a98301c3F3e5229ea391240078e7d5F7051E"));
+        emit _Vote(1, 200, address(this));
     }
 
     function claimChallengeReward(uint _challengeID) public {}
@@ -75,6 +103,4 @@ contract SimpleTCR is ITCR20 {
     function challengeReward(address _applierOrChallenger, uint _challengeID) public view returns (uint tokenAmount) {
         return 300;
     }
-
-    function parseAddr(string _a) internal returns (address);
 }

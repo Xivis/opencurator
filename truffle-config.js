@@ -1,6 +1,7 @@
 const path = require("path");
 require('dotenv').config();
 const mnemonic = process.env.MNENOMIC;
+
 const HDWalletProvider = require("truffle-hdwallet-provider");
 
 module.exports = {
@@ -9,9 +10,11 @@ module.exports = {
   contracts_build_directory: path.join(__dirname, "client/src/contracts"),
   networks: {
     development: {
-      host: "127.0.0.1",
+      host: 'localhost',
       port: 8545,
-      network_id: "*",
+      gas: 8000000,
+      gasPrice: 10000000000,
+      network_id: '*',
     },
     ropsten: {
       provider: function() {

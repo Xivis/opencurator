@@ -8,7 +8,7 @@ import {
 
 import {contractHasMethods} from '../../utils/contracts';
 import {abi as abiTCR} from '../../contracts/ITCR20.json';
-import {abi as abiERC} from '../../contracts/IERC20.json';
+import {abi as abiERC} from '../../contracts/ERC20.json';
 import {getState} from "../../store";
 import {web3} from '../../utils/getWeb3';
 
@@ -37,15 +37,19 @@ function* handleAddSetRequest(action) {
   if (account.loggedIn) {
     balance = yield call(() => token.methods.balanceOf(account.walletAddress).call())
   }
-  // const balance = yield call(() => token.methods.balanceOf())
-  // const symbol = yield call(() => token.methods.symbol().call())
 
+  let symbol = '-'
+  try{
+    symbol = yield call(() => token.methods.symbol().call())
+  }catch (e){
+    console.log(e)
+  }
 
   let set = {
     address: action.payload,
     name,
     description,
-    symbol: 'RAM',
+    symbol,
     tokens: balance
   }
   yield put(addSet(set))

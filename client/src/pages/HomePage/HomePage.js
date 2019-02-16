@@ -24,7 +24,7 @@ function Transition(props) {
 class HomePage extends React.Component {
   state = {
     open: false,
-    address: '0x6c85cfa7140395a880613eb0ef208cb6565584b3',
+    address: '',
     invalidAddress: null
   }
 

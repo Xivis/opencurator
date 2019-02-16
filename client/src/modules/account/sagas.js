@@ -5,7 +5,7 @@ import {
   loginFailure
 } from './actions'
 
-import { web3 } from '../../utils/getWeb3'
+import { portis } from '../../utils/getWeb3'
 
 export function* accountSaga() {
   yield takeEvery(LOGIN_REQUEST, handleLoginRequest)
@@ -13,16 +13,9 @@ export function* accountSaga() {
 
 function* handleLoginRequest(action) {
 
-  const fetchAccounts = () =>
-    new Promise((resolve, reject) => {
-      web3.eth.getAccounts((error, accounts) => {
-        resolve({ error, accounts })
-      });
-    })
-
-  const { errors } = yield call(fetchAccounts)
-
-  if (errors) {
+  try{
+    yield call(() => portis.provider.enable())
+  } catch (e) {
     yield put(loginFailure())
   }
 

@@ -100,18 +100,27 @@ An array of supported type of listtings that the registry accepts as a valid lis
 An example could be one of the followings: `"ERC721"`, `"ERC20"`, `"SHA3-STRING"`, etc.
 This function could allow any Dapp, to validate the data to be send in the `apply` function to be explained in the following lines.
 
+
 **`voteScheme` function**
 ``` solidity
  function voteScheme() public view returns(string)
 ```
-An string of implemented type of voting scheme. This generalization allow many types of voting schemas to be implemented following the same standard.
+Returns an string of the implemented voting scheme. This generalization allow many types of voting schemas to be implemented following the same standard.
 An example of some vote schemes could be one of the followings: 
 
-`"SIMPLE"`: No secrecy and needed.
+`"SIMPLE"`: This is the simplest schema, just a counter for votes to "Keep" or "Kick" the challenged listing. After the challenge period ends, the side with the most amount of votes registeres will "Keep" or "Kick" the listing from the registry.
 
-`"COMMIT-REVEAL"`: link to wiki or medium.
+`"DELEGATE"`: More details about the use cases and common implementation of this schema here (https://solidity.readthedocs.io/en/v0.5.4/solidity-by-example.html#voting)
+
+`"COMMIT-REVEAL"`: More details about the use cases and common implementation of this schema here (https://medium.com/gitcoin/commit-reveal-scheme-on-ethereum-25d1d1a25428).
 
 Other schemas could be added in the future.
+
+
+**`tokenScheme` function**
+``` solidity
+ function tokenScheme() public view returns(string)
+```
 
 -TODO ACA DEJE 16/2-
 

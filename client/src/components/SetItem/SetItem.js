@@ -30,7 +30,7 @@ class SetItem extends React.Component {
 						<h3 className={'item-info'}>{this.state.itemInfo}</h3>
 					</Grid>
 					<Grid item xs={1}>
-						2h
+						<h4 className={'medium-grey'}>2h</h4>
 					</Grid>
 					<Grid item xs={3}>
 						<StatusButton status={this.state.itemStatus}/>

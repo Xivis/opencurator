@@ -67,3 +67,5 @@ zos.dev-*
 client/src/contracts
 
 .zos.session
+
+.idea/

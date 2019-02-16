@@ -8,7 +8,7 @@ import {
 
 import {contractHasMethods} from '../../utils/contracts';
 import {abi as abiTCR} from '../../contracts/ITCR20.json';
-import {abi as abiERC} from '../../contracts/ERC20.json';
+import {abi as abiERC} from '../../contracts/ERC20Detailed.json';
 import {getState} from "../../store";
 import {web3} from '../../utils/getWeb3';
 
@@ -24,13 +24,13 @@ function* handleAddSetRequest(action) {
     return false
   }
 
-  const contract = new web3.eth.Contract(abiTCR, action.payload);
+  const contract = new web3.eth.Contract(abiTCR, action.payload)
 
   const name = yield call(() => contract.methods.name().call())
   const description = yield call(() => contract.methods.description().call())
-  const tokenAddres = yield call(() => contract.methods.token().call())
+  const tokenAddress = yield call(() => contract.methods.token().call())
 
-  const token = new web3.eth.Contract(abiERC, tokenAddres)
+  const token = new web3.eth.Contract(abiERC, tokenAddress)
 
   const account = getState().account;
   let balance = '-'
@@ -40,7 +40,7 @@ function* handleAddSetRequest(action) {
 
   let symbol = '-'
   try{
-    symbol = yield call(() => token.methods.symbol().call())
+    symbol = yield call(() => token.methods.decimals().call())
   }catch (e){
     console.log(e)
   }

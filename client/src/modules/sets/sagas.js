@@ -1,24 +1,25 @@
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, call } from 'redux-saga/effects';
 
 import {
   ADD_SET_REQUEST,
-  addSet
+  addSet,
+  addSetFailure
 } from './actions'
 
 // import { web3 } from '../../utils/getWeb3'
-const delay = (ms) => new Promise(res => setTimeout(res, ms))
+import { contractHasMethods } from '../../utils/contracts'
 
 export function* setsSaga() {
   yield takeEvery(ADD_SET_REQUEST, handleAddSetRequest)
 }
 
 function* handleAddSetRequest(action){
-  //TODO - Should go to the contract and get basic information
-  console.log(action)
+  let result = yield call(() => contractHasMethods(action.payload))
 
-  yield delay(1000)
-
-  console.log('POST DELAY')
+  if (!result) {
+    yield put(addSetFailure(action.payload))
+    return false
+  }
 
   // If everything goes well
   let set = {

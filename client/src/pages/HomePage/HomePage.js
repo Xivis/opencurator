@@ -25,13 +25,22 @@ class HomePage extends React.Component {
   state = {
     open: false,
     address: '',
-    invalidAddress: false
+    invalidAddress: null
   }
 
   componentWillReceiveProps(nextProps) {
     let {sets} = this.props
     if (sets.loading && !nextProps.sets.loading && this.state.open) {
-      this.setState({open: false})
+      if(nextProps.sets.data[this.state.address]){
+        this.setState({open: false, address: ''})
+      }
+    }
+    if (nextProps.sets.failedAddresses){
+      if (sets.failedAddresses.length !== nextProps.sets.failedAddresses.length){
+        if (nextProps.sets.failedAddresses.indexOf(this.state.address) > -1) {
+          this.setState({invalidAddress: 'Address does not belong to TCR standard', address: ''})
+        }
+      }
     }
   }
 
@@ -43,7 +52,11 @@ class HomePage extends React.Component {
 
   handleClose = () => {
     if (this.state.open) {
-      this.setState({open: false})
+      this.setState({
+        open: false,
+        invalidAddress: null,
+        address: ''
+      })
     }
   }
 
@@ -62,10 +75,18 @@ class HomePage extends React.Component {
 
     if (!sets.loading) {
       if (web3.utils.isAddress(address)) {
-        this.setState({invalidAddress: false})
-        this.props.addAddress(address)
+        if (sets.failedAddresses.indexOf(address) > -1){
+          this.setState({invalidAddress: 'Address does not belong to TCR standard', address: ''})
+        } else {
+          if (sets.data[this.state.address]) {
+            this.setState({invalidAddress: 'Address already in dashboard', address: ''})
+          } else {
+            this.setState({invalidAddress: null})
+            this.props.addAddress(address)
+          }
+        }
       } else {
-        this.setState({invalidAddress: true})
+        this.setState({invalidAddress: 'Please input a valid address'})
       }
     }
   }
@@ -146,13 +167,13 @@ class HomePage extends React.Component {
               type="email"
               placeholder="0x000.."
               fullWidth
-              error={this.state.invalidAddress}
+              error={!(!this.state.invalidAddress)}
               onChange={this.handleInput}
               value={this.state.address}
             />
             {this.state.invalidAddress && (
               <span className={'input-error'}>
-                Please enter a valid address
+                {this.state.invalidAddress}
               </span>
             )}
           </DialogContent>

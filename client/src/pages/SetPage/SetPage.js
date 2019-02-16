@@ -5,8 +5,10 @@ import Grid from '@material-ui/core/Grid';
 
 import SetInfo from "../../components/SetInfo/index";
 import SetItem from "../../components/SetItem/index";
+import EmptyState from "../../components/EmptyState";
 
 import './SetPage.scss'
+
 class SetPage extends React.Component {
 
 	constructor(props) {
@@ -35,9 +37,9 @@ class SetPage extends React.Component {
 		};
 
 		let items = [];
-		items.push(item);
-		items.push(item2);
-		items.push(item3);
+		// items.push(item);
+		// items.push(item2);
+		// items.push(item3);
 
 			this.state = {
 			set: {
@@ -73,6 +75,13 @@ class SetPage extends React.Component {
 						</Grid>
 						<Grid className={'items-container'} item xs={9}>
 							{this.renderItems(this.state.items)}
+
+							{(!this.state.items || this.state.items.length === 0) && (
+								<EmptyState>
+									No items on this set.<br/>
+									You can add one buy submitting an application.
+								</EmptyState>
+							)}
 						</Grid>
 					</Grid>
 				</div>

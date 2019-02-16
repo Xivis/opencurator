@@ -1,6 +1,4 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import {connect} from "react-redux";
 
 import Grid from '@material-ui/core/Grid';
 
@@ -25,10 +23,10 @@ class SetInfo extends React.Component {
 						<h1 className={'name-text'}>{this.state.name}</h1>
 						<h4 className={'description-text'}>{this.state.description}</h4>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={5}>
 						<TokenBoxes/>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={2}>
 						<ExchangeButtons/>
 					</Grid>
 				</Grid>

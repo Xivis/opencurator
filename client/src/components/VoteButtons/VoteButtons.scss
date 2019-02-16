@@ -1,0 +1,25 @@
+@import "../../styles/index.scss";
+
+.vote-buttons{
+
+  button{
+    width: 100px;
+  }
+
+  margin-top: 10px;
+  margin-bottom: 15px;
+
+
+  .kick{
+    border-radius: 23.5px !important;
+    background-color: #FF697E !important;
+    color: $white !important;
+  }
+
+  .keep{
+    border-radius: 23.5px !important;
+    background-color: #506AE9 !important;
+    color: $white !important;
+  }
+
+}

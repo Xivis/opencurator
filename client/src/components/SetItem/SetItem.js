@@ -1,7 +1,9 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+
+import StatusButton from '../../components/StatusButton/index';
 
 import './SetItem.scss';
 
@@ -14,22 +16,11 @@ class SetItem extends React.Component {
 		itemStatus: this.props.item.status
 	};
 
-	 getStatusButton = status => {
-		switch (status) {
-			case 'challenge':
-				return <Button className={'status-button challenge'} variant="outlined">CHALLENGE</Button>;
-			case 'submitted':
-				return <Button className={'status-button submitted'} variant="outlined">SUBMITTED</Button>;
-			case 'active':
-				return <Button className={'status-button active'} variant="outlined">ACTIVE</Button>;
-			default:
-				return <div/>;
-
-		}
-	};
 
 	render() {
 		return (
+			<Link className={'link-container'} to={'/set/lala/listing/lalal'}>
+				<div>
 				<Grid container className={'item-container'} alignItems={'center'} spacing={24}>
 					<Grid item xs={3}>
 						<img alt='listing' width={'150px'} src={this.state.itemAsset} />
@@ -42,9 +33,11 @@ class SetItem extends React.Component {
 						2h
 					</Grid>
 					<Grid item xs={3}>
-						{this.getStatusButton(this.state.itemStatus)}
+						<StatusButton status={this.state.itemStatus}/>
 					</Grid>
 				</Grid>
+				</div>
+			</Link>
 		)
 	}
 }

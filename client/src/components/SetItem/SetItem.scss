@@ -19,23 +19,8 @@
   color: $dark-grey-font;
 }
 
-.status-button {
-  border-radius: 4px !important;
-  font: $main-font !important;
-  width: 150px;
-}
+.link-container{
+  text-decoration: none;
+  width: 97%;
 
-.challenge {
-  border: 1px solid $light-red !important;
-  color: $light-red !important;
-}
-
-.active {
-  color: $light-blue !important;
-  border: 1px solid $light-blue !important;
-}
-
-.submitted {
-  color: $light-orange !important;
-  border: 1px solid $light-orange !important;
 }

@@ -29,31 +29,31 @@ contract SimpleTCR is ITCR20 {
         _token = new ERC20();
     }
 
-    function name() public returns(string){
+    function name() public view returns(string){
         return _name;
     }
 
-    function description() public returns(string){
+    function description() public view returns(string){
         return _description;
     }
 
-    function acceptedDataType() public returns(string){
+    function acceptedDataType() public view returns(string){
         return _acceptedDataType;
     }
 
-    function voteScheme() public returns(string){
+    function voteScheme() public view returns(string){
         return _voteScheme;
     }
 
-    function tokenScheme() public returns(string){
+    function tokenScheme() public view returns(string){
         return _tokenScheme;
     }
 
-    function exitScheme() public returns(string){
+    function exitScheme() public view returns(string){
         return _exitScheme;
     }
 
-    function token() public returns(IERC20) {
+    function token() public view returns(IERC20) {
         return _token;
     }
 
@@ -62,7 +62,7 @@ contract SimpleTCR is ITCR20 {
         emit _Application(_listingHash, 100, 180000, "{'name':'Shoshannah','URI':'https://www.cryptokitties.co/kitty/927111'}", address(this));
     }
 
-    function getListingData(bytes32 _listingHash) public returns (string memory jsonData) {
+    function getListingData(bytes32 _listingHash) external view returns (string memory jsonData) {
         return "{'id': 1, 'name': 'name'}";
     }
 

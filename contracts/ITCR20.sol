@@ -4,19 +4,19 @@ import "./zeppelin/IERC20.sol";
 
 interface ITCR20 {
 
-    function name() public returns(string);
-    function description() public returns(string);
+    function name() public view returns(string);
+    function description() public view returns(string);
 
-    function acceptedDataType() public returns(string);
-    function voteScheme() public returns(string);
-    function tokenScheme() public returns(string);
-    function exitScheme() public returns(string);
+    function acceptedDataType() public view returns(string);
+    function voteScheme() public view returns(string);
+    function tokenScheme() public view returns(string);
+    function exitScheme() public view returns(string);
 
-    function token() public returns(IERC20);
+    function token() public view returns(IERC20);
 
     // Main functions
     function apply(bytes32 _listingHash, uint _tokenAmount, string _data) external;
-    function getListingData(bytes32 _listingHash) external returns (string memory jsonData);
+    function getListingData(bytes32 _listingHash) external view returns (string memory jsonData);
     function challenge(bytes32 _listingHash, uint _tokenAmount, string _data) external returns (uint challengeID);
     function vote(uint _challengeID, uint _tokenAmount, uint[] _data) external;
     function claimChallengeReward(uint _challengeID) public;

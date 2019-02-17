@@ -1,0 +1,13 @@
+@import "../../styles/index.scss";
+
+.challenged-button{
+
+  width: 100px;
+
+  margin-top: 10px;
+  margin-bottom: 15px;
+
+  border-radius: 23.5px !important;
+  background-color: $light-red !important;
+  color: $white !important;
+}

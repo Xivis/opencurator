@@ -3,8 +3,14 @@ import {takeEvery, put, call} from 'redux-saga/effects';
 import {
   ADD_SET_REQUEST,
   addSet,
+  removeSet,
+  addAddress,
   addSetFailure
 } from './actions'
+
+import {
+  LOGIN_SUCCESS
+} from '../account/actions'
 
 import {contractHasMethods} from '../../utils/contracts';
 import {abi as abiTCR} from '../../contracts/ITCR20.json';
@@ -14,9 +20,16 @@ import {web3} from '../../utils/getWeb3';
 
 export function* setsSaga() {
   yield takeEvery(ADD_SET_REQUEST, handleAddSetRequest)
+  yield takeEvery(LOGIN_SUCCESS, handleLoginSuccess)
 }
 
 function* handleAddSetRequest(action) {
+
+  if (!web3.utils.isAddress(action.payload)){
+    yield put(removeSet(action.payload))
+    return false
+  }
+
   let result = yield call(() => contractHasMethods(action.payload))
 
   if (!result) {
@@ -50,7 +63,18 @@ function* handleAddSetRequest(action) {
     name,
     description,
     symbol,
-    tokens: balance
+    tokens: balance,
+    minDeposit: 10 // TODO - Calculate
   }
   yield put(addSet(set))
+}
+
+
+function* handleLoginSuccess(action) {
+  const sets = getState().sets;
+  const addresses = Object.keys(sets.data)
+
+  for (let address of addresses){
+    yield put(addAddress(address))
+  }
 }

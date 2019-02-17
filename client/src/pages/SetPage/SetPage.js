@@ -14,10 +14,16 @@ import SetInfo from "../../components/SetInfo/index";
 import SetItem from "../../components/SetItem/index";
 import EmptyState from "../../components/EmptyState";
 
+import { loginRequest } from '../../modules/account/actions'
+
 import './SetPage.scss'
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
+}
+
+const STEPS = {
+  APPLY: 'apply'
 }
 
 class SetPage extends React.Component {
@@ -44,13 +50,22 @@ class SetPage extends React.Component {
     this.state = {
       set,
       items: [],
-      openModal: true
+      openModal: false,
+      nextAction: ''
     };
   }
 
   componentDidMount() {
     if (!this.state.set) {
       this.props.history.push('/')
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    if (!this.props.account.loggedIn && nextProps.account.loggedIn) {
+      if (this.state.nextAction === STEPS.APPLY) {
+        this.checkApply()
+      }
     }
   }
 
@@ -64,16 +79,35 @@ class SetPage extends React.Component {
     });
   };
 
+  proposeNew = () => {
+    if (this.props.account.loggedIn) {
+      this.openModal()
+    } else {
+      this.setState({nextAction: STEPS.APPLY}, this.props.onLogin)
+    }
+  }
+
+  checkApply = () => {
+    let { set } = this.state;
+    if (set.minDeposit > set.tokens){
+      // Insufficient funds
+      alert('Insufficient funds')
+    } else {
+      this.openModal()
+    }
+
+  }
+
   openModal = () => {
-    if (!this.state.open) {
-      this.setState({open: true})
+    if (!this.state.openModal) {
+      this.setState({openModal: true})
     }
   }
 
   handleClose = () => {
-    if (this.state.open) {
+    if (this.state.openModal) {
       this.setState({
-        open: false
+        openModal: false
       })
     }
   }
@@ -96,7 +130,7 @@ class SetPage extends React.Component {
             <h4>Active (x)</h4>
             <h4>Challenged (x)</h4>
             <div className={'apply-button'}>
-              <Button onClick={this.openModal}>
+              <Button onClick={this.proposeNew}>
                 Propose new
               </Button>
             </div>
@@ -114,7 +148,7 @@ class SetPage extends React.Component {
         </Grid>
 
         <Dialog
-          open={this.state.open}
+          open={this.state.openModal}
           TransitionComponent={Transition}
           keepMounted
           onClose={this.handleClose}
@@ -198,8 +232,14 @@ class SetPage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    sets: state.sets
+    sets: state.sets,
+    account: state.account
   }
 };
 
-export default connect(mapStateToProps)(SetPage)
+
+const mapDispatchToProps = dispatch => ({
+  onLogin: () => dispatch(loginRequest()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SetPage)

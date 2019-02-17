@@ -14,35 +14,14 @@ let INITIAL_STATE = {
       'description': 'Lorem ipsum',
       'address': '0x1234',
       'symbol': 'RTK',
-      'tokens': 40
+      'tokens': '-'
     },
     '0x1235': {
       'name': 'Awesome set',
       'description': 'Lorem ipsum',
       'address': '0x1235',
       'symbol': 'RTK',
-      'tokens': 40
-    },
-    '0x1236': {
-      'name': 'Awesome set',
-      'description': 'Lorem ipsum',
-      'address': '0x1236',
-      'symbol': 'RTK',
-      'tokens': 40
-    },
-    '0x1237': {
-      'name': 'Awesome set',
-      'description': 'Lorem ipsum',
-      'address': '0x1237',
-      'symbol': 'RTK',
-      'tokens': 40
-    },
-    '0x1238': {
-      'name': 'Awesome set',
-      'description': 'Lorem ipsum',
-      'address': '0x1238',
-      'symbol': 'RTK',
-      'tokens': 40
+      'tokens': '-'
     }
   },
   loading: false,

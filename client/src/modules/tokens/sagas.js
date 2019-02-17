@@ -4,7 +4,10 @@ import {
   TOKEN_ALLOWANCE_REQUEST,
 	BUY_TOKENS_REQUEST,
 	failureBuyToken,
-	successBuyToken
+	successBuyToken,
+	failureSellToken,
+	successSellToken,
+	SELL_TOKENS_REQUEST
 } from './actions'
 
 
@@ -17,11 +20,10 @@ import {addAddress} from "../sets/actions";
 export function* tokensSaga() {
   yield takeEvery(TOKEN_ALLOWANCE_REQUEST, handleAllowanceRequest)
   yield takeEvery(BUY_TOKENS_REQUEST, handleBuyTokenRequest)
+  yield takeEvery(SELL_TOKENS_REQUEST, handleSellTokenRequest)
 }
 
 function* handleBuyTokenRequest(action) {
-
-	console.log(action)
 
 	let {tokenAddress, amount} = action.payload
 
@@ -40,6 +42,28 @@ function* handleBuyTokenRequest(action) {
 		yield put(successBuyToken(action.payload))
 	}catch (e){
 		yield put(failureBuyToken(action.payload))
+	}
+
+}
+
+function* handleSellTokenRequest(action) {
+
+	let {tokenAddress, amount} = action.payload
+
+	const account = getState().account
+
+	if (!account.loggedIn || !account.walletAddress){
+		return false;
+	}
+
+	const token = new web3.eth.Contract(abiERCT, tokenAddress);
+	try{
+		yield token.methods.sell(amount).send({
+			from: account.walletAddress,
+		})
+		yield put(successSellToken(action.payload))
+	}catch (e){
+		yield put(failureSellToken(action.payload))
 	}
 
 }

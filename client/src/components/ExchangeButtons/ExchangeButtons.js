@@ -13,7 +13,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
 import {loginRequest} from "../../modules/account/actions";
-import {requestBuyToken} from "../../modules/tokens/actions";
+import {requestBuyToken, requestSellToken} from "../../modules/tokens/actions";
 
 import './ExchangeButtons.scss';
 
@@ -91,10 +91,9 @@ class ExchangeButtons extends React.Component {
 
 	};
 
-	getTokensfromEth = tokens => {
-		return tokens/1000;
-
-	};
+	toWeiTokens = tokens => {
+		return web3.utils.toWei(tokens+'', 'ether');
+	}
 
 	renderModalAction = () => {
 		if (this.state.action === BUY) {
@@ -106,8 +105,10 @@ class ExchangeButtons extends React.Component {
 			}
 		} else {
 			return () => {
-				const amountInWei = web3.utils.toWei(this.state.tradeAmount/1000, 'ether');
-				this.props.onBuy({tokenAddress: this.props.set.tokenAddress, amount: amountInWei})
+				this.props.onSell({
+					tokenAddress: this.props.set.tokenAddress,
+					amount: this.toWeiTokens(this.state.tradeAmount)
+				})
 			}
 		}
 	}
@@ -246,6 +247,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
 	onLogin: () => dispatch(loginRequest()),
 	onBuy: (payload) => dispatch(requestBuyToken(payload)),
+	onSell: (payload) => dispatch(requestSellToken(payload)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExchangeButtons)

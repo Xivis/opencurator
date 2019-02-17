@@ -4,9 +4,9 @@ export const TOKEN_ALLOWANCE_FAILURE = 'Token allowance - Failure'
 export const BUY_TOKENS_REQUEST = 'Buy Token - Request'
 export const BUY_TOKENS_SUCCESS = 'Buy Token - Success'
 export const BUY_TOKENS_FAILURE = 'Buy Token - Failure'
-export const SELL_TOKENS_REQUEST = 'Buy Token - Request'
-export const SELL_TOKENS_SUCCESS = 'Buy Token - Success'
-export const SELL_TOKENS_FAILURE = 'Buy Token - Failure'
+export const SELL_TOKENS_REQUEST = 'Sell Token - Request'
+export const SELL_TOKENS_SUCCESS = 'Sell Token - Success'
+export const SELL_TOKENS_FAILURE = 'Sell Token - Failure'
 
 export const requestAllowance = (payload) => {
   return {

@@ -15,8 +15,10 @@ import SetItem from "../../components/SetItem/index";
 import EmptyState from "../../components/EmptyState";
 
 import { loginRequest } from '../../modules/account/actions'
-import { requestAllowance } from '../../modules/tokens/actions'
+import { requestAllowanceRequest } from '../../modules/tokens/actions'
+import { applyRequest } from '../../modules/newListing/actions'
 
+import { web3 } from '../../utils/getWeb3'
 import './SetPage.scss'
 
 function Transition(props) {
@@ -53,7 +55,16 @@ class SetPage extends React.Component {
       set,
       items: [],
       openModal: false,
-      nextAction: ''
+      nextAction: '',
+      allowance: 0,
+      allowanceError: null,
+
+      listing: '',
+      listingError: null,
+      stake: 0,
+      stakeError: null,
+      description: '',
+      descriptionError: null
     };
   }
 
@@ -70,17 +81,19 @@ class SetPage extends React.Component {
         this.setState({set: nextProps.sets.data[set.address]})
       }
     }
+
+    if (!this.props.ui && nextProps.ui === 'close_modal') {
+      this.handleClose()
+    }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    // console.log('UPDATE')
-    // console.log(this.props.account)
-    // console.log(nextState.set)
-    // if (this.props.account.loggedIn && nextState.set) {
-    //   if (this.state.nextAction === STEPS.APPLY && nextState.set.tokens >= 0) {
-    //     this.checkApply()
-    //   }
-    // }
+  handleInput = (value, prop) => {
+
+    if (['stake', 'allowance'].indexOf(prop) > -1 && value < 0) {
+      value = 0;
+    }
+
+    this.setState({[prop]: value})
   }
 
   renderItems = items => {
@@ -104,28 +117,69 @@ class SetPage extends React.Component {
   checkApply = () => {
     let { set } = this.state;
 
-    console.log(set.tokens, ' - ', isNaN(set.tokens))
     if (isNaN(set.tokens)) {
       return false
     }
-
 
     if (set.minDeposit <= set.tokens) {
       if (set.allowance > set.minDeposit){
         this.openModal(STEPS.APPLY)
       } else {
         this.openModal(STEPS.ALLOWANCE)
-        // alert('Insufficient allowance')
-        // this.props.requestAllowance({
-        //   tokenAddress: set.tokenAddress,
-        //   amount: 20,
-        //   registryAddress: set.address
-        // })
       }
     } else {
       alert('Insufficient funds')
     }
 
+  }
+
+  submitAllowance = () => {
+    let { set, allowance } = this.state;
+    if (set.minDeposit > allowance) {
+      this.setState({allowanceError: `The min amount of tokens to be authorized is ${set.minDeposit}`})
+      return false
+    }
+
+    this.props.requestAllowance({
+      tokenAddress: set.tokenAddress,
+      amount: allowance,
+      registryAddress: set.address
+    })
+  }
+
+  applyListing = () => {
+    let { listing, stake, description, set } = this.state
+    let errors = []
+    if (listing.trim() === '' || !web3.utils.isAddress(listing)){
+      errors.push({
+        type: 'listingError', text: 'Please input a valid entry'
+      })
+    }
+    if (parseInt(stake) <= 0 || parseInt(stake) > set.tokens ){
+      errors.push({
+        type: 'stakeError', text: `Please set a value between 1 and ${set.tokens}`
+      })
+    }
+    if (description.trim() === ''){
+      errors.push({
+        type: 'descriptionError', text: 'Description is required'
+      })
+    }
+
+    if (errors.length > 0) {
+      let newState = {}
+      for (let error of errors) {
+        newState[error.type] = error.text
+      }
+      this.setState(newState)
+    } else {
+      this.props.applyRequest({
+        registryAddress: set.address,
+        listingHash: listing,
+        stake,
+        description
+      })
+    }
   }
 
   openModal = (value) => {
@@ -144,7 +198,16 @@ class SetPage extends React.Component {
 
   render() {
 
-    let { set, openModal, items } = this.state;
+    let {
+      set, openModal, items, allowance, allowanceError,
+      listing, listingError, stake, stakeError, description, descriptionError
+    } = this.state;
+
+    let { tokens } = this.props
+    let allowanceDisabled = false
+    if (tokens.data && tokens.data[set.tokenAddress] && tokens.data[set.tokenAddress].loading){
+      allowanceDisabled = true
+    }
 
     if (!set) {
       return <div>Loading...</div>
@@ -193,7 +256,7 @@ class SetPage extends React.Component {
               Before applying, you need to authorize the set to hold your tokens
             </DialogContentText>
             <Grid container justify={'center'}>
-              <Grid item xs={6}>
+              <Grid item xs={8}>
                 <TextField
                   autoFocus
                   margin="dense"
@@ -202,10 +265,15 @@ class SetPage extends React.Component {
                   type="number"
                   placeholder=""
                   fullWidth
-                  // error={!(!this.state.invalidAddress)}
-                  // onChange={this.handleInput}
-                  // value={this.state.address}
+                  value={allowance}
+                  error={!(!allowanceError)}
+                  onChange={(ev) => this.handleInput(ev.target.value, 'allowance')}
                 />
+                {allowanceError && (
+                  <span className={'input-error'}>
+                    {allowanceError}
+                  </span>
+                )}
               </Grid>
             </Grid>
           </DialogContent>
@@ -213,12 +281,14 @@ class SetPage extends React.Component {
             <Button
               onClick={this.handleClose}
               color="primary"
+              disabled={allowanceDisabled}
             >
               Cancel
             </Button>
             <Button
-              onClick={this.submitAddress}
+              onClick={this.submitAllowance}
               color="primary"
+              disabled={allowanceDisabled}
             >
               Submit
             </Button>
@@ -252,10 +322,15 @@ class SetPage extends React.Component {
                   type="text"
                   placeholder="0x00000"
                   fullWidth
-                  // error={!(!this.state.invalidAddress)}
-                  // onChange={this.handleInput}
-                  // value={this.state.address}
+                  error={!(!listingError)}
+                  onChange={(ev) => this.handleInput(ev.target.value, 'listing')}
+                  value={listing}
                 />
+                {listingError && (
+                  <span className={'input-error'}>
+                    {listingError}
+                  </span>
+                )}
               </Grid>
               <Grid item xs={4}>
                 <TextField
@@ -266,10 +341,15 @@ class SetPage extends React.Component {
                   type="number"
                   placeholder="Amount to stake"
                   fullWidth
-                  // error={!(!this.state.invalidAddress)}
-                  // onChange={this.handleInput}
-                  // value={this.state.address}
+                  error={!(!stakeError)}
+                  onChange={(ev) => this.handleInput(ev.target.value, 'stake')}
+                  value={stake}
                 />
+                {stakeError && (
+                  <span className={'input-error'}>
+                    {stakeError}
+                  </span>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -281,22 +361,29 @@ class SetPage extends React.Component {
                   type="number"
                   placeholder="Why it should be included on the set"
                   fullWidth
-                  // error={!(!this.state.invalidAddress)}
-                  // onChange={this.handleInput}
-                  // value={this.state.address}
+                  error={!(!descriptionError)}
+                  onChange={(ev) => this.handleInput(ev.target.value, 'description')}
+                  value={description}
                 />
+                {descriptionError && (
+                  <span className={'input-error'}>
+                    {descriptionError}
+                  </span>
+                )}
               </Grid>
             </Grid>
           </DialogContent>
           <DialogActions>
             <Button
+              disabled={this.props.newListing.loading}
               onClick={this.handleClose}
               color="primary"
             >
               Cancel
             </Button>
             <Button
-              onClick={this.submitAddress}
+              disabled={this.props.newListing.loading}
+              onClick={this.applyListing}
               color="primary"
             >
               Submit
@@ -311,13 +398,17 @@ class SetPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     sets: state.sets,
-    account: state.account
+    account: state.account,
+    tokens: state.tokens,
+    newListing: state.newListing,
+    ui: state.ui.value
   }
 };
 
 const mapDispatchToProps = dispatch => ({
   onLogin: () => dispatch(loginRequest()),
-  requestAllowance: (payload) => dispatch(requestAllowance(payload)),
+  requestAllowance: (payload) => dispatch(requestAllowanceRequest(payload)),
+  applyRequest: (payload) => dispatch(applyRequest(payload)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetPage)

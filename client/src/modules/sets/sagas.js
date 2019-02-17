@@ -68,7 +68,7 @@ function* handleAddSetRequest(action) {
     symbol,
     tokenAddress,
     tokens: 100, // TODO - Remove hardcoded
-    allowance: 0, // TODO - Remove hardcoded
+    allowance,
     minDeposit: 10 // TODO - Calculate
   }
   yield put(addSet(set))

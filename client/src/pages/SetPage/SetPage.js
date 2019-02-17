@@ -89,11 +89,14 @@ class SetPage extends React.Component {
 
   checkApply = () => {
     let { set } = this.state;
-    if (set.minDeposit > set.tokens){
-      // Insufficient funds
-      alert('Insufficient funds')
+    if (set.minDeposit <= set.tokens) {
+      if (set.allowance > set.minDeposit){
+        this.openModal()
+      } else {
+        alert('Insufficient allowance')
+      }
     } else {
-      this.openModal()
+      alert('Insufficient funds')
     }
 
   }
@@ -115,6 +118,7 @@ class SetPage extends React.Component {
   render() {
 
     let { set } = this.state;
+    console.log(set)
 
     if (!set) {
       return <div>Loading...</div>
@@ -236,7 +240,6 @@ const mapStateToProps = (state) => {
     account: state.account
   }
 };
-
 
 const mapDispatchToProps = dispatch => ({
   onLogin: () => dispatch(loginRequest()),

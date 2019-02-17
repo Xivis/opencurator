@@ -2,8 +2,10 @@ import {combineReducers} from 'redux'
 
 import { accountReducer as account } from './modules/account/reducer'
 import { setsReducer as sets } from './modules/sets/reducer'
+import { tokenReducer as tokens } from './modules/tokens/reducer'
 
 export const rootReducer = combineReducers({
   account,
-  sets
+  sets,
+  tokens
 })

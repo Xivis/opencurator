@@ -46,11 +46,13 @@ function* handleAddSetRequest(action) {
   const token = new web3.eth.Contract(abiERC, tokenAddress)
 
   const account = getState().account;
-  let balance = '-'
+  let balance = 0 // TODO - GO BACK TO '-'
   let allowance = '-'
   if (account.loggedIn) {
     balance = yield call(() => token.methods.balanceOf(account.walletAddress).call())
-    allowance = yield call(() => token.methods.allowance(account.walletAddress).call())
+    console.log(typeof balance)
+    balance = web3.utils.fromWei(balance)
+    allowance = yield call(() => token.methods.allowance(account.walletAddress, action.payload).call())
   }
 
   let symbol = '-'
@@ -65,7 +67,7 @@ function* handleAddSetRequest(action) {
     name,
     description,
     symbol,
-    tokens: balance,
+    tokens: 100, // TODO - Remove hardcoded
     allowance,
     minDeposit: 10 // TODO - Calculate
   }

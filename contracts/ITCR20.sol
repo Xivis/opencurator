@@ -3,7 +3,6 @@ pragma solidity ^0.4.24;
 import "./zeppelin/IERC20.sol";
 
 interface ITCR20 {
-
     function name() public view returns(string);
     function description() public view returns(string);
     function acceptedDataType() public view returns(string);
@@ -21,6 +20,7 @@ interface ITCR20 {
     function claimChallengeReward(uint _challengeID) public;
     function claimVoterReward(uint _challengeID) public;
     function exit(bytes32 _listingHash, string _data) external;
+    function updateStatus(bytes32 _listingHash) public;
 
     // Getters and Helpers functions
     function getParameter(string pName) public view returns (uint pValue);

@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
-import "./ITCR20.sol";
 import "./zeppelin/ERC20Tradable.sol";
+import "./ITCR20.sol";
 
 /**
 * @title Simple implementation of TCRs
@@ -78,9 +78,9 @@ contract SimpleTCR is ITCR20 {
     * @dev Initializer. Can only be called once.
     * @param token The address where the ERC20 token contract is deployed
     */
-    constructor(string name, string description, string acceptedDataType, address token, uint[] parameters) {
+    function init(string name, string description, string acceptedDataType, address token, uint[] parameters) public {
         require(token != 0 && address(_token) == 0);
-        
+
         // Base registry parameters
         _name = name;
         _description = description;
@@ -107,6 +107,7 @@ contract SimpleTCR is ITCR20 {
         // sets the initial pollID
         pollID = INITIAL_POLL_ID;
     }
+
 
     function name() public view returns(string){
         return _name;

@@ -1,8 +1,7 @@
 pragma solidity ^0.4.24;
 
-import "./zeppelin/ERC20Tradable.sol";
-import "./zeppelin/Ownable.sol";
 import "./SimpleTCR.sol";
+import "./zeppelin/Ownable.sol";
 
 contract RegistryFactory is Ownable {
 
@@ -39,12 +38,14 @@ contract RegistryFactory is Ownable {
         string _description,
         string _acceptedDataType
     ) public returns (ITCR20) {
+        // Create new registry
+        SimpleTCR registry = SimpleTCR(deployNewRegistry(baseRegistry));
+
         // Creates a new IERC20
         ERC20Tradable tradableToken = new ERC20Tradable(_tokenName, _symbol, _decimals);
 
-        // Create new registry
-        SimpleTCR registry = new SimpleTCR(_registryName, _description, _acceptedDataType, tradableToken, _parameters);
-        //SimpleTCR registry = SimpleTCR(deployNewRegistry(baseRegistry));
+        //SimpleTCR registry = new SimpleTCR(_registryName, _description, _acceptedDataType, tradableToken, _parameters);
+        registry.init(_registryName, _description, _acceptedDataType, tradableToken, _parameters);
 
         emit _RegistryCreated(msg.sender, tradableToken, registry, _registryName, _description);
         return registry;

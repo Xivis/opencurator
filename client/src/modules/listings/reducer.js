@@ -13,14 +13,13 @@ let INITIAL_STATE = {
 				name: "Name",
 				asset: "https://techcrunch.com/wp-content/uploads/2017/12/screen-shot-2017-12-03-at-5-20-32-pm.png?w=764",
 				description: "Description",
-				status: LISTING_STATUS.ACTIVE, //|PROPOSED|CHALLENGE
+				status: LISTING_STATUS.PROPOSED, //|PROPOSED|CHALLENGE
 				challengeID: "int"
 			}
 		}
 	}
 }
 
-// /set/0x0123/listing/0x0123
 
 export function listingsReducer(state = INITIAL_STATE, action) {
 

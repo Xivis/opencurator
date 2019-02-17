@@ -6,9 +6,9 @@ import Button from '@material-ui/core/Button';
 
 import './VoteButtons.scss';
 import {loginRequest} from "../../modules/account/actions";
-import {requestChallenge} from "../../modules/listings/actions";
+import {requestVote} from "../../modules/listings/actions";
 import {connect} from "react-redux";
-import Dialog from "../ChallengedButton/ChallengeButton";
+import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -33,14 +33,53 @@ class VoteButtons extends React.Component {
 
 	handleVote = (vote) => {
 		if (this.props.account.loggedIn) {
-			alert('');
-			this.setState({vote: -1})
+			this.openModal();
+			this.setState({vote})
 		} else {
-			this.setState({vote: vote}, this.props.onLogin)
+			this.setState({openModal: true, vote: vote}, this.props.onLogin)
 		}
 	}
 
-		render() {
+	openModal = () => {
+		if (!this.state.openModal) {
+			this.setState({openModal: true})
+		}
+	};
+
+	handleInput = (value) => {
+
+		value = value.replace(/-/g, '');
+
+		if (value < 0 || isNaN(value)) {
+			value = 0;
+		}
+
+		this.setState({voteAmount: value, invalidInput: ''})
+	}
+
+	handleSubmit = () => {
+		// if (this.state.challengeAmount > this.state.set.tokens) {
+		// 	this.setState({invalidInput: 'You do not have enough tokens'});
+		// } else {
+		this.props.onVote({
+			listingHash: this.state.listingHash,
+			amount: web3.utils.toWei(this.state.voteAmount+'', 'ether'),
+			vote: this.state.vote,
+			registryAddress: this.state.set.address,
+		})//}
+	}
+
+	handleClose = () => {
+		if (this.state.openModal) {
+			this.setState({
+				openModal: false,
+				invalidInput: ''
+			})
+		}
+	};
+
+
+	render() {
 		return (
 			<div className={'vote-buttons'}>
 				<Grid container justify="flex-start"  alignItems="center">
@@ -63,11 +102,11 @@ class VoteButtons extends React.Component {
 					disableBackdropClick
 				>
 					<DialogTitle id="alert-dialog-slide-title">
-						Challenge
+						Stake
 					</DialogTitle>
 					<DialogContent>
 						<DialogContentText id="alert-dialog-slide-description">
-							Set the amount of the challenge
+							Set the stake for the voting
 						</DialogContentText>
 						<Grid container spacing={16}>
 							<Grid item xs={12}>
@@ -78,7 +117,7 @@ class VoteButtons extends React.Component {
 									label="Tokens"
 									type="string"
 									placeholder="1"
-									value={this.state.challengeAmount}
+									value={this.state.voteAmount}
 									fullWidth
 									error={!(!this.state.invalidInput)}
 									onChange={(ev) => this.handleInput(ev.target.value)}
@@ -88,18 +127,6 @@ class VoteButtons extends React.Component {
                 {this.state.invalidInput}
               </span>
 								)}
-								<TextField
-									autoFocus
-									margin="dense"
-									id="Description"
-									label="Description"
-									type="string"
-									placeholder="Description"
-									value={this.state.description}
-									fullWidth
-									error={!(!this.state.invalidInput)}
-									onChange={(ev) => {this.setState({description: ev.target.value})}}
-								/>
 							</Grid>
 						</Grid>
 					</DialogContent>
@@ -136,7 +163,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
 	onLogin: () => dispatch(loginRequest()),
-	onVote: (payload) => dispatch(requestChallenge(payload)),
+	onVote: (payload) => dispatch(requestVote(payload)),
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VoteButtons))

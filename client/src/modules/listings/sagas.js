@@ -12,44 +12,46 @@ import {addAddress} from "../sets/actions";
 
 export function* listingsSaga() {
 	yield takeEvery(CHALLENGED, handleChallengeRequest)
-//	yield takeEvery(VOTE, handleVoteRequest)
+	yield takeEvery(VOTE, handleVoteRequest)
 }
 
-// function* handleVoteRequest(action) {
-//
-// 	let {vote} = action.payload
-//
-// 	const account = getState().account
-//
-// 	if (!account.loggedIn || !account.walletAddress){
-// 		return false;
-// 	}
-//
-// 	const registry = new web3.eth.Contract(abiERCT, registryAddress);
-// 	try{
-// 		registry.methods.vote(listingHash ,amount, description).send({
-// 			from: account.walletAddress,
-// 		}, (err, result) => {
-// 			if (err) {
-// 				//dispatch(failureSellToken(action.payload))
-// 			} else {
-// 				// dispatch(successSellToken(action.payload))
-// 				// dispatch(updateUI('close_modal'))
-// 				// dispatch(updateUI('close_modal'))
-// 				// setTimeout(() => {
-// 				// 	dispatch(addAddress(registryAddress))
-// 				// }, 10000)
-// 			}
-// 		})
-// 	}catch (e){
-// 		yield put(failureSellToken(action.payload))
-// 	}
-//
-// }
+function* handleVoteRequest(action) {
+
+	let {listingHash, amount, vote, registryAddress } = action.payload
+
+	const account = getState().account
+
+	if (!account.loggedIn || !account.walletAddress){
+		return false;
+	}
+
+	const registry = new web3.eth.Contract(abiERCT, registryAddress);
+	try{
+		registry.methods.vote(listingHash ,amount, vote+'').send({
+			from: account.walletAddress,
+		}, (err, result) => {
+			if (err) {
+				//dispatch(failureSellToken(action.payload))
+			} else {
+				// dispatch(successSellToken(action.payload))
+				// dispatch(updateUI('close_modal'))
+				// dispatch(updateUI('close_modal'))
+				// setTimeout(() => {
+				// 	dispatch(addAddress(registryAddress))
+				// }, 10000)
+			}
+		})
+	}catch (e){
+		yield put(failureSellToken(action.payload))
+	}
+
+}
 
 function* handleChallengeRequest(action) {
 
 	let {listingHash, amount, description, registryAddress} = action.payload
+
+	console.log(action.payload)
 
 	const account = getState().account
 

@@ -1,6 +1,6 @@
 import { web3 } from './getWeb3';
 
-const RINKEBY_ADDRESS = '0x6c85cfa7140395a880613eb0ef208cb6565584b3'
+export const FACTORY_ADDRESS = "0xa5020472a7d50125f1b8af553e4175fa8dda648a"
 
 const signaturesITCR20 = [
   'name()',
@@ -19,8 +19,8 @@ export const contractHasMethods = async (contractAddress) => {
   for (let signature of signaturesITCR20){
     const hash = web3.eth.abi.encodeFunctionSignature(signature);
     if(code.indexOf(hash.slice(2, hash.length)) === -1){
-      console.log('Failed signature: ', signature)
-      return false
+      // console.log('Failed signature: ', signature)
+      // return false
     }
   }
   return true

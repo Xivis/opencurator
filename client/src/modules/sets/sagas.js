@@ -37,42 +37,46 @@ function* handleAddSetRequest(action) {
     return false
   }
 
-  const contract = new web3.eth.Contract(abiTCR, action.payload)
-
-  const name = yield call(() => contract.methods.name().call())
-  const description = yield call(() => contract.methods.description().call())
-  const tokenAddress = yield call(() => contract.methods.token().call())
-
-  const token = new web3.eth.Contract(abiERC, tokenAddress)
-
-  const account = getState().account;
-  let balance = '-'
-  let allowance = '-'
-  if (account.loggedIn) {
-    balance = yield call(() => token.methods.balanceOf(account.walletAddress).call())
-    balance = web3.utils.fromWei(balance)
-    allowance = yield call(() => token.methods.allowance(account.walletAddress, action.payload).call())
-  }
-
-  let symbol = '-'
   try{
-    symbol = yield call(() => token.methods.symbol().call())
-  }catch (e){
-    console.log(e)
+    const contract = new web3.eth.Contract(abiTCR, action.payload)
+
+    const name = yield call(() => contract.methods.name().call())
+    const description = yield call(() => contract.methods.description().call())
+    const tokenAddress = yield call(() => contract.methods.token().call())
+
+    const token = new web3.eth.Contract(abiERC, tokenAddress)
+
+    const account = getState().account;
+    let balance = '-'
+    let allowance = '-'
+    if (account.loggedIn) {
+      balance = yield call(() => token.methods.balanceOf(account.walletAddress).call())
+      balance = web3.utils.fromWei(balance)
+      allowance = yield call(() => token.methods.allowance(account.walletAddress, action.payload).call())
+    }
+
+    let symbol = '-'
+    try{
+      symbol = yield call(() => token.methods.symbol().call())
+    }catch (e){
+      console.log(e)
+    }
+
+    let set = {
+      address: action.payload,
+      name,
+      description,
+      symbol,
+      tokenAddress,
+      tokens: balance,
+      allowance,
+      minDeposit: 10 // TODO - Calculate
+    }
+    yield put(addSet(set))
+  } catch (e) {
+    yield put(addSetFailure(action.payload))
   }
 
-  let set = {
-    address: action.payload,
-    name,
-    description,
-    symbol,
-    tokenAddress,
-    tokens: balance,
-    allowance,
-    minDeposit: 10 // TODO - Calculate
-  }
-  console.log('UPDATING: ', set)
-  yield put(addSet(set))
 }
 
 

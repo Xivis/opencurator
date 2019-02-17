@@ -14,6 +14,9 @@ import {store} from './store'
 import Routes from './Routes'
 
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     primary: green,
     secondary: amber,

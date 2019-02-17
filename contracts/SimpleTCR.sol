@@ -1,7 +1,8 @@
 pragma solidity ^0.4.24;
 
 import "./ITCR20.sol";
-import "./zeppelin/ERC20.sol";
+import "./zeppelin/IERC20.sol";
+import "./zeppelin/ERC20Tradable.sol";
 import "./zeppelin/SafeMath.sol";
 
 contract SimpleTCR is ITCR20 {
@@ -94,6 +95,7 @@ contract SimpleTCR is ITCR20 {
         _tokenScheme = "ERC20";
         _exitScheme = "SIMPLE";
         _acceptedDataType = acceptedDataType;
+        _token = ERC20Tradable(token);
 
         // required deposit for listing to be whitelisted. No more, no less.
         set("requiredDeposit", parameters[0]);

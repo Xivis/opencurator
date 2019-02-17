@@ -108,7 +108,9 @@ This function could allow any Dapp, to validate the data to be send in the `appl
 Returns an string of the implemented apply scheme. This generalization allow many types of apply schemas to be implemented following the same standard.
 An example of some vote schemes could be one of the followings: 
 
-`"SIMPLE"`: 
+`"SIMPLE"`: This type of scheme expose `requiredDeposit` as a parameter which it's the exact amount of tokens that the `apply` function accepts. Also, can be consulted in any time using the `getParameter` function.
+
+`"OPEN"`: This type of scheme allows any token amount to be staked in the listing. 
 
 Other schemas could be added in the future.
 

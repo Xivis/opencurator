@@ -15,6 +15,7 @@ import SetItem from "../../components/SetItem/index";
 import EmptyState from "../../components/EmptyState";
 
 import { loginRequest } from '../../modules/account/actions'
+import { requestAllowance } from '../../modules/tokens/actions'
 
 import './SetPage.scss'
 
@@ -93,7 +94,12 @@ class SetPage extends React.Component {
       if (set.allowance > set.minDeposit){
         this.openModal()
       } else {
-        alert('Insufficient allowance')
+        // alert('Insufficient allowance')
+        this.props.requestAllowance({
+          tokenAddress: set.tokenAddress,
+          amount: 20,
+          registryAddress: set.address
+        })
       }
     } else {
       alert('Insufficient funds')
@@ -243,6 +249,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   onLogin: () => dispatch(loginRequest()),
+  requestAllowance: (payload) => dispatch(requestAllowance(payload)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetPage)

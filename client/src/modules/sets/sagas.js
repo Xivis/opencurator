@@ -53,6 +53,7 @@ function* handleAddSetRequest(action) {
     console.log(typeof balance)
     balance = web3.utils.fromWei(balance)
     allowance = yield call(() => token.methods.allowance(account.walletAddress, action.payload).call())
+    console.log('Allowance: ', allowance)
   }
 
   let symbol = '-'
@@ -67,6 +68,7 @@ function* handleAddSetRequest(action) {
     name,
     description,
     symbol,
+    tokenAddress,
     tokens: 100, // TODO - Remove hardcoded
     allowance,
     minDeposit: 10 // TODO - Calculate

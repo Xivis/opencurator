@@ -24,7 +24,8 @@ function Transition(props) {
 }
 
 const STEPS = {
-  APPLY: 'apply'
+  APPLY: 'apply',
+  ALLOWANCE: 'allowance'
 }
 
 class SetPage extends React.Component {
@@ -62,12 +63,24 @@ class SetPage extends React.Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
-    if (!this.props.account.loggedIn && nextProps.account.loggedIn) {
-      if (this.state.nextAction === STEPS.APPLY) {
-        this.checkApply()
+  componentWillReceiveProps(nextProps) {
+    let { set } = this.state
+    if (nextProps.sets && nextProps.sets.data[set.address]) {
+      if (set.tokens !== nextProps.sets.data[set.address].tokens){
+        this.setState({set: nextProps.sets.data[set.address]})
       }
     }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    // console.log('UPDATE')
+    // console.log(this.props.account)
+    // console.log(nextState.set)
+    // if (this.props.account.loggedIn && nextState.set) {
+    //   if (this.state.nextAction === STEPS.APPLY && nextState.set.tokens >= 0) {
+    //     this.checkApply()
+    //   }
+    // }
   }
 
   renderItems = items => {
@@ -90,16 +103,24 @@ class SetPage extends React.Component {
 
   checkApply = () => {
     let { set } = this.state;
+
+    console.log(set.tokens, ' - ', isNaN(set.tokens))
+    if (isNaN(set.tokens)) {
+      return false
+    }
+
+
     if (set.minDeposit <= set.tokens) {
       if (set.allowance > set.minDeposit){
-        this.openModal()
+        this.openModal(STEPS.APPLY)
       } else {
+        this.openModal(STEPS.ALLOWANCE)
         // alert('Insufficient allowance')
-        this.props.requestAllowance({
-          tokenAddress: set.tokenAddress,
-          amount: 20,
-          registryAddress: set.address
-        })
+        // this.props.requestAllowance({
+        //   tokenAddress: set.tokenAddress,
+        //   amount: 20,
+        //   registryAddress: set.address
+        // })
       }
     } else {
       alert('Insufficient funds')
@@ -107,9 +128,9 @@ class SetPage extends React.Component {
 
   }
 
-  openModal = () => {
+  openModal = (value) => {
     if (!this.state.openModal) {
-      this.setState({openModal: true})
+      this.setState({openModal: value})
     }
   }
 
@@ -123,8 +144,7 @@ class SetPage extends React.Component {
 
   render() {
 
-    let { set } = this.state;
-    console.log(set)
+    let { set, openModal, items } = this.state;
 
     if (!set) {
       return <div>Loading...</div>
@@ -146,9 +166,9 @@ class SetPage extends React.Component {
             </div>
           </Grid>
           <Grid className={'items-container'} item xs={9}>
-            {this.renderItems(this.state.items)}
+            {this.renderItems(items)}
 
-            {(!this.state.items || this.state.items.length === 0) && (
+            {(!items || items.length === 0) && (
               <EmptyState>
                 No items on this set.<br/>
                 You can add one buy submitting an application.
@@ -157,8 +177,57 @@ class SetPage extends React.Component {
           </Grid>
         </Grid>
 
+        {/* Approve Modal */}
         <Dialog
-          open={this.state.openModal}
+          open={openModal === STEPS.ALLOWANCE}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={this.handleClose}
+          disableBackdropClick
+        >
+          <DialogTitle id="alert-dialog-slide-title">
+            {"Approve token's set"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Before applying, you need to authorize the set to hold your tokens
+            </DialogContentText>
+            <Grid container justify={'center'}>
+              <Grid item xs={6}>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="address"
+                  label="Tokens authorized"
+                  type="number"
+                  placeholder=""
+                  fullWidth
+                  // error={!(!this.state.invalidAddress)}
+                  // onChange={this.handleInput}
+                  // value={this.state.address}
+                />
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={this.handleClose}
+              color="primary"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={this.submitAddress}
+              color="primary"
+            >
+              Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Apply Modal */}
+        <Dialog
+          open={openModal === STEPS.APPLY}
           TransitionComponent={Transition}
           keepMounted
           onClose={this.handleClose}
@@ -234,7 +303,6 @@ class SetPage extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-
       </div>
     )
   }

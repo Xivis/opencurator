@@ -80,7 +80,19 @@ export function setsReducer(state = null, action) {
   if (state === null){
     const data = localStorage.getItem('sets');
     if (data) {
-      return JSON.parse(data);
+      let sets = JSON.parse(data);
+      let newData = {}
+      for (let key of Object.keys(sets.data)) {
+        newData[key] = {
+          ...sets.data[key],
+          allowance: 0,
+          tokens: '-'
+        }
+      }
+      return {
+        ...sets,
+        data: newData
+      }
     } else {
       return INITIAL_STATE
     }

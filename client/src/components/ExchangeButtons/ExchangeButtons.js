@@ -11,12 +11,12 @@ class ExchangeButtons extends React.Component {
 		return (
 			<div className={'exchange-buttons'}>
 				<Grid container spacing={8} direction="column" justify="center"  alignItems="stretch">
-					<Grid item xs={6}>
+					<Grid item xs={12}>
 						<Button className={'buy'} variant="outlined">
 							Buy Tokens
 						</Button>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12}>
 						<Button className={'sell'} variant="outlined">
 							Sell Tokens
 						</Button>

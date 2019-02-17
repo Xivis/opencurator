@@ -7,12 +7,22 @@ import StatusButton from "../../components/StatusButton/StatusButton";
 
 import './ItemDescription.scss';
 import VoteButtons from "../VoteButtons";
+import ChallengedButton from "../ChallengedButton";
+import {LISTING_STATUS} from '../../modules/listings/utils'
 
 class ItemDescription extends React.Component {
 
 	state = {
 		item: this.props.item
 	};
+
+	renderAction = ()=> {
+		if(this.state.item.status === LISTING_STATUS.CHALLENGED){
+			return <VoteButtons/>
+		} else {
+			return <ChallengedButton/>
+		}
+	}
 
 	render() {
 		return (
@@ -43,7 +53,7 @@ class ItemDescription extends React.Component {
 						<h4 className={'item-info'}>{this.state.item.info}</h4>
 					</Grid>
 					<Grid item>
-						<VoteButtons/>
+						{this.renderAction()}
 					</Grid>
 				</Grid>
 			</Grid>

@@ -8,7 +8,8 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
-  Button
+  Button,
+	CircularProgress
 } from '@material-ui/core'
 
 import './CreateSetPage.scss'
@@ -214,12 +215,16 @@ class CreateSetPage extends React.Component {
                 </Grid>
               </Grid>
               <div className={'set-confirm-button'}>
-                <Button
+								{!buttonDisabled && <Button
                   onClick={this.onSubmit}
                   disabled={buttonDisabled}
                 >
                   Create set
-                </Button>
+                </Button>}
+								{ buttonDisabled &&
+									<CircularProgress/>
+
+								}
               </div>
             </form>
           </Grid>

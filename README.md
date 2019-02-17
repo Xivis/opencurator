@@ -1,3 +1,4 @@
+![](https://raw.githubusercontent.com/Xivis/opencurator/master/client/src/images/open-curator.ico)
 # Open Curator
 
 Open Curator is a dApp that allows you to curate aggregated Token Curated Registries (TCRs) in a single place. We did so by proposing and implementing a TCR standard that enables interoperatibility between these economic primitives.

@@ -81,7 +81,7 @@ class SetPage extends React.Component {
 
   proposeNew = () => {
     if (this.props.account.loggedIn) {
-      this.openModal()
+      this.checkApply()
     } else {
       this.setState({nextAction: STEPS.APPLY}, this.props.onLogin)
     }

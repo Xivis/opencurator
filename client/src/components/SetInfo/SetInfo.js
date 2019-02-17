@@ -21,7 +21,7 @@ class SetInfo extends React.Component {
 						<TokenBoxes tokens={set.tokens} symbol={set.symbol} />
 					</Grid>
 					<Grid item xs={2}>
-						<ExchangeButtons />
+						<ExchangeButtons set={set} />
 					</Grid>
 				</Grid>
 		)

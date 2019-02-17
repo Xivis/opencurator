@@ -47,8 +47,10 @@ function* handleAddSetRequest(action) {
 
   const account = getState().account;
   let balance = '-'
+  let allowance = '-'
   if (account.loggedIn) {
     balance = yield call(() => token.methods.balanceOf(account.walletAddress).call())
+    allowance = yield call(() => token.methods.allowance(account.walletAddress).call())
   }
 
   let symbol = '-'
@@ -64,6 +66,7 @@ function* handleAddSetRequest(action) {
     description,
     symbol,
     tokens: balance,
+    allowance,
     minDeposit: 10 // TODO - Calculate
   }
   yield put(addSet(set))

@@ -31,6 +31,7 @@ class ExchangeButtons extends React.Component {
 			openModal: false,
 			tradeAmount: 0,
 			action: '',
+			invalidInput: ''
 		}
 
 	}
@@ -111,22 +112,40 @@ class ExchangeButtons extends React.Component {
 
 	renderModalAction = () => {
 		if (this.state.action === BUY) {
+
 			return () => {
+				if(this.getWeiFromTokens(this.state.tradeAmount) > this.props.account.walletAddress){
+					this.setState({invalidInput: 'You do not have enough ether'});
+				} else {
 				this.props.onBuy({
           registryAddress: this.props.set.address,
 					tokenAddress: this.props.set.tokenAddress,
 					amount: this.getWeiFromTokens(this.state.tradeAmount)
-				})
+				})}
 			}
 		} else {
 			return () => {
+				if(this.state.tradeAmount > this.props.set.tokens){
+					this.setState({invalidInput: 'You do not have enough tokens'});
+				} else {
 				this.props.onSell({
           registryAddress: this.props.set.address,
 					tokenAddress: this.props.set.tokenAddress,
 					amount: this.toWeiTokens(this.state.tradeAmount)
-				})
+				})}
 			}
 		}
+	}
+
+	handleInput = (value) => {
+
+		value = value.replace(/-/g, '');
+
+		if (value < 0 || isNaN(value)) {
+			value = 0;
+		}
+
+		this.setState({tradeAmount: value, invalidInput: ''})
 	}
 
 	render() {
@@ -171,14 +190,18 @@ class ExchangeButtons extends React.Component {
 								margin="dense"
 								id="amount"
 								label="Tokens"
-								type="number"
+								type="string"
 								placeholder="1"
 								value={this.state.tradeAmount}
 								fullWidth
-								// error={!(!this.state.invalidAddress)}
-								onChange={e => {this.setState({tradeAmount: e.target.value})}}
-								// value={this.state.address}
+								error={!(!this.state.invalidInput)}
+								onChange={(ev) => this.handleInput(ev.target.value)}
 							/>
+							{this.state.invalidInput && (
+								<span className={'input-error'}>
+                {this.state.invalidInput}
+              </span>
+							)}
 						</Grid>
 					</Grid>
 					<Grid container spacing={0}>

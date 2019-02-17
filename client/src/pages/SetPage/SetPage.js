@@ -77,8 +77,6 @@ class SetPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('Will Receive Props')
-    console.log(nextProps)
     let { set } = this.state
     if (nextProps.sets && nextProps.sets.data[set.address]) {
       if (set.tokens !== nextProps.sets.data[set.address].tokens){
@@ -120,11 +118,7 @@ class SetPage extends React.Component {
 
   checkApply = () => {
     let { set } = this.state;
-
-    if (isNaN(set.tokens)) {
-      return false
-    }
-
+    
     if (set.minDeposit <= set.tokens) {
       if (set.allowance > set.minDeposit){
         this.openModal(STEPS.APPLY)
@@ -400,7 +394,8 @@ class SetPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
+  console.log(state.sets)
+	return {
     sets: state.sets,
     account: state.account,
     tokens: state.tokens,

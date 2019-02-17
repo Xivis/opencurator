@@ -114,7 +114,7 @@ class ExchangeButtons extends React.Component {
 		if (this.state.action === BUY) {
 
 			return () => {
-				if(this.getWeiFromTokens(this.state.tradeAmount) > this.props.account.walletAddress){
+				if(this.getWeiFromTokens(this.state.tradeAmount) > web3.eth.getBalance(this.props.account.walletAddress)){
 					this.setState({invalidInput: 'You do not have enough ether'});
 				} else {
 				this.props.onBuy({

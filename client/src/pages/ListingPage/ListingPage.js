@@ -15,21 +15,10 @@ class ListingPage extends React.Component {
 
 	constructor(props) {
 		super(props);
-		const item = {
-			name: 'Name 1',
-			info: 'Info',
-			asset: 'https://i.blogs.es/84638b/kitty1/450_1000.jpg',
-			status: 'challenge',
-			id: 1
-		};
 
 		this.state = {
-			set: {
-				name: 'Adorable CryptoKitties',
-				description: 'This is a TCR of Adorable CryptoKitties',
-				token: 'MEOW',
-			},
-			item: item
+			set: this.props.sets.data['0xc8c2d8761e63203829372018b978389fb0c3532b'],
+			item: this.props.listing['0x0123'].data['0x0123']
 		};
 	}
 
@@ -58,8 +47,10 @@ class ListingPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log(state);
-	return {}
+	return {
+		listing: state.listing,
+		sets: state.sets
+	}
 };
 
 export default connect(mapStateToProps)(ListingPage)

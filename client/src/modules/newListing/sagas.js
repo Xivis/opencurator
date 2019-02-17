@@ -39,6 +39,9 @@ function* handleListingApply(action) {
           dispatch(updateUI('close_modal'))
         }
       })
+			.catch(() =>  {
+				dispatch(applyFailure())
+	})
   } catch (e) {
     yield put(applyFailure())
   }

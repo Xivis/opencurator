@@ -4,6 +4,7 @@ import { accountSaga } from './modules/account/sagas';
 import { setsSaga } from './modules/sets/sagas';
 import { tokensSaga } from './modules/tokens/sagas';
 import { newListingSaga } from './modules/newListing/sagas';
+import { listingsSaga } from './modules/listings/sagas';
 import { newSetSaga } from './modules/newSet/sagas';
 
 export function* rootSaga() {
@@ -12,6 +13,7 @@ export function* rootSaga() {
       setsSaga(),
       tokensSaga(),
       newListingSaga(),
+			listingsSaga(),
       newSetSaga()
     ])
 }

@@ -373,7 +373,7 @@ contract SimpleTCR is ITCR20 {
 
     function claimChallengeReward(uint _challengeID) public {
         Challenge storage _challenge = challenges[_challengeID];
-        require(!challenges[_challengeID].resolved)
+        require(!challenges[_challengeID].resolved);
         
         // calculates the winning choice
         uint winningChoice;
@@ -385,34 +385,34 @@ contract SimpleTCR is ITCR20 {
         uint reward;
 
         // Edge case, nobody voted, give all tokens to the challenger.
-        if ((challenge.votesFor == 0) && (challenge.votesAgainst == 0)) {
-            reward = 2 * _challenge[_challengeID].stake;
+        if ((_challenge.votesFor == 0) && (_challenge.votesAgainst == 0)) {
+            reward = 2 * _challenge.stake;
         } else {
-            reward = (2 * _challenge[_challengeID].stake).sub(_challenge[_challengeID].rewardPool)
+            reward = (2 * _challenge.stake).sub(_challenge.rewardPool);
         }
 
-        if (winningChoice == 0) {
-            whitelistApplication(_listingHash);
+        // if (winningChoice == 0) {
+        //     whitelistApplication(_listingHash);
 
-            uint stake = _challenge[challengeID].stake;
+        //     uint stake = _challenge[_challengeID].stake;
 
-            // Unlock stake and return it to the applier
-            listings[_listingHash].unstakedDeposit = listings[_listingHash].unstakedDeposit.add(stake);
+        //     // Unlock stake and return it to the applier
+        //     listings[_listingHash].unstakedDeposit = listings[_listingHash].unstakedDeposit.add(stake);
 
-            // Transfer the remaining reward to the challenger
-            require(token.transfer(listings[_listingHash].owner, reward.sub(stake)));
+        //     // Transfer the remaining reward to the challenger
+        //     require(token.transfer(listings[_listingHash].owner, reward.sub(stake)));
 
-            emit _ChallengeFailed(_listingHash, challengeID, challenges[challengeID].rewardPool, challenges[challengeID].totalTokens);
-        }
-        // Case: challenge succeeded or nobody voted
-        else {
-            resetListing(_listingHash);
+        //     emit _ChallengeFailed(_listingHash, _challengeID, challenges[_challengeID].rewardPool, challenges[_challengeID].totalTokens);
+        // }
+        // // Case: challenge succeeded or nobody voted
+        // else {
+        //     resetListing(_listingHash);
 
-            // Transfer the reward to the challenger
-            require(token.transfer(challenges[challengeID].challenger, reward));
+        //     // Transfer the reward to the challenger
+        //     require(token.transfer(challenges[_challengeID].challenger, reward));
 
-            emit _ChallengeSucceeded(_listingHash, challengeID, challenges[challengeID].rewardPool, challenges[challengeID].totalTokens);
-        }
+        //     emit _ChallengeSucceeded(_listingHash, _challengeID, challenges[_challengeID].rewardPool, challenges[_challengeID].totalTokens);
+        // }
     }
 
     /**

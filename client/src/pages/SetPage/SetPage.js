@@ -18,6 +18,7 @@ import { loginRequest } from '../../modules/account/actions'
 import { requestAllowanceRequest } from '../../modules/tokens/actions'
 import { applyRequest } from '../../modules/newListing/actions'
 import { updateUI } from '../../modules/ui/actions'
+import { refreshListings } from '../../modules/listings/actions'
 
 import { web3 } from '../../utils/getWeb3'
 import './SetPage.scss'
@@ -63,7 +64,7 @@ class SetPage extends React.Component {
 
       listing: '',
       listingError: null,
-      stake: 0,
+      stake: 1000,
       stakeError: null,
       description: '',
       descriptionError: null
@@ -73,6 +74,16 @@ class SetPage extends React.Component {
   componentDidMount() {
     if (!this.state.set) {
       this.props.history.push('/')
+    }
+
+    if (
+      !this.props.listings[this.state.set.address] ||
+      this.props.listings[this.state.set.address].data.length === 0
+    ){
+      setTimeout(() => {
+        console.log('refrsh')
+        this.props.refreshListings(this.state.set.address)
+      }, 2000)
     }
   }
 
@@ -148,12 +159,12 @@ class SetPage extends React.Component {
   applyListing = () => {
     let { listing, stake, description, set } = this.state
     let errors = []
-    if (listing.trim() === '' || !web3.utils.isAddress(listing)){
+    if (listing.trim() === ''){
       errors.push({
         type: 'listingError', text: 'Please input a valid entry'
       })
     }
-    if (parseInt(stake) <= 0 || parseInt(stake) > set.tokens ){
+    if (parseInt(stake) <= 0){
       errors.push({
         type: 'stakeError', text: `Please set a value between 1 and ${set.tokens}`
       })
@@ -311,7 +322,7 @@ class SetPage extends React.Component {
               Paste below the address of the TCR that you want to add to the dashboard
             </DialogContentText>
             <Grid container spacing={16}>
-              <Grid item xs={8}>
+              <Grid item xs={12}>
                 <TextField
                   autoFocus
                   margin="dense"
@@ -327,25 +338,6 @@ class SetPage extends React.Component {
                 {listingError && (
                   <span className={'input-error'}>
                     {listingError}
-                  </span>
-                )}
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="amount"
-                  label="Tokens"
-                  type="number"
-                  placeholder="Amount to stake"
-                  fullWidth
-                  error={!(!stakeError)}
-                  onChange={(ev) => this.handleInput(ev.target.value, 'stake')}
-                  value={stake}
-                />
-                {stakeError && (
-                  <span className={'input-error'}>
-                    {stakeError}
                   </span>
                 )}
               </Grid>
@@ -394,11 +386,11 @@ class SetPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.sets)
 	return {
     sets: state.sets,
     account: state.account,
     tokens: state.tokens,
+    listings: state.listing,
     newListing: state.newListing,
     ui: state.ui.value
   }
@@ -409,6 +401,7 @@ const mapDispatchToProps = dispatch => ({
   requestAllowance: (payload) => dispatch(requestAllowanceRequest(payload)),
   applyRequest: (payload) => dispatch(applyRequest(payload)),
   updateUI: (payload) => dispatch(updateUI(payload)),
+  refreshListings: (payload) => dispatch(refreshListings(payload))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetPage)

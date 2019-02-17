@@ -1,6 +1,7 @@
 import { web3 } from './getWeb3';
+import abi from 'ethereumjs-abi'
 
-export const FACTORY_ADDRESS = "0xa5020472a7d50125f1b8af553e4175fa8dda648a"
+export const FACTORY_ADDRESS = "0xafe173e4e987ac5c5b1808d42d762a464bc580b7"
 
 const signaturesITCR20 = [
   'name()',
@@ -24,4 +25,8 @@ export const contractHasMethods = async (contractAddress) => {
     }
   }
   return true
+}
+
+export const stringEncode = toEncode => {
+  return `0x${abi.soliditySHA3(['string'], [toEncode]).toString('hex')}`
 }

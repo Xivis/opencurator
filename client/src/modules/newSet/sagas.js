@@ -37,7 +37,7 @@ function* handleSetCreate(action) {
       "18",
       symbol,
       [
-        1000,
+        10, //00,
         172800,
         172800,
         80,
@@ -81,12 +81,8 @@ function* handleFetchRequest(action) {
 
 function* handleEventFetched(action) {
   let {returnValues} = action.payload
-  console.log(returnValues)
   const account = getState().account
-  console.log(account.walletAddress)
   if (returnValues.creator.toLowerCase() === account.walletAddress.toLowerCase()){
-    console.log('SHould be added')
     yield put(addAddress(returnValues.registry))
   }
-
 }

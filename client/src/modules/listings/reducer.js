@@ -7,17 +7,17 @@
 import {LISTING_STATUS} from './utils'
 
 let INITIAL_STATE = {
-	"0x0123": { // registry
-		data: {
-			"0x0123": { // Listing hash
-				name: "Name",
-				asset: "https://techcrunch.com/wp-content/uploads/2017/12/screen-shot-2017-12-03-at-5-20-32-pm.png?w=764",
-				description: "Description",
-				status: LISTING_STATUS.ACTIVE, //|PROPOSED|CHALLENGE
-				challengeID: "int"
-			}
-		}
-	}
+	// "0x0123": { // registry
+	// 	data: {
+	// 		"0x0123": { // Listing hash
+	// 			name: "Name",
+	// 			asset: "https://techcrunch.com/wp-content/uploads/2017/12/screen-shot-2017-12-03-at-5-20-32-pm.png?w=764",
+	// 			description: "Description",
+	// 			status: LISTING_STATUS.ACTIVE, //|PROPOSED|CHALLENGE
+	// 			challengeID: "int"
+	// 		}
+	// 	}
+	// }
 }
 
 // /set/0x0123/listing/0x0123

@@ -9,10 +9,10 @@ import _ from 'lodash';
 
 let INITIAL_STATE = {
   data: {
-    "0xc8c2d8761e63203829372018b978389fb0c3532b": {
+    "0xe46ca7f9cf4dbdd9e649e9200d0821ee241bbaa9": {
       'name': 'Awesome Cryptokitties"',
       'description': 'Really awesome Cryptokitties',
-      'address': '0xc8c2d8761e63203829372018b978389fb0c3532b',
+      'address': '0xe46ca7f9cf4dbdd9e649e9200d0821ee241bbaa9',
       'symbol': 'TTK',
       'tokens': '-'
     }

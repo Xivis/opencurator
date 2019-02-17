@@ -149,7 +149,7 @@ contract SimpleTCR is ITCR20 {
     function apply(bytes32 _listingHash, uint _tokenAmount, string _data) external {
         require(!isWhitelisted(_listingHash));
         require(!appWasMade(_listingHash));
-        require(_tokenAmount >= get("requiredDeposit"));
+        require(_tokenAmount == get("requiredDeposit"));
 
         // Sets owner
         Listing storage listing = listings[_listingHash];
@@ -210,10 +210,6 @@ contract SimpleTCR is ITCR20 {
     */
     function resolveChallenge(bytes32 _listingHash) private {
         uint challengeID = listings[_listingHash].challengeID;
-
-        // Calculates the winner's reward,
-        // which is: (winner's full stake) + (dispensationPct * loser's stake)
-        uint reward = determineReward(challengeID);
 
         // Sets flag on challenge being processed
         challenges[challengeID].resolved = true;
@@ -404,12 +400,12 @@ contract SimpleTCR is ITCR20 {
     * @param _challengeID The voting pollID of the challenge a reward is being claimed for
     */
     function claimChallengeReward(uint _challengeID) public {
-        Challenge storage challenge = challenges[_challengeID];
+        Challenge storage _challenge = challenges[_challengeID];
         require(!challenges[_challengeID].resolved);
 
         // calculates the winning choice
         uint winningChoice;
-        if (challenge.votesFor >= challenge.votesAgainst) {
+        if (_challenge.votesFor >= _challenge.votesAgainst) {
             winningChoice = 0;
         } else {
             winningChoice = 1;
@@ -417,13 +413,13 @@ contract SimpleTCR is ITCR20 {
 
         uint reward = determineReward(_challengeID);
 
-        Listing storage listing = listings[challenge.listingHash];
+        Listing storage listing = listings[_challenge.listingHash];
         address owner = listing.owner;
-        address challenger = challenge.challenger;
+        address challenger = _challenge.challenger;
 
         if (challengeSucceeded(_challengeID) && msg.sender == challenger) {
             // Send to challenger
-            uint stake = challenge.stake;
+            uint stake = _challenge.stake;
 
             // Unlock stake and return it to the applier
             listing.unstakedDeposit = listing.unstakedDeposit.add(stake);
@@ -507,7 +503,7 @@ contract SimpleTCR is ITCR20 {
 
         resetListing(_listingHash);
 
-        emit _ListingExited(_listingHash);
+        emit _ListingExited(_listingHash, 0, _data);
     }
 
     /**
@@ -588,12 +584,12 @@ contract SimpleTCR is ITCR20 {
     * @param _challengeID ID of the challenge
     */
     function challengeReward(address _applierOrChallenger, uint _challengeID) public view returns (uint tokenAmount) {
-        Challenge storage challenge = challenges[_challengeID];
-        require(challenge.resolved == true, "Challenge must be resolved before trying to claim the reward");
+        Challenge storage _challenge = challenges[_challengeID];
+        require(_challenge.resolved == true, "Challenge must be resolved before trying to claim the reward");
 
         uint reward = determineReward(_challengeID);
-        address applier = listings[challenge.listingHash].owner;
-        address challenger = challenge.challenger;
+        address applier = listings[_challenge.listingHash].owner;
+        address challenger = _challenge.challenger;
 
         if(challengeSucceeded(_challengeID) && _applierOrChallenger == challenger){
             return reward;

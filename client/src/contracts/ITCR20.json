@@ -548,9 +548,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.24;\n\nimport \"./zeppelin/IERC20.sol\";\n\ninterface ITCR20 {\n    function name() public view returns(string);\n    function description() public view returns(string);\n    function acceptedDataType() public view returns(string);\n    function applyScheme() public view returns(string);\n    function voteScheme() public view returns(string);\n    function exitScheme() public view returns(string);\n    function tokenScheme() public view returns(string);\n    function token() public view returns(IERC20);\n\n    // Main functions\n    function apply(bytes32 _listingHash, uint _tokenAmount, string _data) external;\n    function getListingData(bytes32 _listingHash) external view returns (string memory jsonData);\n    function challenge(bytes32 _listingHash, uint _tokenAmount, string _data) external returns (uint challengeID);\n    function vote(uint _challengeID, uint _tokenAmount, string _data) external;\n    function claimChallengeReward(uint _challengeID) public;\n    function claimVoterReward(uint _challengeID) public;\n    function exit(bytes32 _listingHash, string _data) external;\n    function updateStatus(bytes32 _listingHash) public;\n\n    // Getters and Helpers functions\n    function getParameter(string pName) public view returns (uint pValue);\n    function isWhitelisted(bytes32 _listingHash) public view returns (bool whitelisted);\n    function challengeExists(bytes32 _listingHash) public view returns (uint lastChallengeID);\n    function challengeCanBeResolved(bytes32 _listingHash) public view returns (bool need);\n    function voterReward(address _voter, uint _challengeID) public view returns (uint tokenAmount);\n    function challengeReward(address _applierOrChallenger, uint _challengeID) public view returns (uint tokenAmount);\n\n    // Events\n    event _Application(bytes32 indexed listingHash, uint deposit, uint appEndDate, address indexed applier, string data);\n    event _Challenge(bytes32 indexed listingHash, uint challengeID, uint voteEndDate, address indexed challenger, string data);\n    event _Vote(uint indexed challengeID, uint numTokens, address indexed voter, string _data);\n    event _ChallengeResolved(bytes32 indexed listingHash, uint indexed challengeID, uint rewardPool, uint totalTokens, bool success);\n    event _ApplicationWhitelisted(bytes32 indexed listingHash);\n    event _ListingExited(bytes32 indexed listingHash, uint voteEndDate, string data);\n}\n\n",
-  "sourcePath": "/home/marto/projects/opencurator/contracts/ITCR20.sol",
+  "sourcePath": "/Users/ramirogonzalez/Xivis/sandbox/blockchain/opencurator/contracts/ITCR20.sol",
   "ast": {
-    "absolutePath": "/home/marto/projects/opencurator/contracts/ITCR20.sol",
+    "absolutePath": "/Users/ramirogonzalez/Xivis/sandbox/blockchain/opencurator/contracts/ITCR20.sol",
     "exportedSymbols": {
       "ITCR20": [
         205
@@ -571,12 +571,12 @@
         "src": "0:24:0"
       },
       {
-        "absolutePath": "/home/marto/projects/opencurator/contracts/zeppelin/IERC20.sol",
+        "absolutePath": "/Users/ramirogonzalez/Xivis/sandbox/blockchain/opencurator/contracts/zeppelin/IERC20.sol",
         "file": "./zeppelin/IERC20.sol",
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 206,
-        "sourceUnit": 2652,
+        "sourceUnit": 2763,
         "src": "26:31:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1017,7 +1017,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC20_$2651",
+                    "typeIdentifier": "t_contract$_IERC20_$2762",
                     "typeString": "contract IERC20"
                   },
                   "typeName": {
@@ -1025,10 +1025,10 @@
                     "id": 39,
                     "name": "IERC20",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2651,
+                    "referencedDeclaration": 2762,
                     "src": "507:6:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20_$2651",
+                      "typeIdentifier": "t_contract$_IERC20_$2762",
                       "typeString": "contract IERC20"
                     }
                   },
@@ -2997,7 +2997,7 @@
     "src": "0:2408:0"
   },
   "legacyAST": {
-    "absolutePath": "/home/marto/projects/opencurator/contracts/ITCR20.sol",
+    "absolutePath": "/Users/ramirogonzalez/Xivis/sandbox/blockchain/opencurator/contracts/ITCR20.sol",
     "exportedSymbols": {
       "ITCR20": [
         205
@@ -3018,12 +3018,12 @@
         "src": "0:24:0"
       },
       {
-        "absolutePath": "/home/marto/projects/opencurator/contracts/zeppelin/IERC20.sol",
+        "absolutePath": "/Users/ramirogonzalez/Xivis/sandbox/blockchain/opencurator/contracts/zeppelin/IERC20.sol",
         "file": "./zeppelin/IERC20.sol",
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 206,
-        "sourceUnit": 2652,
+        "sourceUnit": 2763,
         "src": "26:31:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -3464,7 +3464,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC20_$2651",
+                    "typeIdentifier": "t_contract$_IERC20_$2762",
                     "typeString": "contract IERC20"
                   },
                   "typeName": {
@@ -3472,10 +3472,10 @@
                     "id": 39,
                     "name": "IERC20",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2651,
+                    "referencedDeclaration": 2762,
                     "src": "507:6:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20_$2651",
+                      "typeIdentifier": "t_contract$_IERC20_$2762",
                       "typeString": "contract IERC20"
                     }
                   },
@@ -5449,5 +5449,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2019-02-17T12:41:09.014Z"
+  "updatedAt": "2019-02-17T13:55:36.014Z"
 }

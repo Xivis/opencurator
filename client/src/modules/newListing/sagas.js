@@ -10,18 +10,20 @@ import {abi as abiTCR} from '../../contracts/ITCR20.json';
 import {getState, dispatch} from "../../store";
 import { updateUI } from '../ui/actions';
 import {web3} from '../../utils/getWeb3';
+import {stringEncode} from "../../utils/contracts";
 
 export function* newListingSaga() {
   yield takeEvery(APPLY_REQUEST, handleListingApply)
 }
 
 function* handleListingApply(action) {
+  console.log('Handle listing')
 
   let {registryAddress, listingHash, stake, description} = action.payload
   const account = getState().account
 
-  if (!account.loggedIn || !account.walletAddress ||
-    !web3.utils.isAddress(registryAddress) || !web3.utils.isAddress(listingHash)) {
+  if (!account.loggedIn || !account.walletAddress || !web3.utils.isAddress(registryAddress)) {
+    console.log('failing')
     yield put(applyFailure())
     return false
   }
@@ -30,8 +32,10 @@ function* handleListingApply(action) {
 
   try {
     registry.methods
-      .apply(listingHash, web3.utils.toWei(stake, 'ether'), JSON.stringify({description}))
+      .apply(stringEncode(listingHash), stake, JSON.stringify({description}))
       .send({from: account.walletAddress}, (error, result) => {
+        console.log(error)
+        console.log(result)
         if (error) {
           dispatch(applyFailure())
         } else {

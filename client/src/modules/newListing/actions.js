@@ -4,7 +4,6 @@ export const APPLY_FAILURE = 'Apply - Failure'
 
 
 export const applyRequest = (payload) => {
-  console.log(payload)
   return {
     type: APPLY_REQUEST,
     payload

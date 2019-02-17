@@ -70,8 +70,9 @@ function* handleAddSetRequest(action) {
       tokenAddress,
       tokens: balance,
       allowance,
-      minDeposit: 1000
+      minDeposit: 10 //00
     }
+    console.log(set)
     yield put(addSet(set))
   } catch (e) {
     yield put(addSetFailure(action.payload))

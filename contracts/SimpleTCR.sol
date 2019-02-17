@@ -147,9 +147,9 @@ contract SimpleTCR is ITCR20 {
 
     // Main functions
     function apply(bytes32 _listingHash, uint _tokenAmount, string _data) external {
-        require(!isWhitelisted(_listingHash));
-        require(!appWasMade(_listingHash));
-        require(_tokenAmount == get("requiredDeposit"));
+        require(!isWhitelisted(_listingHash), "ListingHash is already whitelisted");
+        require(!appWasMade(_listingHash), "Application was already made for this listingHash");
+        require(_tokenAmount == get("requiredDeposit"), "Staked tokens must be equal to requiredDeposit");
 
         // Sets owner
         Listing storage listing = listings[_listingHash];
@@ -161,7 +161,7 @@ contract SimpleTCR is ITCR20 {
         listing.unstakedDeposit = _tokenAmount;
 
         // Transfers tokens from user to Registry contract
-        require(_token.transferFrom(listing.owner, this, _tokenAmount));
+        require(_token.transferFrom(listing.owner, this, _tokenAmount), "TransferFrom transaction failed");
 
         emit _Application(_listingHash, _tokenAmount, listing.applicationExpiry, _data, msg.sender);
     }

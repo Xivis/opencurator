@@ -11,12 +11,5 @@ module.exports = async (deployer, network, accounts) => {
 
   deployer.link(ERC20Tradable, SimpleTCR);
 
-  return deployer.deploy(
-      SimpleTCR,
-      'Awesome Cryptokitties"',
-      'Really awesome Cryptokitties',
-      'ERC721',
-      ERC20Tradable.address,
-      [1000, 172800, 172800, 80]
-  );
+  return deployer.deploy(SimpleTCR);
 };

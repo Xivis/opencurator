@@ -81,35 +81,19 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.24;\n\n/**\n * @title Ownable\n * @dev The Ownable contract has an owner address, and provides basic authorization control\n * functions, this simplifies the implementation of \"user permissions\".\n */\ncontract Ownable {\n    address private _owner;\n\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\n\n    /**\n     * @dev The Ownable constructor sets the original `owner` of the contract to the sender\n     * account.\n     */\n    constructor () internal {\n        _owner = msg.sender;\n        emit OwnershipTransferred(address(0), _owner);\n    }\n\n    /**\n     * @return the address of the owner.\n     */\n    function owner() public view returns (address) {\n        return _owner;\n    }\n\n    /**\n     * @dev Throws if called by any account other than the owner.\n     */\n    modifier onlyOwner() {\n        require(isOwner());\n        _;\n    }\n\n    /**\n     * @return true if `msg.sender` is the owner of the contract.\n     */\n    function isOwner() public view returns (bool) {\n        return msg.sender == _owner;\n    }\n\n    /**\n     * @dev Allows the current owner to relinquish control of the contract.\n     * @notice Renouncing to ownership will leave the contract without an owner.\n     * It will not be possible to call the functions with the `onlyOwner`\n     * modifier anymore.\n     */\n    function renounceOwnership() public onlyOwner {\n        emit OwnershipTransferred(_owner, address(0));\n        _owner = address(0);\n    }\n\n    /**\n     * @dev Allows the current owner to transfer control of the contract to a newOwner.\n     * @param newOwner The address to transfer ownership to.\n     */\n    function transferOwnership(address newOwner) public onlyOwner {\n        _transferOwnership(newOwner);\n    }\n\n    /**\n     * @dev Transfers control of the contract to a newOwner.\n     * @param newOwner The address to transfer ownership to.\n     */\n    function _transferOwnership(address newOwner) internal {\n        require(newOwner != address(0));\n        emit OwnershipTransferred(_owner, newOwner);\n        _owner = newOwner;\n    }\n}\n",
-<<<<<<< Updated upstream
-  "sourcePath": "/Users/agustinferreira/Projects/xivis/opencurator/contracts/zeppelin/Ownable.sol",
-  "ast": {
-    "absolutePath": "/Users/agustinferreira/Projects/xivis/opencurator/contracts/zeppelin/Ownable.sol",
-    "exportedSymbols": {
-      "Ownable": [
-        2574
-      ]
-    },
-    "id": 2575,
-    "nodeType": "SourceUnit",
-    "nodes": [
-      {
-        "id": 2467,
-=======
   "sourcePath": "/home/marto/projects/opencurator/contracts/zeppelin/Ownable.sol",
   "ast": {
     "absolutePath": "/home/marto/projects/opencurator/contracts/zeppelin/Ownable.sol",
     "exportedSymbols": {
       "Ownable": [
-        2563
+        2632
       ]
     },
-    "id": 2564,
+    "id": 2633,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2456,
->>>>>>> Stashed changes
+        "id": 2525,
         "literals": [
           "solidity",
           "^",
@@ -117,11 +101,7 @@
           ".24"
         ],
         "nodeType": "PragmaDirective",
-<<<<<<< Updated upstream
-        "src": "0:24:7"
-=======
         "src": "0:24:8"
->>>>>>> Stashed changes
       },
       {
         "baseContracts": [],
@@ -129,34 +109,20 @@
         "contractKind": "contract",
         "documentation": "@title Ownable\n@dev The Ownable contract has an owner address, and provides basic authorization control\nfunctions, this simplifies the implementation of \"user permissions\".",
         "fullyImplemented": true,
-<<<<<<< Updated upstream
-        "id": 2574,
+        "id": 2632,
         "linearizedBaseContracts": [
-          2574
-=======
-        "id": 2563,
-        "linearizedBaseContracts": [
-          2563
->>>>>>> Stashed changes
+          2632
         ],
         "name": "Ownable",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-<<<<<<< Updated upstream
-            "id": 2469,
+            "id": 2527,
             "name": "_owner",
             "nodeType": "VariableDeclaration",
-            "scope": 2574,
-            "src": "239:22:7",
-=======
-            "id": 2458,
-            "name": "_owner",
-            "nodeType": "VariableDeclaration",
-            "scope": 2563,
+            "scope": 2632,
             "src": "239:22:8",
->>>>>>> Stashed changes
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -164,17 +130,10 @@
               "typeString": "address"
             },
             "typeName": {
-<<<<<<< Updated upstream
-              "id": 2468,
-              "name": "address",
-              "nodeType": "ElementaryTypeName",
-              "src": "239:7:7",
-=======
-              "id": 2457,
+              "id": 2526,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "239:7:8",
->>>>>>> Stashed changes
               "typeDescriptions": {
                 "typeIdentifier": "t_address",
                 "typeString": "address"
@@ -186,38 +145,21 @@
           {
             "anonymous": false,
             "documentation": null,
-<<<<<<< Updated upstream
-            "id": 2475,
+            "id": 2533,
             "name": "OwnershipTransferred",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 2474,
-=======
-            "id": 2464,
-            "name": "OwnershipTransferred",
-            "nodeType": "EventDefinition",
-            "parameters": {
-              "id": 2463,
->>>>>>> Stashed changes
+              "id": 2532,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2471,
+                  "id": 2529,
                   "indexed": true,
                   "name": "previousOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2475,
-                  "src": "295:29:7",
-=======
-                  "id": 2460,
-                  "indexed": true,
-                  "name": "previousOwner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2464,
+                  "scope": 2533,
                   "src": "295:29:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -225,17 +167,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2470,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "295:7:7",
-=======
-                    "id": 2459,
+                    "id": 2528,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "295:7:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -246,21 +181,12 @@
                 },
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2473,
+                  "id": 2531,
                   "indexed": true,
                   "name": "newOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2475,
-                  "src": "326:24:7",
-=======
-                  "id": 2462,
-                  "indexed": true,
-                  "name": "newOwner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2464,
+                  "scope": 2533,
                   "src": "326:24:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -268,17 +194,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2472,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "326:7:7",
-=======
-                    "id": 2461,
+                    "id": 2530,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "326:7:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -288,57 +207,32 @@
                   "visibility": "internal"
                 }
               ],
-<<<<<<< Updated upstream
-              "src": "294:57:7"
-            },
-            "src": "268:84:7"
-          },
-          {
-            "body": {
-              "id": 2490,
-              "nodeType": "Block",
-              "src": "506:91:7",
-=======
               "src": "294:57:8"
             },
             "src": "268:84:8"
           },
           {
             "body": {
-              "id": 2479,
+              "id": 2548,
               "nodeType": "Block",
               "src": "506:91:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-<<<<<<< Updated upstream
-                    "id": 2481,
-=======
-                    "id": 2470,
->>>>>>> Stashed changes
+                    "id": 2539,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-<<<<<<< Updated upstream
-                      "id": 2478,
+                      "id": 2536,
                       "name": "_owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2469,
-                      "src": "516:6:7",
-=======
-                      "id": 2467,
-                      "name": "_owner",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2458,
+                      "referencedDeclaration": 2527,
                       "src": "516:6:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -350,31 +244,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2479,
+                        "id": 2537,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2717,
-                        "src": "525:3:7",
-=======
-                        "id": 2468,
-                        "name": "msg",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2706,
+                        "referencedDeclaration": 2775,
                         "src": "525:3:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-<<<<<<< Updated upstream
-                      "id": 2480,
-=======
-                      "id": 2469,
->>>>>>> Stashed changes
+                      "id": 2538,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -382,35 +263,21 @@
                       "memberName": "sender",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-<<<<<<< Updated upstream
-                      "src": "525:10:7",
-=======
                       "src": "525:10:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-<<<<<<< Updated upstream
-                    "src": "516:19:7",
-=======
                     "src": "516:19:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2482,
-                  "nodeType": "ExpressionStatement",
-                  "src": "516:19:7"
-=======
-                  "id": 2471,
+                  "id": 2540,
                   "nodeType": "ExpressionStatement",
                   "src": "516:19:8"
->>>>>>> Stashed changes
                 },
                 {
                   "eventCall": {
@@ -422,22 +289,14 @@
                           {
                             "argumentTypes": null,
                             "hexValue": "30",
-<<<<<<< Updated upstream
-                            "id": 2485,
-=======
-                            "id": 2474,
->>>>>>> Stashed changes
+                            "id": 2543,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "kind": "number",
                             "lValueRequested": false,
                             "nodeType": "Literal",
-<<<<<<< Updated upstream
-                            "src": "579:1:7",
-=======
                             "src": "579:1:8",
->>>>>>> Stashed changes
                             "subdenomination": null,
                             "typeDescriptions": {
                               "typeIdentifier": "t_rational_0_by_1",
@@ -453,32 +312,20 @@
                               "typeString": "int_const 0"
                             }
                           ],
-<<<<<<< Updated upstream
-                          "id": 2484,
-=======
-                          "id": 2473,
->>>>>>> Stashed changes
+                          "id": 2542,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
                           "nodeType": "ElementaryTypeNameExpression",
-<<<<<<< Updated upstream
-                          "src": "571:7:7",
-=======
                           "src": "571:7:8",
->>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_type$_t_address_$",
                             "typeString": "type(address)"
                           },
                           "typeName": "address"
                         },
-<<<<<<< Updated upstream
-                        "id": 2486,
-=======
-                        "id": 2475,
->>>>>>> Stashed changes
+                        "id": 2544,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -486,11 +333,7 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                        "src": "571:10:7",
-=======
                         "src": "571:10:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -498,21 +341,12 @@
                       },
                       {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2487,
+                        "id": 2545,
                         "name": "_owner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2469,
-                        "src": "583:6:7",
-=======
-                        "id": 2476,
-                        "name": "_owner",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2458,
+                        "referencedDeclaration": 2527,
                         "src": "583:6:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -530,31 +364,18 @@
                           "typeString": "address"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2483,
+                      "id": 2541,
                       "name": "OwnershipTransferred",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2475,
-                      "src": "550:20:7",
-=======
-                      "id": 2472,
-                      "name": "OwnershipTransferred",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2464,
+                      "referencedDeclaration": 2533,
                       "src": "550:20:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$returns$__$",
                         "typeString": "function (address,address)"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2488,
-=======
-                    "id": 2477,
->>>>>>> Stashed changes
+                    "id": 2546,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -562,34 +383,20 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "550:40:7",
-=======
                     "src": "550:40:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2489,
-                  "nodeType": "EmitStatement",
-                  "src": "545:45:7"
-=======
-                  "id": 2478,
+                  "id": 2547,
                   "nodeType": "EmitStatement",
                   "src": "545:45:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@dev The Ownable constructor sets the original `owner` of the contract to the sender\naccount.",
-<<<<<<< Updated upstream
-            "id": 2491,
-=======
-            "id": 2480,
->>>>>>> Stashed changes
+            "id": 2549,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -597,96 +404,53 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2476,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "494:2:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2477,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "506:0:7"
-            },
-            "scope": 2574,
-            "src": "482:115:7",
-=======
-              "id": 2465,
+              "id": 2534,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "494:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2466,
+              "id": 2535,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "506:0:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "482:115:8",
->>>>>>> Stashed changes
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2498,
-              "nodeType": "Block",
-              "src": "707:30:7",
-=======
-              "id": 2487,
+              "id": 2556,
               "nodeType": "Block",
               "src": "707:30:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-<<<<<<< Updated upstream
-                    "id": 2496,
+                    "id": 2554,
                     "name": "_owner",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 2469,
-                    "src": "724:6:7",
-=======
-                    "id": 2485,
-                    "name": "_owner",
-                    "nodeType": "Identifier",
-                    "overloadedDeclarations": [],
-                    "referencedDeclaration": 2458,
+                    "referencedDeclaration": 2527,
                     "src": "724:6:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-<<<<<<< Updated upstream
-                  "functionReturnParameters": 2495,
-                  "id": 2497,
-                  "nodeType": "Return",
-                  "src": "717:13:7"
-=======
-                  "functionReturnParameters": 2484,
-                  "id": 2486,
+                  "functionReturnParameters": 2553,
+                  "id": 2555,
                   "nodeType": "Return",
                   "src": "717:13:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@return the address of the owner.",
-<<<<<<< Updated upstream
-            "id": 2499,
-=======
-            "id": 2488,
->>>>>>> Stashed changes
+            "id": 2557,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -694,42 +458,23 @@
             "name": "owner",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2492,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "674:2:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2495,
-=======
-              "id": 2481,
+              "id": 2550,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "674:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2484,
->>>>>>> Stashed changes
+              "id": 2553,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2494,
+                  "id": 2552,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2499,
-                  "src": "698:7:7",
-=======
-                  "id": 2483,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2488,
+                  "scope": 2557,
                   "src": "698:7:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -737,17 +482,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2493,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "698:7:7",
-=======
-                    "id": 2482,
+                    "id": 2551,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "698:7:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -757,32 +495,19 @@
                   "visibility": "internal"
                 }
               ],
-<<<<<<< Updated upstream
-              "src": "697:9:7"
-            },
-            "scope": 2574,
-            "src": "660:77:7",
-=======
               "src": "697:9:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "660:77:8",
->>>>>>> Stashed changes
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2507,
-              "nodeType": "Block",
-              "src": "846:46:7",
-=======
-              "id": 2496,
+              "id": 2565,
               "nodeType": "Block",
               "src": "846:46:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
@@ -793,31 +518,18 @@
                         "arguments": [],
                         "expression": {
                           "argumentTypes": [],
-<<<<<<< Updated upstream
-                          "id": 2502,
+                          "id": 2560,
                           "name": "isOwner",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2519,
-                          "src": "864:7:7",
-=======
-                          "id": 2491,
-                          "name": "isOwner",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 2508,
+                          "referencedDeclaration": 2577,
                           "src": "864:7:8",
->>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_view$__$returns$_t_bool_$",
                             "typeString": "function () view returns (bool)"
                           }
                         },
-<<<<<<< Updated upstream
-                        "id": 2503,
-=======
-                        "id": 2492,
->>>>>>> Stashed changes
+                        "id": 2561,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -825,11 +537,7 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                        "src": "864:9:7",
-=======
                         "src": "864:9:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -843,37 +551,21 @@
                           "typeString": "bool"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2501,
+                      "id": 2559,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2720,
-                        2721
+                        2778,
+                        2779
                       ],
-                      "referencedDeclaration": 2720,
-                      "src": "856:7:7",
-=======
-                      "id": 2490,
-                      "name": "require",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        2709,
-                        2710
-                      ],
-                      "referencedDeclaration": 2709,
+                      "referencedDeclaration": 2778,
                       "src": "856:7:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2504,
-=======
-                    "id": 2493,
->>>>>>> Stashed changes
+                    "id": 2562,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -881,75 +573,41 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "856:18:7",
-=======
                     "src": "856:18:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2505,
-                  "nodeType": "ExpressionStatement",
-                  "src": "856:18:7"
-                },
-                {
-                  "id": 2506,
-                  "nodeType": "PlaceholderStatement",
-                  "src": "884:1:7"
-=======
-                  "id": 2494,
+                  "id": 2563,
                   "nodeType": "ExpressionStatement",
                   "src": "856:18:8"
                 },
                 {
-                  "id": 2495,
+                  "id": 2564,
                   "nodeType": "PlaceholderStatement",
                   "src": "884:1:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@dev Throws if called by any account other than the owner.",
-<<<<<<< Updated upstream
-            "id": 2508,
+            "id": 2566,
             "name": "onlyOwner",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 2500,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "843:2:7"
-            },
-            "src": "825:67:7",
-=======
-            "id": 2497,
-            "name": "onlyOwner",
-            "nodeType": "ModifierDefinition",
-            "parameters": {
-              "id": 2489,
+              "id": 2558,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "843:2:8"
             },
             "src": "825:67:8",
->>>>>>> Stashed changes
             "visibility": "internal"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2518,
-              "nodeType": "Block",
-              "src": "1026:44:7",
-=======
-              "id": 2507,
+              "id": 2576,
               "nodeType": "Block",
               "src": "1026:44:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
@@ -958,11 +616,7 @@
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     },
-<<<<<<< Updated upstream
-                    "id": 2516,
-=======
-                    "id": 2505,
->>>>>>> Stashed changes
+                    "id": 2574,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -971,31 +625,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2513,
+                        "id": 2571,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2717,
-                        "src": "1043:3:7",
-=======
-                        "id": 2502,
-                        "name": "msg",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2706,
+                        "referencedDeclaration": 2775,
                         "src": "1043:3:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-<<<<<<< Updated upstream
-                      "id": 2514,
-=======
-                      "id": 2503,
->>>>>>> Stashed changes
+                      "id": 2572,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1003,11 +644,7 @@
                       "memberName": "sender",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-<<<<<<< Updated upstream
-                      "src": "1043:10:7",
-=======
                       "src": "1043:10:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -1017,56 +654,32 @@
                     "operator": "==",
                     "rightExpression": {
                       "argumentTypes": null,
-<<<<<<< Updated upstream
-                      "id": 2515,
+                      "id": 2573,
                       "name": "_owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2469,
-                      "src": "1057:6:7",
-=======
-                      "id": 2504,
-                      "name": "_owner",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2458,
+                      "referencedDeclaration": 2527,
                       "src": "1057:6:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-<<<<<<< Updated upstream
-                    "src": "1043:20:7",
-=======
                     "src": "1043:20:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-<<<<<<< Updated upstream
-                  "functionReturnParameters": 2512,
-                  "id": 2517,
-                  "nodeType": "Return",
-                  "src": "1036:27:7"
-=======
-                  "functionReturnParameters": 2501,
-                  "id": 2506,
+                  "functionReturnParameters": 2570,
+                  "id": 2575,
                   "nodeType": "Return",
                   "src": "1036:27:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@return true if `msg.sender` is the owner of the contract.",
-<<<<<<< Updated upstream
-            "id": 2519,
-=======
-            "id": 2508,
->>>>>>> Stashed changes
+            "id": 2577,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -1074,42 +687,23 @@
             "name": "isOwner",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2509,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "996:2:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2512,
-=======
-              "id": 2498,
+              "id": 2567,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "996:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2501,
->>>>>>> Stashed changes
+              "id": 2570,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2511,
+                  "id": 2569,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2519,
-                  "src": "1020:4:7",
-=======
-                  "id": 2500,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2508,
+                  "scope": 2577,
                   "src": "1020:4:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1117,17 +711,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2510,
-                    "name": "bool",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1020:4:7",
-=======
-                    "id": 2499,
+                    "id": 2568,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "1020:4:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -1137,32 +724,19 @@
                   "visibility": "internal"
                 }
               ],
-<<<<<<< Updated upstream
-              "src": "1019:6:7"
-            },
-            "scope": 2574,
-            "src": "980:90:7",
-=======
               "src": "1019:6:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "980:90:8",
->>>>>>> Stashed changes
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2537,
-              "nodeType": "Block",
-              "src": "1394:91:7",
-=======
-              "id": 2526,
+              "id": 2595,
               "nodeType": "Block",
               "src": "1394:91:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "eventCall": {
@@ -1170,21 +744,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2525,
+                        "id": 2583,
                         "name": "_owner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2469,
-                        "src": "1430:6:7",
-=======
-                        "id": 2514,
-                        "name": "_owner",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2458,
+                        "referencedDeclaration": 2527,
                         "src": "1430:6:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -1196,22 +761,14 @@
                           {
                             "argumentTypes": null,
                             "hexValue": "30",
-<<<<<<< Updated upstream
-                            "id": 2527,
-=======
-                            "id": 2516,
->>>>>>> Stashed changes
+                            "id": 2585,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "kind": "number",
                             "lValueRequested": false,
                             "nodeType": "Literal",
-<<<<<<< Updated upstream
-                            "src": "1446:1:7",
-=======
                             "src": "1446:1:8",
->>>>>>> Stashed changes
                             "subdenomination": null,
                             "typeDescriptions": {
                               "typeIdentifier": "t_rational_0_by_1",
@@ -1227,32 +784,20 @@
                               "typeString": "int_const 0"
                             }
                           ],
-<<<<<<< Updated upstream
-                          "id": 2526,
-=======
-                          "id": 2515,
->>>>>>> Stashed changes
+                          "id": 2584,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
                           "nodeType": "ElementaryTypeNameExpression",
-<<<<<<< Updated upstream
-                          "src": "1438:7:7",
-=======
                           "src": "1438:7:8",
->>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_type$_t_address_$",
                             "typeString": "type(address)"
                           },
                           "typeName": "address"
                         },
-<<<<<<< Updated upstream
-                        "id": 2528,
-=======
-                        "id": 2517,
->>>>>>> Stashed changes
+                        "id": 2586,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -1260,11 +805,7 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                        "src": "1438:10:7",
-=======
                         "src": "1438:10:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -1282,31 +823,18 @@
                           "typeString": "address"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2524,
+                      "id": 2582,
                       "name": "OwnershipTransferred",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2475,
-                      "src": "1409:20:7",
-=======
-                      "id": 2513,
-                      "name": "OwnershipTransferred",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2464,
+                      "referencedDeclaration": 2533,
                       "src": "1409:20:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$returns$__$",
                         "typeString": "function (address,address)"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2529,
-=======
-                    "id": 2518,
->>>>>>> Stashed changes
+                    "id": 2587,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1314,55 +842,32 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "1409:40:7",
-=======
                     "src": "1409:40:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2530,
-                  "nodeType": "EmitStatement",
-                  "src": "1404:45:7"
-=======
-                  "id": 2519,
+                  "id": 2588,
                   "nodeType": "EmitStatement",
                   "src": "1404:45:8"
->>>>>>> Stashed changes
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-<<<<<<< Updated upstream
-                    "id": 2535,
-=======
-                    "id": 2524,
->>>>>>> Stashed changes
+                    "id": 2593,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-<<<<<<< Updated upstream
-                      "id": 2531,
+                      "id": 2589,
                       "name": "_owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2469,
-                      "src": "1459:6:7",
-=======
-                      "id": 2520,
-                      "name": "_owner",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2458,
+                      "referencedDeclaration": 2527,
                       "src": "1459:6:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -1376,22 +881,14 @@
                         {
                           "argumentTypes": null,
                           "hexValue": "30",
-<<<<<<< Updated upstream
-                          "id": 2533,
-=======
-                          "id": 2522,
->>>>>>> Stashed changes
+                          "id": 2591,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "kind": "number",
                           "lValueRequested": false,
                           "nodeType": "Literal",
-<<<<<<< Updated upstream
-                          "src": "1476:1:7",
-=======
                           "src": "1476:1:8",
->>>>>>> Stashed changes
                           "subdenomination": null,
                           "typeDescriptions": {
                             "typeIdentifier": "t_rational_0_by_1",
@@ -1407,32 +904,20 @@
                             "typeString": "int_const 0"
                           }
                         ],
-<<<<<<< Updated upstream
-                        "id": 2532,
-=======
-                        "id": 2521,
->>>>>>> Stashed changes
+                        "id": 2590,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "lValueRequested": false,
                         "nodeType": "ElementaryTypeNameExpression",
-<<<<<<< Updated upstream
-                        "src": "1468:7:7",
-=======
                         "src": "1468:7:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_type$_t_address_$",
                           "typeString": "type(address)"
                         },
                         "typeName": "address"
                       },
-<<<<<<< Updated upstream
-                      "id": 2534,
-=======
-                      "id": 2523,
->>>>>>> Stashed changes
+                      "id": 2592,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -1440,133 +925,76 @@
                       "lValueRequested": false,
                       "names": [],
                       "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                      "src": "1468:10:7",
-=======
                       "src": "1468:10:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-<<<<<<< Updated upstream
-                    "src": "1459:19:7",
-=======
                     "src": "1459:19:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2536,
-                  "nodeType": "ExpressionStatement",
-                  "src": "1459:19:7"
-=======
-                  "id": 2525,
+                  "id": 2594,
                   "nodeType": "ExpressionStatement",
                   "src": "1459:19:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@dev Allows the current owner to relinquish control of the contract.\n@notice Renouncing to ownership will leave the contract without an owner.\nIt will not be possible to call the functions with the `onlyOwner`\nmodifier anymore.",
-<<<<<<< Updated upstream
-            "id": 2538,
-=======
-            "id": 2527,
->>>>>>> Stashed changes
+            "id": 2596,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": null,
-<<<<<<< Updated upstream
-                "id": 2522,
+                "id": 2580,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 2521,
+                  "id": 2579,
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2508,
-                  "src": "1384:9:7",
-=======
-                "id": 2511,
-                "modifierName": {
-                  "argumentTypes": null,
-                  "id": 2510,
-                  "name": "onlyOwner",
-                  "nodeType": "Identifier",
-                  "overloadedDeclarations": [],
-                  "referencedDeclaration": 2497,
+                  "referencedDeclaration": 2566,
                   "src": "1384:9:8",
->>>>>>> Stashed changes
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
                     "typeString": "modifier ()"
                   }
                 },
                 "nodeType": "ModifierInvocation",
-<<<<<<< Updated upstream
-                "src": "1384:9:7"
-=======
                 "src": "1384:9:8"
->>>>>>> Stashed changes
               }
             ],
             "name": "renounceOwnership",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2520,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "1374:2:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2523,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "1394:0:7"
-            },
-            "scope": 2574,
-            "src": "1348:137:7",
-=======
-              "id": 2509,
+              "id": 2578,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1374:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2512,
+              "id": 2581,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1394:0:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "1348:137:8",
->>>>>>> Stashed changes
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2549,
-              "nodeType": "Block",
-              "src": "1718:45:7",
-=======
-              "id": 2538,
+              "id": 2607,
               "nodeType": "Block",
               "src": "1718:45:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
@@ -1574,21 +1002,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2546,
+                        "id": 2604,
                         "name": "newOwner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2540,
-                        "src": "1747:8:7",
-=======
-                        "id": 2535,
-                        "name": "newOwner",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2529,
+                        "referencedDeclaration": 2598,
                         "src": "1747:8:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -1602,31 +1021,18 @@
                           "typeString": "address"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2545,
+                      "id": 2603,
                       "name": "_transferOwnership",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2573,
-                      "src": "1728:18:7",
-=======
-                      "id": 2534,
-                      "name": "_transferOwnership",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2562,
+                      "referencedDeclaration": 2631,
                       "src": "1728:18:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2547,
-=======
-                    "id": 2536,
->>>>>>> Stashed changes
+                    "id": 2605,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1634,99 +1040,57 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "1728:28:7",
-=======
                     "src": "1728:28:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2548,
-                  "nodeType": "ExpressionStatement",
-                  "src": "1728:28:7"
-=======
-                  "id": 2537,
+                  "id": 2606,
                   "nodeType": "ExpressionStatement",
                   "src": "1728:28:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@dev Allows the current owner to transfer control of the contract to a newOwner.\n@param newOwner The address to transfer ownership to.",
-<<<<<<< Updated upstream
-            "id": 2550,
-=======
-            "id": 2539,
->>>>>>> Stashed changes
+            "id": 2608,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": null,
-<<<<<<< Updated upstream
-                "id": 2543,
+                "id": 2601,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 2542,
+                  "id": 2600,
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2508,
-                  "src": "1708:9:7",
-=======
-                "id": 2532,
-                "modifierName": {
-                  "argumentTypes": null,
-                  "id": 2531,
-                  "name": "onlyOwner",
-                  "nodeType": "Identifier",
-                  "overloadedDeclarations": [],
-                  "referencedDeclaration": 2497,
+                  "referencedDeclaration": 2566,
                   "src": "1708:9:8",
->>>>>>> Stashed changes
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
                     "typeString": "modifier ()"
                   }
                 },
                 "nodeType": "ModifierInvocation",
-<<<<<<< Updated upstream
-                "src": "1708:9:7"
-=======
                 "src": "1708:9:8"
->>>>>>> Stashed changes
               }
             ],
             "name": "transferOwnership",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2541,
-=======
-              "id": 2530,
->>>>>>> Stashed changes
+              "id": 2599,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2540,
+                  "id": 2598,
                   "name": "newOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2550,
-                  "src": "1683:16:7",
-=======
-                  "id": 2529,
-                  "name": "newOwner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2539,
+                  "scope": 2608,
                   "src": "1683:16:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1734,17 +1098,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2539,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1683:7:7",
-=======
-                    "id": 2528,
+                    "id": 2597,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1683:7:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -1754,46 +1111,26 @@
                   "visibility": "internal"
                 }
               ],
-<<<<<<< Updated upstream
-              "src": "1682:18:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2544,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "1718:0:7"
-            },
-            "scope": 2574,
-            "src": "1656:107:7",
-=======
               "src": "1682:18:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2533,
+              "id": 2602,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1718:0:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "1656:107:8",
->>>>>>> Stashed changes
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2572,
-              "nodeType": "Block",
-              "src": "1962:128:7",
-=======
-              "id": 2561,
+              "id": 2630,
               "nodeType": "Block",
               "src": "1962:128:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
@@ -1805,32 +1142,19 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-<<<<<<< Updated upstream
-                        "id": 2560,
-=======
-                        "id": 2549,
->>>>>>> Stashed changes
+                        "id": 2618,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "argumentTypes": null,
-<<<<<<< Updated upstream
-                          "id": 2556,
+                          "id": 2614,
                           "name": "newOwner",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2552,
-                          "src": "1980:8:7",
-=======
-                          "id": 2545,
-                          "name": "newOwner",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 2541,
+                          "referencedDeclaration": 2610,
                           "src": "1980:8:8",
->>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -1844,22 +1168,14 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "30",
-<<<<<<< Updated upstream
-                              "id": 2558,
-=======
-                              "id": 2547,
->>>>>>> Stashed changes
+                              "id": 2616,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
                               "kind": "number",
                               "lValueRequested": false,
                               "nodeType": "Literal",
-<<<<<<< Updated upstream
-                              "src": "2000:1:7",
-=======
                               "src": "2000:1:8",
->>>>>>> Stashed changes
                               "subdenomination": null,
                               "typeDescriptions": {
                                 "typeIdentifier": "t_rational_0_by_1",
@@ -1875,32 +1191,20 @@
                                 "typeString": "int_const 0"
                               }
                             ],
-<<<<<<< Updated upstream
-                            "id": 2557,
-=======
-                            "id": 2546,
->>>>>>> Stashed changes
+                            "id": 2615,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "lValueRequested": false,
                             "nodeType": "ElementaryTypeNameExpression",
-<<<<<<< Updated upstream
-                            "src": "1992:7:7",
-=======
                             "src": "1992:7:8",
->>>>>>> Stashed changes
                             "typeDescriptions": {
                               "typeIdentifier": "t_type$_t_address_$",
                               "typeString": "type(address)"
                             },
                             "typeName": "address"
                           },
-<<<<<<< Updated upstream
-                          "id": 2559,
-=======
-                          "id": 2548,
->>>>>>> Stashed changes
+                          "id": 2617,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -1908,21 +1212,13 @@
                           "lValueRequested": false,
                           "names": [],
                           "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                          "src": "1992:10:7",
-=======
                           "src": "1992:10:8",
->>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
                           }
                         },
-<<<<<<< Updated upstream
-                        "src": "1980:22:7",
-=======
                         "src": "1980:22:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -1936,37 +1232,21 @@
                           "typeString": "bool"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2555,
+                      "id": 2613,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2720,
-                        2721
+                        2778,
+                        2779
                       ],
-                      "referencedDeclaration": 2720,
-                      "src": "1972:7:7",
-=======
-                      "id": 2544,
-                      "name": "require",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        2709,
-                        2710
-                      ],
-                      "referencedDeclaration": 2709,
+                      "referencedDeclaration": 2778,
                       "src": "1972:7:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2561,
-=======
-                    "id": 2550,
->>>>>>> Stashed changes
+                    "id": 2619,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1974,25 +1254,15 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "1972:31:7",
-=======
                     "src": "1972:31:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2562,
-                  "nodeType": "ExpressionStatement",
-                  "src": "1972:31:7"
-=======
-                  "id": 2551,
+                  "id": 2620,
                   "nodeType": "ExpressionStatement",
                   "src": "1972:31:8"
->>>>>>> Stashed changes
                 },
                 {
                   "eventCall": {
@@ -2000,21 +1270,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2564,
+                        "id": 2622,
                         "name": "_owner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2469,
-                        "src": "2039:6:7",
-=======
-                        "id": 2553,
-                        "name": "_owner",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2458,
+                        "referencedDeclaration": 2527,
                         "src": "2039:6:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -2022,21 +1283,12 @@
                       },
                       {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2565,
+                        "id": 2623,
                         "name": "newOwner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2552,
-                        "src": "2047:8:7",
-=======
-                        "id": 2554,
-                        "name": "newOwner",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2541,
+                        "referencedDeclaration": 2610,
                         "src": "2047:8:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -2054,31 +1306,18 @@
                           "typeString": "address"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2563,
+                      "id": 2621,
                       "name": "OwnershipTransferred",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2475,
-                      "src": "2018:20:7",
-=======
-                      "id": 2552,
-                      "name": "OwnershipTransferred",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2464,
+                      "referencedDeclaration": 2533,
                       "src": "2018:20:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$returns$__$",
                         "typeString": "function (address,address)"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2566,
-=======
-                    "id": 2555,
->>>>>>> Stashed changes
+                    "id": 2624,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2086,55 +1325,32 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "2018:38:7",
-=======
                     "src": "2018:38:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2567,
-                  "nodeType": "EmitStatement",
-                  "src": "2013:43:7"
-=======
-                  "id": 2556,
+                  "id": 2625,
                   "nodeType": "EmitStatement",
                   "src": "2013:43:8"
->>>>>>> Stashed changes
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-<<<<<<< Updated upstream
-                    "id": 2570,
-=======
-                    "id": 2559,
->>>>>>> Stashed changes
+                    "id": 2628,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-<<<<<<< Updated upstream
-                      "id": 2568,
+                      "id": 2626,
                       "name": "_owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2469,
-                      "src": "2066:6:7",
-=======
-                      "id": 2557,
-                      "name": "_owner",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2458,
+                      "referencedDeclaration": 2527,
                       "src": "2066:6:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -2144,54 +1360,31 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-<<<<<<< Updated upstream
-                      "id": 2569,
+                      "id": 2627,
                       "name": "newOwner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2552,
-                      "src": "2075:8:7",
-=======
-                      "id": 2558,
-                      "name": "newOwner",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2541,
+                      "referencedDeclaration": 2610,
                       "src": "2075:8:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-<<<<<<< Updated upstream
-                    "src": "2066:17:7",
-=======
                     "src": "2066:17:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2571,
-                  "nodeType": "ExpressionStatement",
-                  "src": "2066:17:7"
-=======
-                  "id": 2560,
+                  "id": 2629,
                   "nodeType": "ExpressionStatement",
                   "src": "2066:17:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@dev Transfers control of the contract to a newOwner.\n@param newOwner The address to transfer ownership to.",
-<<<<<<< Updated upstream
-            "id": 2573,
-=======
-            "id": 2562,
->>>>>>> Stashed changes
+            "id": 2631,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -2199,28 +1392,16 @@
             "name": "_transferOwnership",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2553,
-=======
-              "id": 2542,
->>>>>>> Stashed changes
+              "id": 2611,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2552,
+                  "id": 2610,
                   "name": "newOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2573,
-                  "src": "1935:16:7",
-=======
-                  "id": 2541,
-                  "name": "newOwner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2562,
+                  "scope": 2631,
                   "src": "1935:16:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2228,17 +1409,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2551,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1935:7:7",
-=======
-                    "id": 2540,
+                    "id": 2609,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1935:7:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -2248,57 +1422,23 @@
                   "visibility": "internal"
                 }
               ],
-<<<<<<< Updated upstream
-              "src": "1934:18:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2554,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "1962:0:7"
-            },
-            "scope": 2574,
-            "src": "1907:183:7",
-=======
               "src": "1934:18:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2543,
+              "id": 2612,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1962:0:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "1907:183:8",
->>>>>>> Stashed changes
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-<<<<<<< Updated upstream
-        "scope": 2575,
-        "src": "216:1876:7"
-      }
-    ],
-    "src": "0:2093:7"
-  },
-  "legacyAST": {
-    "absolutePath": "/Users/agustinferreira/Projects/xivis/opencurator/contracts/zeppelin/Ownable.sol",
-    "exportedSymbols": {
-      "Ownable": [
-        2574
-      ]
-    },
-    "id": 2575,
-    "nodeType": "SourceUnit",
-    "nodes": [
-      {
-        "id": 2467,
-=======
-        "scope": 2564,
+        "scope": 2633,
         "src": "216:1876:8"
       }
     ],
@@ -2308,15 +1448,14 @@
     "absolutePath": "/home/marto/projects/opencurator/contracts/zeppelin/Ownable.sol",
     "exportedSymbols": {
       "Ownable": [
-        2563
+        2632
       ]
     },
-    "id": 2564,
+    "id": 2633,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2456,
->>>>>>> Stashed changes
+        "id": 2525,
         "literals": [
           "solidity",
           "^",
@@ -2324,11 +1463,7 @@
           ".24"
         ],
         "nodeType": "PragmaDirective",
-<<<<<<< Updated upstream
-        "src": "0:24:7"
-=======
         "src": "0:24:8"
->>>>>>> Stashed changes
       },
       {
         "baseContracts": [],
@@ -2336,34 +1471,20 @@
         "contractKind": "contract",
         "documentation": "@title Ownable\n@dev The Ownable contract has an owner address, and provides basic authorization control\nfunctions, this simplifies the implementation of \"user permissions\".",
         "fullyImplemented": true,
-<<<<<<< Updated upstream
-        "id": 2574,
+        "id": 2632,
         "linearizedBaseContracts": [
-          2574
-=======
-        "id": 2563,
-        "linearizedBaseContracts": [
-          2563
->>>>>>> Stashed changes
+          2632
         ],
         "name": "Ownable",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-<<<<<<< Updated upstream
-            "id": 2469,
+            "id": 2527,
             "name": "_owner",
             "nodeType": "VariableDeclaration",
-            "scope": 2574,
-            "src": "239:22:7",
-=======
-            "id": 2458,
-            "name": "_owner",
-            "nodeType": "VariableDeclaration",
-            "scope": 2563,
+            "scope": 2632,
             "src": "239:22:8",
->>>>>>> Stashed changes
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2371,17 +1492,10 @@
               "typeString": "address"
             },
             "typeName": {
-<<<<<<< Updated upstream
-              "id": 2468,
-              "name": "address",
-              "nodeType": "ElementaryTypeName",
-              "src": "239:7:7",
-=======
-              "id": 2457,
+              "id": 2526,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "239:7:8",
->>>>>>> Stashed changes
               "typeDescriptions": {
                 "typeIdentifier": "t_address",
                 "typeString": "address"
@@ -2393,38 +1507,21 @@
           {
             "anonymous": false,
             "documentation": null,
-<<<<<<< Updated upstream
-            "id": 2475,
+            "id": 2533,
             "name": "OwnershipTransferred",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 2474,
-=======
-            "id": 2464,
-            "name": "OwnershipTransferred",
-            "nodeType": "EventDefinition",
-            "parameters": {
-              "id": 2463,
->>>>>>> Stashed changes
+              "id": 2532,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2471,
+                  "id": 2529,
                   "indexed": true,
                   "name": "previousOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2475,
-                  "src": "295:29:7",
-=======
-                  "id": 2460,
-                  "indexed": true,
-                  "name": "previousOwner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2464,
+                  "scope": 2533,
                   "src": "295:29:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2432,17 +1529,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2470,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "295:7:7",
-=======
-                    "id": 2459,
+                    "id": 2528,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "295:7:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -2453,21 +1543,12 @@
                 },
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2473,
+                  "id": 2531,
                   "indexed": true,
                   "name": "newOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2475,
-                  "src": "326:24:7",
-=======
-                  "id": 2462,
-                  "indexed": true,
-                  "name": "newOwner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2464,
+                  "scope": 2533,
                   "src": "326:24:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2475,17 +1556,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2472,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "326:7:7",
-=======
-                    "id": 2461,
+                    "id": 2530,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "326:7:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -2495,57 +1569,32 @@
                   "visibility": "internal"
                 }
               ],
-<<<<<<< Updated upstream
-              "src": "294:57:7"
-            },
-            "src": "268:84:7"
-          },
-          {
-            "body": {
-              "id": 2490,
-              "nodeType": "Block",
-              "src": "506:91:7",
-=======
               "src": "294:57:8"
             },
             "src": "268:84:8"
           },
           {
             "body": {
-              "id": 2479,
+              "id": 2548,
               "nodeType": "Block",
               "src": "506:91:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-<<<<<<< Updated upstream
-                    "id": 2481,
-=======
-                    "id": 2470,
->>>>>>> Stashed changes
+                    "id": 2539,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-<<<<<<< Updated upstream
-                      "id": 2478,
+                      "id": 2536,
                       "name": "_owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2469,
-                      "src": "516:6:7",
-=======
-                      "id": 2467,
-                      "name": "_owner",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2458,
+                      "referencedDeclaration": 2527,
                       "src": "516:6:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -2557,31 +1606,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2479,
+                        "id": 2537,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2717,
-                        "src": "525:3:7",
-=======
-                        "id": 2468,
-                        "name": "msg",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2706,
+                        "referencedDeclaration": 2775,
                         "src": "525:3:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-<<<<<<< Updated upstream
-                      "id": 2480,
-=======
-                      "id": 2469,
->>>>>>> Stashed changes
+                      "id": 2538,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2589,35 +1625,21 @@
                       "memberName": "sender",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-<<<<<<< Updated upstream
-                      "src": "525:10:7",
-=======
                       "src": "525:10:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-<<<<<<< Updated upstream
-                    "src": "516:19:7",
-=======
                     "src": "516:19:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2482,
-                  "nodeType": "ExpressionStatement",
-                  "src": "516:19:7"
-=======
-                  "id": 2471,
+                  "id": 2540,
                   "nodeType": "ExpressionStatement",
                   "src": "516:19:8"
->>>>>>> Stashed changes
                 },
                 {
                   "eventCall": {
@@ -2629,22 +1651,14 @@
                           {
                             "argumentTypes": null,
                             "hexValue": "30",
-<<<<<<< Updated upstream
-                            "id": 2485,
-=======
-                            "id": 2474,
->>>>>>> Stashed changes
+                            "id": 2543,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "kind": "number",
                             "lValueRequested": false,
                             "nodeType": "Literal",
-<<<<<<< Updated upstream
-                            "src": "579:1:7",
-=======
                             "src": "579:1:8",
->>>>>>> Stashed changes
                             "subdenomination": null,
                             "typeDescriptions": {
                               "typeIdentifier": "t_rational_0_by_1",
@@ -2660,32 +1674,20 @@
                               "typeString": "int_const 0"
                             }
                           ],
-<<<<<<< Updated upstream
-                          "id": 2484,
-=======
-                          "id": 2473,
->>>>>>> Stashed changes
+                          "id": 2542,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
                           "nodeType": "ElementaryTypeNameExpression",
-<<<<<<< Updated upstream
-                          "src": "571:7:7",
-=======
                           "src": "571:7:8",
->>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_type$_t_address_$",
                             "typeString": "type(address)"
                           },
                           "typeName": "address"
                         },
-<<<<<<< Updated upstream
-                        "id": 2486,
-=======
-                        "id": 2475,
->>>>>>> Stashed changes
+                        "id": 2544,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -2693,11 +1695,7 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                        "src": "571:10:7",
-=======
                         "src": "571:10:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -2705,21 +1703,12 @@
                       },
                       {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2487,
+                        "id": 2545,
                         "name": "_owner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2469,
-                        "src": "583:6:7",
-=======
-                        "id": 2476,
-                        "name": "_owner",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2458,
+                        "referencedDeclaration": 2527,
                         "src": "583:6:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -2737,31 +1726,18 @@
                           "typeString": "address"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2483,
+                      "id": 2541,
                       "name": "OwnershipTransferred",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2475,
-                      "src": "550:20:7",
-=======
-                      "id": 2472,
-                      "name": "OwnershipTransferred",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2464,
+                      "referencedDeclaration": 2533,
                       "src": "550:20:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$returns$__$",
                         "typeString": "function (address,address)"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2488,
-=======
-                    "id": 2477,
->>>>>>> Stashed changes
+                    "id": 2546,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2769,34 +1745,20 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "550:40:7",
-=======
                     "src": "550:40:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2489,
-                  "nodeType": "EmitStatement",
-                  "src": "545:45:7"
-=======
-                  "id": 2478,
+                  "id": 2547,
                   "nodeType": "EmitStatement",
                   "src": "545:45:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@dev The Ownable constructor sets the original `owner` of the contract to the sender\naccount.",
-<<<<<<< Updated upstream
-            "id": 2491,
-=======
-            "id": 2480,
->>>>>>> Stashed changes
+            "id": 2549,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -2804,96 +1766,53 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2476,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "494:2:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2477,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "506:0:7"
-            },
-            "scope": 2574,
-            "src": "482:115:7",
-=======
-              "id": 2465,
+              "id": 2534,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "494:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2466,
+              "id": 2535,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "506:0:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "482:115:8",
->>>>>>> Stashed changes
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2498,
-              "nodeType": "Block",
-              "src": "707:30:7",
-=======
-              "id": 2487,
+              "id": 2556,
               "nodeType": "Block",
               "src": "707:30:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-<<<<<<< Updated upstream
-                    "id": 2496,
+                    "id": 2554,
                     "name": "_owner",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 2469,
-                    "src": "724:6:7",
-=======
-                    "id": 2485,
-                    "name": "_owner",
-                    "nodeType": "Identifier",
-                    "overloadedDeclarations": [],
-                    "referencedDeclaration": 2458,
+                    "referencedDeclaration": 2527,
                     "src": "724:6:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-<<<<<<< Updated upstream
-                  "functionReturnParameters": 2495,
-                  "id": 2497,
-                  "nodeType": "Return",
-                  "src": "717:13:7"
-=======
-                  "functionReturnParameters": 2484,
-                  "id": 2486,
+                  "functionReturnParameters": 2553,
+                  "id": 2555,
                   "nodeType": "Return",
                   "src": "717:13:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@return the address of the owner.",
-<<<<<<< Updated upstream
-            "id": 2499,
-=======
-            "id": 2488,
->>>>>>> Stashed changes
+            "id": 2557,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -2901,42 +1820,23 @@
             "name": "owner",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2492,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "674:2:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2495,
-=======
-              "id": 2481,
+              "id": 2550,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "674:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2484,
->>>>>>> Stashed changes
+              "id": 2553,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2494,
+                  "id": 2552,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2499,
-                  "src": "698:7:7",
-=======
-                  "id": 2483,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2488,
+                  "scope": 2557,
                   "src": "698:7:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2944,17 +1844,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2493,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "698:7:7",
-=======
-                    "id": 2482,
+                    "id": 2551,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "698:7:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -2964,32 +1857,19 @@
                   "visibility": "internal"
                 }
               ],
-<<<<<<< Updated upstream
-              "src": "697:9:7"
-            },
-            "scope": 2574,
-            "src": "660:77:7",
-=======
               "src": "697:9:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "660:77:8",
->>>>>>> Stashed changes
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2507,
-              "nodeType": "Block",
-              "src": "846:46:7",
-=======
-              "id": 2496,
+              "id": 2565,
               "nodeType": "Block",
               "src": "846:46:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
@@ -3000,31 +1880,18 @@
                         "arguments": [],
                         "expression": {
                           "argumentTypes": [],
-<<<<<<< Updated upstream
-                          "id": 2502,
+                          "id": 2560,
                           "name": "isOwner",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2519,
-                          "src": "864:7:7",
-=======
-                          "id": 2491,
-                          "name": "isOwner",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 2508,
+                          "referencedDeclaration": 2577,
                           "src": "864:7:8",
->>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_view$__$returns$_t_bool_$",
                             "typeString": "function () view returns (bool)"
                           }
                         },
-<<<<<<< Updated upstream
-                        "id": 2503,
-=======
-                        "id": 2492,
->>>>>>> Stashed changes
+                        "id": 2561,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -3032,11 +1899,7 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                        "src": "864:9:7",
-=======
                         "src": "864:9:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -3050,37 +1913,21 @@
                           "typeString": "bool"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2501,
+                      "id": 2559,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2720,
-                        2721
+                        2778,
+                        2779
                       ],
-                      "referencedDeclaration": 2720,
-                      "src": "856:7:7",
-=======
-                      "id": 2490,
-                      "name": "require",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        2709,
-                        2710
-                      ],
-                      "referencedDeclaration": 2709,
+                      "referencedDeclaration": 2778,
                       "src": "856:7:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2504,
-=======
-                    "id": 2493,
->>>>>>> Stashed changes
+                    "id": 2562,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3088,75 +1935,41 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "856:18:7",
-=======
                     "src": "856:18:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2505,
-                  "nodeType": "ExpressionStatement",
-                  "src": "856:18:7"
-                },
-                {
-                  "id": 2506,
-                  "nodeType": "PlaceholderStatement",
-                  "src": "884:1:7"
-=======
-                  "id": 2494,
+                  "id": 2563,
                   "nodeType": "ExpressionStatement",
                   "src": "856:18:8"
                 },
                 {
-                  "id": 2495,
+                  "id": 2564,
                   "nodeType": "PlaceholderStatement",
                   "src": "884:1:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@dev Throws if called by any account other than the owner.",
-<<<<<<< Updated upstream
-            "id": 2508,
+            "id": 2566,
             "name": "onlyOwner",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 2500,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "843:2:7"
-            },
-            "src": "825:67:7",
-=======
-            "id": 2497,
-            "name": "onlyOwner",
-            "nodeType": "ModifierDefinition",
-            "parameters": {
-              "id": 2489,
+              "id": 2558,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "843:2:8"
             },
             "src": "825:67:8",
->>>>>>> Stashed changes
             "visibility": "internal"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2518,
-              "nodeType": "Block",
-              "src": "1026:44:7",
-=======
-              "id": 2507,
+              "id": 2576,
               "nodeType": "Block",
               "src": "1026:44:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
@@ -3165,11 +1978,7 @@
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     },
-<<<<<<< Updated upstream
-                    "id": 2516,
-=======
-                    "id": 2505,
->>>>>>> Stashed changes
+                    "id": 2574,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3178,31 +1987,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2513,
+                        "id": 2571,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2717,
-                        "src": "1043:3:7",
-=======
-                        "id": 2502,
-                        "name": "msg",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2706,
+                        "referencedDeclaration": 2775,
                         "src": "1043:3:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-<<<<<<< Updated upstream
-                      "id": 2514,
-=======
-                      "id": 2503,
->>>>>>> Stashed changes
+                      "id": 2572,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -3210,11 +2006,7 @@
                       "memberName": "sender",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-<<<<<<< Updated upstream
-                      "src": "1043:10:7",
-=======
                       "src": "1043:10:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -3224,56 +2016,32 @@
                     "operator": "==",
                     "rightExpression": {
                       "argumentTypes": null,
-<<<<<<< Updated upstream
-                      "id": 2515,
+                      "id": 2573,
                       "name": "_owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2469,
-                      "src": "1057:6:7",
-=======
-                      "id": 2504,
-                      "name": "_owner",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2458,
+                      "referencedDeclaration": 2527,
                       "src": "1057:6:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-<<<<<<< Updated upstream
-                    "src": "1043:20:7",
-=======
                     "src": "1043:20:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-<<<<<<< Updated upstream
-                  "functionReturnParameters": 2512,
-                  "id": 2517,
-                  "nodeType": "Return",
-                  "src": "1036:27:7"
-=======
-                  "functionReturnParameters": 2501,
-                  "id": 2506,
+                  "functionReturnParameters": 2570,
+                  "id": 2575,
                   "nodeType": "Return",
                   "src": "1036:27:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@return true if `msg.sender` is the owner of the contract.",
-<<<<<<< Updated upstream
-            "id": 2519,
-=======
-            "id": 2508,
->>>>>>> Stashed changes
+            "id": 2577,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -3281,42 +2049,23 @@
             "name": "isOwner",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2509,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "996:2:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2512,
-=======
-              "id": 2498,
+              "id": 2567,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "996:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2501,
->>>>>>> Stashed changes
+              "id": 2570,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2511,
+                  "id": 2569,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2519,
-                  "src": "1020:4:7",
-=======
-                  "id": 2500,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2508,
+                  "scope": 2577,
                   "src": "1020:4:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -3324,17 +2073,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2510,
-                    "name": "bool",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1020:4:7",
-=======
-                    "id": 2499,
+                    "id": 2568,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "1020:4:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -3344,32 +2086,19 @@
                   "visibility": "internal"
                 }
               ],
-<<<<<<< Updated upstream
-              "src": "1019:6:7"
-            },
-            "scope": 2574,
-            "src": "980:90:7",
-=======
               "src": "1019:6:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "980:90:8",
->>>>>>> Stashed changes
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2537,
-              "nodeType": "Block",
-              "src": "1394:91:7",
-=======
-              "id": 2526,
+              "id": 2595,
               "nodeType": "Block",
               "src": "1394:91:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "eventCall": {
@@ -3377,21 +2106,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2525,
+                        "id": 2583,
                         "name": "_owner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2469,
-                        "src": "1430:6:7",
-=======
-                        "id": 2514,
-                        "name": "_owner",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2458,
+                        "referencedDeclaration": 2527,
                         "src": "1430:6:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -3403,22 +2123,14 @@
                           {
                             "argumentTypes": null,
                             "hexValue": "30",
-<<<<<<< Updated upstream
-                            "id": 2527,
-=======
-                            "id": 2516,
->>>>>>> Stashed changes
+                            "id": 2585,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "kind": "number",
                             "lValueRequested": false,
                             "nodeType": "Literal",
-<<<<<<< Updated upstream
-                            "src": "1446:1:7",
-=======
                             "src": "1446:1:8",
->>>>>>> Stashed changes
                             "subdenomination": null,
                             "typeDescriptions": {
                               "typeIdentifier": "t_rational_0_by_1",
@@ -3434,32 +2146,20 @@
                               "typeString": "int_const 0"
                             }
                           ],
-<<<<<<< Updated upstream
-                          "id": 2526,
-=======
-                          "id": 2515,
->>>>>>> Stashed changes
+                          "id": 2584,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
                           "nodeType": "ElementaryTypeNameExpression",
-<<<<<<< Updated upstream
-                          "src": "1438:7:7",
-=======
                           "src": "1438:7:8",
->>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_type$_t_address_$",
                             "typeString": "type(address)"
                           },
                           "typeName": "address"
                         },
-<<<<<<< Updated upstream
-                        "id": 2528,
-=======
-                        "id": 2517,
->>>>>>> Stashed changes
+                        "id": 2586,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -3467,11 +2167,7 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                        "src": "1438:10:7",
-=======
                         "src": "1438:10:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -3489,31 +2185,18 @@
                           "typeString": "address"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2524,
+                      "id": 2582,
                       "name": "OwnershipTransferred",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2475,
-                      "src": "1409:20:7",
-=======
-                      "id": 2513,
-                      "name": "OwnershipTransferred",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2464,
+                      "referencedDeclaration": 2533,
                       "src": "1409:20:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$returns$__$",
                         "typeString": "function (address,address)"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2529,
-=======
-                    "id": 2518,
->>>>>>> Stashed changes
+                    "id": 2587,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3521,55 +2204,32 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "1409:40:7",
-=======
                     "src": "1409:40:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2530,
-                  "nodeType": "EmitStatement",
-                  "src": "1404:45:7"
-=======
-                  "id": 2519,
+                  "id": 2588,
                   "nodeType": "EmitStatement",
                   "src": "1404:45:8"
->>>>>>> Stashed changes
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-<<<<<<< Updated upstream
-                    "id": 2535,
-=======
-                    "id": 2524,
->>>>>>> Stashed changes
+                    "id": 2593,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-<<<<<<< Updated upstream
-                      "id": 2531,
+                      "id": 2589,
                       "name": "_owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2469,
-                      "src": "1459:6:7",
-=======
-                      "id": 2520,
-                      "name": "_owner",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2458,
+                      "referencedDeclaration": 2527,
                       "src": "1459:6:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -3583,22 +2243,14 @@
                         {
                           "argumentTypes": null,
                           "hexValue": "30",
-<<<<<<< Updated upstream
-                          "id": 2533,
-=======
-                          "id": 2522,
->>>>>>> Stashed changes
+                          "id": 2591,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "kind": "number",
                           "lValueRequested": false,
                           "nodeType": "Literal",
-<<<<<<< Updated upstream
-                          "src": "1476:1:7",
-=======
                           "src": "1476:1:8",
->>>>>>> Stashed changes
                           "subdenomination": null,
                           "typeDescriptions": {
                             "typeIdentifier": "t_rational_0_by_1",
@@ -3614,32 +2266,20 @@
                             "typeString": "int_const 0"
                           }
                         ],
-<<<<<<< Updated upstream
-                        "id": 2532,
-=======
-                        "id": 2521,
->>>>>>> Stashed changes
+                        "id": 2590,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "lValueRequested": false,
                         "nodeType": "ElementaryTypeNameExpression",
-<<<<<<< Updated upstream
-                        "src": "1468:7:7",
-=======
                         "src": "1468:7:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_type$_t_address_$",
                           "typeString": "type(address)"
                         },
                         "typeName": "address"
                       },
-<<<<<<< Updated upstream
-                      "id": 2534,
-=======
-                      "id": 2523,
->>>>>>> Stashed changes
+                      "id": 2592,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -3647,133 +2287,76 @@
                       "lValueRequested": false,
                       "names": [],
                       "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                      "src": "1468:10:7",
-=======
                       "src": "1468:10:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-<<<<<<< Updated upstream
-                    "src": "1459:19:7",
-=======
                     "src": "1459:19:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2536,
-                  "nodeType": "ExpressionStatement",
-                  "src": "1459:19:7"
-=======
-                  "id": 2525,
+                  "id": 2594,
                   "nodeType": "ExpressionStatement",
                   "src": "1459:19:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@dev Allows the current owner to relinquish control of the contract.\n@notice Renouncing to ownership will leave the contract without an owner.\nIt will not be possible to call the functions with the `onlyOwner`\nmodifier anymore.",
-<<<<<<< Updated upstream
-            "id": 2538,
-=======
-            "id": 2527,
->>>>>>> Stashed changes
+            "id": 2596,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": null,
-<<<<<<< Updated upstream
-                "id": 2522,
+                "id": 2580,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 2521,
+                  "id": 2579,
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2508,
-                  "src": "1384:9:7",
-=======
-                "id": 2511,
-                "modifierName": {
-                  "argumentTypes": null,
-                  "id": 2510,
-                  "name": "onlyOwner",
-                  "nodeType": "Identifier",
-                  "overloadedDeclarations": [],
-                  "referencedDeclaration": 2497,
+                  "referencedDeclaration": 2566,
                   "src": "1384:9:8",
->>>>>>> Stashed changes
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
                     "typeString": "modifier ()"
                   }
                 },
                 "nodeType": "ModifierInvocation",
-<<<<<<< Updated upstream
-                "src": "1384:9:7"
-=======
                 "src": "1384:9:8"
->>>>>>> Stashed changes
               }
             ],
             "name": "renounceOwnership",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2520,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "1374:2:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2523,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "1394:0:7"
-            },
-            "scope": 2574,
-            "src": "1348:137:7",
-=======
-              "id": 2509,
+              "id": 2578,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1374:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2512,
+              "id": 2581,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1394:0:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "1348:137:8",
->>>>>>> Stashed changes
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2549,
-              "nodeType": "Block",
-              "src": "1718:45:7",
-=======
-              "id": 2538,
+              "id": 2607,
               "nodeType": "Block",
               "src": "1718:45:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
@@ -3781,21 +2364,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2546,
+                        "id": 2604,
                         "name": "newOwner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2540,
-                        "src": "1747:8:7",
-=======
-                        "id": 2535,
-                        "name": "newOwner",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2529,
+                        "referencedDeclaration": 2598,
                         "src": "1747:8:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -3809,31 +2383,18 @@
                           "typeString": "address"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2545,
+                      "id": 2603,
                       "name": "_transferOwnership",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2573,
-                      "src": "1728:18:7",
-=======
-                      "id": 2534,
-                      "name": "_transferOwnership",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2562,
+                      "referencedDeclaration": 2631,
                       "src": "1728:18:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2547,
-=======
-                    "id": 2536,
->>>>>>> Stashed changes
+                    "id": 2605,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3841,99 +2402,57 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "1728:28:7",
-=======
                     "src": "1728:28:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2548,
-                  "nodeType": "ExpressionStatement",
-                  "src": "1728:28:7"
-=======
-                  "id": 2537,
+                  "id": 2606,
                   "nodeType": "ExpressionStatement",
                   "src": "1728:28:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@dev Allows the current owner to transfer control of the contract to a newOwner.\n@param newOwner The address to transfer ownership to.",
-<<<<<<< Updated upstream
-            "id": 2550,
-=======
-            "id": 2539,
->>>>>>> Stashed changes
+            "id": 2608,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": null,
-<<<<<<< Updated upstream
-                "id": 2543,
+                "id": 2601,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 2542,
+                  "id": 2600,
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2508,
-                  "src": "1708:9:7",
-=======
-                "id": 2532,
-                "modifierName": {
-                  "argumentTypes": null,
-                  "id": 2531,
-                  "name": "onlyOwner",
-                  "nodeType": "Identifier",
-                  "overloadedDeclarations": [],
-                  "referencedDeclaration": 2497,
+                  "referencedDeclaration": 2566,
                   "src": "1708:9:8",
->>>>>>> Stashed changes
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
                     "typeString": "modifier ()"
                   }
                 },
                 "nodeType": "ModifierInvocation",
-<<<<<<< Updated upstream
-                "src": "1708:9:7"
-=======
                 "src": "1708:9:8"
->>>>>>> Stashed changes
               }
             ],
             "name": "transferOwnership",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2541,
-=======
-              "id": 2530,
->>>>>>> Stashed changes
+              "id": 2599,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2540,
+                  "id": 2598,
                   "name": "newOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2550,
-                  "src": "1683:16:7",
-=======
-                  "id": 2529,
-                  "name": "newOwner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2539,
+                  "scope": 2608,
                   "src": "1683:16:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -3941,17 +2460,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2539,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1683:7:7",
-=======
-                    "id": 2528,
+                    "id": 2597,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1683:7:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -3961,46 +2473,26 @@
                   "visibility": "internal"
                 }
               ],
-<<<<<<< Updated upstream
-              "src": "1682:18:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2544,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "1718:0:7"
-            },
-            "scope": 2574,
-            "src": "1656:107:7",
-=======
               "src": "1682:18:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2533,
+              "id": 2602,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1718:0:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "1656:107:8",
->>>>>>> Stashed changes
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-<<<<<<< Updated upstream
-              "id": 2572,
-              "nodeType": "Block",
-              "src": "1962:128:7",
-=======
-              "id": 2561,
+              "id": 2630,
               "nodeType": "Block",
               "src": "1962:128:8",
->>>>>>> Stashed changes
               "statements": [
                 {
                   "expression": {
@@ -4012,32 +2504,19 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-<<<<<<< Updated upstream
-                        "id": 2560,
-=======
-                        "id": 2549,
->>>>>>> Stashed changes
+                        "id": 2618,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "argumentTypes": null,
-<<<<<<< Updated upstream
-                          "id": 2556,
+                          "id": 2614,
                           "name": "newOwner",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2552,
-                          "src": "1980:8:7",
-=======
-                          "id": 2545,
-                          "name": "newOwner",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 2541,
+                          "referencedDeclaration": 2610,
                           "src": "1980:8:8",
->>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -4051,22 +2530,14 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "30",
-<<<<<<< Updated upstream
-                              "id": 2558,
-=======
-                              "id": 2547,
->>>>>>> Stashed changes
+                              "id": 2616,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
                               "kind": "number",
                               "lValueRequested": false,
                               "nodeType": "Literal",
-<<<<<<< Updated upstream
-                              "src": "2000:1:7",
-=======
                               "src": "2000:1:8",
->>>>>>> Stashed changes
                               "subdenomination": null,
                               "typeDescriptions": {
                                 "typeIdentifier": "t_rational_0_by_1",
@@ -4082,32 +2553,20 @@
                                 "typeString": "int_const 0"
                               }
                             ],
-<<<<<<< Updated upstream
-                            "id": 2557,
-=======
-                            "id": 2546,
->>>>>>> Stashed changes
+                            "id": 2615,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "lValueRequested": false,
                             "nodeType": "ElementaryTypeNameExpression",
-<<<<<<< Updated upstream
-                            "src": "1992:7:7",
-=======
                             "src": "1992:7:8",
->>>>>>> Stashed changes
                             "typeDescriptions": {
                               "typeIdentifier": "t_type$_t_address_$",
                               "typeString": "type(address)"
                             },
                             "typeName": "address"
                           },
-<<<<<<< Updated upstream
-                          "id": 2559,
-=======
-                          "id": 2548,
->>>>>>> Stashed changes
+                          "id": 2617,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -4115,21 +2574,13 @@
                           "lValueRequested": false,
                           "names": [],
                           "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                          "src": "1992:10:7",
-=======
                           "src": "1992:10:8",
->>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
                           }
                         },
-<<<<<<< Updated upstream
-                        "src": "1980:22:7",
-=======
                         "src": "1980:22:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -4143,37 +2594,21 @@
                           "typeString": "bool"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2555,
+                      "id": 2613,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2720,
-                        2721
+                        2778,
+                        2779
                       ],
-                      "referencedDeclaration": 2720,
-                      "src": "1972:7:7",
-=======
-                      "id": 2544,
-                      "name": "require",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        2709,
-                        2710
-                      ],
-                      "referencedDeclaration": 2709,
+                      "referencedDeclaration": 2778,
                       "src": "1972:7:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2561,
-=======
-                    "id": 2550,
->>>>>>> Stashed changes
+                    "id": 2619,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -4181,25 +2616,15 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "1972:31:7",
-=======
                     "src": "1972:31:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2562,
-                  "nodeType": "ExpressionStatement",
-                  "src": "1972:31:7"
-=======
-                  "id": 2551,
+                  "id": 2620,
                   "nodeType": "ExpressionStatement",
                   "src": "1972:31:8"
->>>>>>> Stashed changes
                 },
                 {
                   "eventCall": {
@@ -4207,21 +2632,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2564,
+                        "id": 2622,
                         "name": "_owner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2469,
-                        "src": "2039:6:7",
-=======
-                        "id": 2553,
-                        "name": "_owner",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2458,
+                        "referencedDeclaration": 2527,
                         "src": "2039:6:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -4229,21 +2645,12 @@
                       },
                       {
                         "argumentTypes": null,
-<<<<<<< Updated upstream
-                        "id": 2565,
+                        "id": 2623,
                         "name": "newOwner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2552,
-                        "src": "2047:8:7",
-=======
-                        "id": 2554,
-                        "name": "newOwner",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 2541,
+                        "referencedDeclaration": 2610,
                         "src": "2047:8:8",
->>>>>>> Stashed changes
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -4261,31 +2668,18 @@
                           "typeString": "address"
                         }
                       ],
-<<<<<<< Updated upstream
-                      "id": 2563,
+                      "id": 2621,
                       "name": "OwnershipTransferred",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2475,
-                      "src": "2018:20:7",
-=======
-                      "id": 2552,
-                      "name": "OwnershipTransferred",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2464,
+                      "referencedDeclaration": 2533,
                       "src": "2018:20:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$returns$__$",
                         "typeString": "function (address,address)"
                       }
                     },
-<<<<<<< Updated upstream
-                    "id": 2566,
-=======
-                    "id": 2555,
->>>>>>> Stashed changes
+                    "id": 2624,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -4293,55 +2687,32 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-<<<<<<< Updated upstream
-                    "src": "2018:38:7",
-=======
                     "src": "2018:38:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2567,
-                  "nodeType": "EmitStatement",
-                  "src": "2013:43:7"
-=======
-                  "id": 2556,
+                  "id": 2625,
                   "nodeType": "EmitStatement",
                   "src": "2013:43:8"
->>>>>>> Stashed changes
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-<<<<<<< Updated upstream
-                    "id": 2570,
-=======
-                    "id": 2559,
->>>>>>> Stashed changes
+                    "id": 2628,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-<<<<<<< Updated upstream
-                      "id": 2568,
+                      "id": 2626,
                       "name": "_owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2469,
-                      "src": "2066:6:7",
-=======
-                      "id": 2557,
-                      "name": "_owner",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2458,
+                      "referencedDeclaration": 2527,
                       "src": "2066:6:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -4351,54 +2722,31 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-<<<<<<< Updated upstream
-                      "id": 2569,
+                      "id": 2627,
                       "name": "newOwner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2552,
-                      "src": "2075:8:7",
-=======
-                      "id": 2558,
-                      "name": "newOwner",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 2541,
+                      "referencedDeclaration": 2610,
                       "src": "2075:8:8",
->>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-<<<<<<< Updated upstream
-                    "src": "2066:17:7",
-=======
                     "src": "2066:17:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-<<<<<<< Updated upstream
-                  "id": 2571,
-                  "nodeType": "ExpressionStatement",
-                  "src": "2066:17:7"
-=======
-                  "id": 2560,
+                  "id": 2629,
                   "nodeType": "ExpressionStatement",
                   "src": "2066:17:8"
->>>>>>> Stashed changes
                 }
               ]
             },
             "documentation": "@dev Transfers control of the contract to a newOwner.\n@param newOwner The address to transfer ownership to.",
-<<<<<<< Updated upstream
-            "id": 2573,
-=======
-            "id": 2562,
->>>>>>> Stashed changes
+            "id": 2631,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -4406,28 +2754,16 @@
             "name": "_transferOwnership",
             "nodeType": "FunctionDefinition",
             "parameters": {
-<<<<<<< Updated upstream
-              "id": 2553,
-=======
-              "id": 2542,
->>>>>>> Stashed changes
+              "id": 2611,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-<<<<<<< Updated upstream
-                  "id": 2552,
+                  "id": 2610,
                   "name": "newOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2573,
-                  "src": "1935:16:7",
-=======
-                  "id": 2541,
-                  "name": "newOwner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2562,
+                  "scope": 2631,
                   "src": "1935:16:8",
->>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -4435,17 +2771,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-<<<<<<< Updated upstream
-                    "id": 2551,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1935:7:7",
-=======
-                    "id": 2540,
+                    "id": 2609,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1935:7:8",
->>>>>>> Stashed changes
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -4455,49 +2784,27 @@
                   "visibility": "internal"
                 }
               ],
-<<<<<<< Updated upstream
-              "src": "1934:18:7"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2554,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "1962:0:7"
-            },
-            "scope": 2574,
-            "src": "1907:183:7",
-=======
               "src": "1934:18:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 2543,
+              "id": 2612,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1962:0:8"
             },
-            "scope": 2563,
+            "scope": 2632,
             "src": "1907:183:8",
->>>>>>> Stashed changes
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-<<<<<<< Updated upstream
-        "scope": 2575,
-        "src": "216:1876:7"
-      }
-    ],
-    "src": "0:2093:7"
-=======
-        "scope": 2564,
+        "scope": 2633,
         "src": "216:1876:8"
       }
     ],
     "src": "0:2093:8"
->>>>>>> Stashed changes
   },
   "compiler": {
     "name": "solc",
@@ -4505,9 +2812,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-<<<<<<< Updated upstream
-  "updatedAt": "2019-02-17T08:51:24.985Z"
-=======
-  "updatedAt": "2019-02-17T08:26:58.796Z"
->>>>>>> Stashed changes
+  "updatedAt": "2019-02-17T09:03:01.150Z"
 }

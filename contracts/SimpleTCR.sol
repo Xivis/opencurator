@@ -4,9 +4,9 @@ import "./ITCR20.sol";
 import "./zeppelin/ERC20Tradable.sol";
 
 /**
- * @title Simple implementation of TCRs
- * @author Team: Xivis <xivis.com>
- */
+* @title Simple implementation of TCRs
+* @author Team: Xivis <xivis.com>
+*/
 contract SimpleTCR is ITCR20 {
     // -------
     // EVENTS:
@@ -75,9 +75,9 @@ contract SimpleTCR is ITCR20 {
     mapping(address => uint) public voteTokenBalance; 
 
     /**
-     * @dev Initializer. Can only be called once.
-     * @param token The address where the ERC20 token contract is deployed
-     */
+    * @dev Initializer. Can only be called once.
+    * @param token The address where the ERC20 token contract is deployed
+    */
     constructor(string name, string description, string acceptedDataType, address token, uint[] parameters) {
         require(token != 0 && address(_token) == 0);
         
@@ -176,9 +176,9 @@ contract SimpleTCR is ITCR20 {
     }
 
     /**
-     * Determines whether the given listingHash be whitelisted.
-     * @param _listingHash The listingHash whose status is to be examined
-     */
+    * Determines whether the given listingHash be whitelisted.
+    * @param _listingHash The listingHash whose status is to be examined
+    */
     function canBeWhitelisted(bytes32 _listingHash) view public returns (bool) {
         uint challengeID = listings[_listingHash].challengeID;
         // Ensures that the application was made,
@@ -196,30 +196,30 @@ contract SimpleTCR is ITCR20 {
     }
 
     /**
-     * Add an already Applied listingHash to the whitelist
-     * @dev Called by updateStatus() if the applicationExpiry date passed without a challenge being made.
-     * @dev Called by resolveChallenge() if an application/listing beat a challenge.
-     * @param _listingHash The listingHash of an application/listingHash to be whitelisted
-     */
+    * Add an already Applied listingHash to the whitelist
+    * @dev Called by updateStatus() if the applicationExpiry date passed without a challenge being made.
+    * @dev Called by resolveChallenge() if an application/listing beat a challenge.
+    * @param _listingHash The listingHash of an application/listingHash to be whitelisted
+    */
     function whitelistApplication(bytes32 _listingHash) private {
         if (!listings[_listingHash].whitelisted) {emit _ApplicationWhitelisted(_listingHash);}
         listings[_listingHash].whitelisted = true;
     }
 
     /**
-     * Determines the winner in a challenge. Rewards the winner tokens and either whitelists
-     * or de-whitelists (reset) the listingHash.
-     * @param _listingHash A listingHash with a challenge that is to be resolved
-     */
+    * Determines the winner in a challenge. Rewards the winner tokens and either whitelists
+    * or de-whitelists (reset) the listingHash.
+    * @param _listingHash A listingHash with a challenge that is to be resolved
+    */
     function resolveChallenge(bytes32 _listingHash) private {
         uint challengeID = listings[_listingHash].challengeID;
 
     }
 
     /**
-     * Updates a listingHash status from 'application' to 'listing' or resolves a challenge if one exists.
-     * @param _listingHash The listingHash whose status is being updated
-     */
+    * Updates a listingHash status from 'application' to 'listing' or resolves a challenge if one exists.
+    * @param _listingHash The listingHash whose status is being updated
+    */
     function updateStatus(bytes32 _listingHash) public {
         if (canBeWhitelisted(_listingHash)) {
             whitelistApplication(_listingHash);
@@ -302,11 +302,11 @@ contract SimpleTCR is ITCR20 {
     }
 
     /**
-     * Checks if the commit period is still active for the specified poll
-     * @dev Checks isExpired for the specified poll's commitEndDate
-     * @param _challengeID Integer identifier associated with target poll
-     * @return Boolean indication of isCommitPeriodActive for target poll
-     */
+    * Checks if the commit period is still active for the specified poll
+    * @dev Checks isExpired for the specified poll's commitEndDate
+    * @param _challengeID Integer identifier associated with target poll
+    * @return Boolean indication of isCommitPeriodActive for target poll
+    */
     function commitPeriodActive(uint _challengeID) constant public returns (bool active) {
         // require(challengeExists(_challengeID) > 0);
 
@@ -314,6 +314,12 @@ contract SimpleTCR is ITCR20 {
         return !isExpired(_challenge.commitEndDate);
     }
 
+    /**
+    * Commits vote using hash of choice and secret salt to conceal vote until reveal
+    * @param _challengeID Integer identifier associated with target poll
+    * @param _tokenAmount The number of tokens to be committed towards the target poll
+    * @param _data Extra data relevant to the vote.
+    */
     function vote(uint _challengeID, uint _tokenAmount, string _data) external {
         require(commitPeriodActive(_challengeID));
 
@@ -450,10 +456,10 @@ contract SimpleTCR is ITCR20 {
     }
 
     /**
-     * Determines if poll is over
-     * @dev Checks isExpired for specified poll's revealEndDate
-     * @return Boolean indication of whether polling period is over
-     */
+    * Determines if poll is over
+    * @dev Checks isExpired for specified poll's revealEndDate
+    * @return Boolean indication of whether polling period is over
+    */
     function challengeEnded(uint _challengeID) constant public returns (bool ended) {
         // require(challengeExists(_challengeID) > 0);
 
@@ -502,27 +508,27 @@ contract SimpleTCR is ITCR20 {
     }
 
     /**
-     * Returns true if apply was called for this listingHash
-     * @param _listingHash The listingHash whose status is to be examined
-     */
+    * Returns true if apply was called for this listingHash
+    * @param _listingHash The listingHash whose status is to be examined
+    */
     function appWasMade(bytes32 _listingHash) view public returns (bool exists) {
         return listings[_listingHash].applicationExpiry > 0;
     }
 
     /**
-     * Gets the parameter keyed by the provided name value from the params mapping
-     * @param name The key whose value is to be determined
-     * @return name The key whose value is to be determined
-     */
+    * Gets the parameter keyed by the provided name value from the params mapping
+    * @param name The key whose value is to be determined
+    * @return name The key whose value is to be determined
+    */
     function get(string name) public view returns (uint value) {
         return params[keccak256(abi.encodePacked(name))];
     }
 
     /**
-     * Sets the param keyed by the provided name to the provided value
-     * @param name The name of the param to be set
-     * @param value The value to set the param to be set
-     */
+    * Sets the param keyed by the provided name to the provided value
+    * @param name The name of the param to be set
+    * @param value The value to set the param to be set
+    */
     function set(string name, uint value) private {
         params[keccak256(abi.encodePacked(name))] = value;
     }

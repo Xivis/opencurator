@@ -416,6 +416,7 @@ contract SimpleTCR is ITCR20 {
     IERC20 private _token;
     string private _description;
     string private _acceptedDataType;
+    string private _applyScheme;
     string private _voteScheme;
     string private _tokenScheme;
     string private _exitScheme;
@@ -530,6 +531,10 @@ contract SimpleTCR is ITCR20 {
         return get(pName);
     }
 
+    function applyScheme() public view returns(string){
+        return _applyScheme;
+    }
+    
     function voteScheme() public view returns(string){
         return _voteScheme;
     }

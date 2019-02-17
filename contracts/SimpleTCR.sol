@@ -10,16 +10,18 @@ contract SimpleTCR is ITCR20 {
     // -------
 
     event _Application(bytes32 indexed listingHash, uint deposit, uint appEndDate, string data, address indexed applicant);
-    event _Challenge(bytes32 indexed listingHash, uint challengeID, string data, uint commitEndDate, uint revealEndDate,
-    address indexed challenger);
+    event _Challenge(bytes32 indexed listingHash, uint challengeID, string data, uint commitEndDate, address indexed challenger);
+    event _PollCreated(uint voteQuorum, uint commitEndDate, uint indexed pollID, address indexed creator);
     event _Vote(uint indexed challengeID, uint numTokens, address indexed voter);
+    event _VotingRightsGranted(uint numTokens, address indexed voter);
+    event _VotingRightsWithdrawn(uint numTokens, address indexed voter);
     event _ChallengeResolved(bytes32 indexed listingHash, uint indexed challengeID, uint rewardPool, uint totalTokens, bool success);
     event _ApplicationWhitelisted(bytes32 indexed listingHash);
     event _ListingExited(bytes32 indexed listingHash);
 
     using SafeMath for uint;
 
-    // Base registry parameters
+    // Base registry variables
     string private _name;
     IERC20 private _token;
     string private _description;
@@ -28,7 +30,7 @@ contract SimpleTCR is ITCR20 {
     string private _tokenScheme;
     string private _exitScheme;
 
-    // TCR basic parameters
+    // TCR basic variables
     uint private _minDeposit;
     uint private _applyStageLen;
     uint private _commitStageLen;
@@ -37,6 +39,10 @@ contract SimpleTCR is ITCR20 {
     uint private _voteQuorum;
     uint private _exitTimeDelay;
     uint private _exitPeriodLen;
+
+    // Challenge basic variables
+    uint constant public INITIAL_POLL_ID = 0;
+    uint public pollID;
 
     struct Listing {
         uint applicationExpiry; // Expiration date of apply stage
@@ -49,12 +55,17 @@ contract SimpleTCR is ITCR20 {
     }
 
     struct Challenge {
-        uint rewardPool;        // (remaining) Pool of tokens to be distributed to winning voters
         address challenger;     // Owner of Challenge
         bool resolved;          // Indication of if challenge is resolved
         uint stake;             // Number of tokens at stake for either party during challenge
         uint totalTokens;       // (remaining) Number of tokens used in voting by the winning side
+        uint rewardPool;        // (remaining) Pool of tokens to be distributed to winning voters
+        uint commitEndDate;     /// expiration date of commit period for poll
+        uint voteQuorum;        /// number of votes required for a proposal to pass
+        uint votesFor;          /// tally of votes supporting proposal
+        uint votesAgainst;      /// tally of votes countering proposal
         mapping(address => bool) tokenClaims; // Indicates whether a voter has claimed a reward yet
+        mapping(address => uint) tokenStakes; // Indicates the amount of tokens locked by a voter
     }
 
     // Maps challengeIDs to associated challenge data
@@ -66,6 +77,9 @@ contract SimpleTCR is ITCR20 {
     // Maps parameters string hashes to values
     mapping(bytes32 => uint) public params;
 
+    // Maps user's address to voteToken balance
+    mapping(address => uint) public voteTokenBalance; 
+
     /**
      * @dev Initializer. Can only be called once.
      * @param token The address where the ERC20 token contract is deployed
@@ -76,9 +90,9 @@ contract SimpleTCR is ITCR20 {
         // Base registry parameters
         _name = name;
         _description = description;
-        _voteScheme = "Simple";
+        _voteScheme = "SIMPLE";
         _tokenScheme = "ERC20";
-        _exitScheme = "Simple";
+        _exitScheme = "SIMPLE";
         _acceptedDataType = acceptedDataType;
 
         // required deposit for listing to be whitelisted. No more, no less.
@@ -104,6 +118,9 @@ contract SimpleTCR is ITCR20 {
 
         // maximum length of time user can wait to exit the registry
         set("exitPeriodLen", parameters[7]);
+
+        // sets the initial pollID
+        pollID = INITIAL_POLL_ID;
     }
 
     function name() public view returns(string){
@@ -142,7 +159,7 @@ contract SimpleTCR is ITCR20 {
     function apply(bytes32 _listingHash, uint _tokenAmount, string _data) external {
         require(!isWhitelisted(_listingHash));
         require(!appWasMade(_listingHash));
-        require(_tokenAmount >= get("minDeposit"));
+        require(_tokenAmount >= get("requiredDeposit"));
 
         // Sets owner
         Listing storage listing = listings[_listingHash];
@@ -159,16 +176,202 @@ contract SimpleTCR is ITCR20 {
     }
 
     function getListingData(bytes32 _listingHash) external view returns (string memory jsonData) {
-        return "{'id': 1, 'name': 'name'}";
+        // copy the data into memory
+        // Listing memory l = listings[_listingHash];
+        
+        // break the struct's members out into a tuple
+        // in the same order that they appear in the struct
+        string memory result = "{}"; // TODO look how to concat this as a JSON File
+        // return (l.applicationExpiry, l.whitelisted, l.owner, l.unstakedDeposit, l.challengeID, l.exitTime, l.exitTimeExpiry);
+        return result;
     }
 
+    /**
+     * Determines whether the given listingHash be whitelisted.
+     * @param _listingHash The listingHash whose status is to be examined
+     */
+    function canBeWhitelisted(bytes32 _listingHash) view public returns (bool) {
+        uint challengeID = listings[_listingHash].challengeID;
+        // Ensures that the application was made,
+        // the application period has ended,
+        // the listingHash can be whitelisted,
+        // and either: the challengeID == 0, or the challenge has been resolved.
+        if (
+            appWasMade(_listingHash) &&
+            listings[_listingHash].applicationExpiry < now &&
+            !isWhitelisted(_listingHash) &&
+            (challengeID == 0 || challenges[challengeID].resolved == true)
+        ) { return true; }
+
+        return false;
+    }
+
+    /**
+     * Add an already Applied listingHash to the whitelist
+     * @dev Called by updateStatus() if the applicationExpiry date passed without a challenge being made.
+     * @dev Called by resolveChallenge() if an application/listing beat a challenge.
+     * @param _listingHash The listingHash of an application/listingHash to be whitelisted
+     */
+    function whitelistApplication(bytes32 _listingHash) private {
+        if (!listings[_listingHash].whitelisted) {emit _ApplicationWhitelisted(_listingHash);}
+        listings[_listingHash].whitelisted = true;
+    }
+
+    /**
+     * Determines the winner in a challenge. Rewards the winner tokens and either whitelists
+     * or de-whitelists (reset) the listingHash.
+     * @param _listingHash A listingHash with a challenge that is to be resolved
+     */
+    function resolveChallenge(bytes32 _listingHash) private {
+        uint challengeID = listings[_listingHash].challengeID;
+
+    }
+
+    /**
+     * Updates a listingHash status from 'application' to 'listing' or resolves a challenge if one exists.
+     * @param _listingHash The listingHash whose status is being updated
+     */
+    function updateStatus(bytes32 _listingHash) public {
+        if (canBeWhitelisted(_listingHash)) {
+            whitelistApplication(_listingHash);
+        } else if (challengeCanBeResolved(_listingHash)) {
+            resolveChallenge(_listingHash);
+        } else {
+            revert();
+        }
+    }
+
+    /**
+    * Starts a poll for a listingHash which is either in the apply stage or already in the whitelist.
+    * @dev Tokens are taken from the challenger and the applicant's deposits are locked.
+    * @param _listingHash The listingHash being challenged, whether listed or in application
+    * @param _data Extra data relevant to the challenge. Think IPFS hashes.
+    */
     function challenge(bytes32 _listingHash, uint _tokenAmount, string _data) external returns (uint challengeID) {
-        emit _Challenge(_listingHash, 1, _data, 2000000, 2500000, address(this));
-        return 1;
+        Listing storage listing = listings[_listingHash];
+        uint requiredDeposit = get("requiredDeposit");
+
+        // _tokenAmount must match the requiredDeposit
+        require(requiredDeposit == _tokenAmount);
+
+        // Listing must be in apply stage or already on the whitelist
+        require(appWasMade(_listingHash) || listing.whitelisted);
+        // Prevent multiple challenges
+        require(listing.challengeID == 0 || challenges[listing.challengeID].resolved);
+
+        // Sets pollID
+        pollID = pollID + 1;
+
+        // Defines voting commit duration
+        uint commitEndDate = block.timestamp.add(_commitStageLen);
+
+        uint oneHundred = 100;
+        // Kludge that we need to use SafeMath
+        challenges[pollID] = Challenge({
+            challenger : msg.sender,
+            rewardPool : ((oneHundred.sub(get("dispensationPct"))).mul(requiredDeposit)).div(100),
+            stake : requiredDeposit,
+            resolved : false,
+            totalTokens : 0,
+            commitEndDate : commitEndDate,
+            voteQuorum : _voteQuorum,
+            votesFor: 0,
+            votesAgainst : 0
+            });
+
+        // Updates listingHash to store most recent challenge
+        listing.challengeID = pollID;
+
+        // Locks tokens for listingHash during challenge
+        listing.unstakedDeposit = listing.unstakedDeposit.sub(requiredDeposit);
+
+        // Takes tokens from challenger
+        require(_token.transferFrom(msg.sender, this, requiredDeposit));
+
+        emit _Challenge(_listingHash, pollID, _data, commitEndDate, msg.sender);
+        return pollID;
     }
 
-    function vote(uint _challengeID, uint _tokenAmount, uint[] _data) external {
-        emit _Vote(1, 200, address(this));
+    /**
+    * Loads _tokenAmount ERC20 tokens into the voting contract for one-to-one voting rights
+    * @dev Assumes that msg.sender has approved voting contract to spend on their behalf
+    * @param _tokenAmount The number of votingTokens desired in exchange for ERC20 tokens
+    */
+    function requestVotingRights(uint _tokenAmount) public {
+        require(_token.balanceOf(msg.sender) >= _tokenAmount);
+        voteTokenBalance[msg.sender] = voteTokenBalance[msg.sender].add(_tokenAmount);
+        require(_token.transferFrom(msg.sender, this, _tokenAmount));
+        emit _VotingRightsGranted(_tokenAmount, msg.sender);
+    }
+
+    /**
+    * Checks if an expiration date has been reached
+    * @param _terminationDate Integer timestamp of date to compare current timestamp with
+    * @return expired Boolean indication of whether the terminationDate has passed
+    */
+    function isExpired(uint _terminationDate) constant public returns (bool expired) {
+        return (block.timestamp > _terminationDate);
+    }
+
+    /**
+     * Checks if the commit period is still active for the specified poll
+     * @dev Checks isExpired for the specified poll's commitEndDate
+     * @param _challengeID Integer identifier associated with target poll
+     * @return Boolean indication of isCommitPeriodActive for target poll
+     */
+    function commitPeriodActive(uint _challengeID) constant public returns (bool active) {
+        // require(challengeExists(_challengeID) > 0);
+
+        Challenge storage _challenge = challenges[_challengeID];
+        return !isExpired(_challenge.commitEndDate);
+    }
+
+    function vote(uint _challengeID, uint _tokenAmount, string _data) external {
+        require(commitPeriodActive(_challengeID));
+
+        // try to convert _data string to a valid _voteOption
+        uint _voteOption;
+        if (keccak256(abi.encodePacked(_data)) == keccak256(abi.encodePacked("1"))) {
+            _voteOption = 1;
+        } else if (keccak256(abi.encodePacked(_data)) == keccak256(abi.encodePacked("0"))) {
+            _voteOption = 0;
+        } else {
+            revert();
+        }
+
+        // get challenge 
+        Challenge storage _challenge = challenges[_challengeID];
+
+        // voter can't change his previous vote
+        require(_challenge.tokenStakes[msg.sender] == 0);
+
+        // prevent user from committing to zero node placeholder
+        require(_challengeID != 0);
+
+        // if msg.sender doesn't have enough voting rights,
+        // request for enough voting rights
+        if (voteTokenBalance[msg.sender] < _tokenAmount) {
+            uint remainder = _tokenAmount.sub(voteTokenBalance[msg.sender]);
+            requestVotingRights(remainder);
+        }
+
+        // make sure msg.sender has enough voting rights
+        require(voteTokenBalance[msg.sender] >= _tokenAmount);
+
+        // set voter's tokenStakes
+        _challenge.tokenStakes[msg.sender] = _tokenAmount;
+
+        // adds voter's stake to total amount of tokens staked in this challenge
+        _challenge.stake = _tokenAmount.add(_challenge.stake);
+
+        // apply numTokens to appropriate poll choice
+        if (_voteOption == 1) {
+            _challenge.votesFor = _challenge.votesFor.add(_tokenAmount);
+        } else {
+            _challenge.votesAgainst = _challenge.votesAgainst.add(_tokenAmount);
+        }
+
+        emit _Vote(_challengeID, _tokenAmount, msg.sender);
     }
 
     function claimChallengeReward(uint _challengeID) public {}
@@ -181,15 +384,39 @@ contract SimpleTCR is ITCR20 {
 
     // Helpers/optional functions
     function isWhitelisted(bytes32 _listingHash) public view returns (bool whitelisted) {
-        return true;
+        return listings[_listingHash].whitelisted;
     }
 
     function challengeExists(bytes32 _listingHash) public view returns (uint lastChallengeID) {
-        return 0;
+        uint challengeID = listings[_listingHash].challengeID;
+
+        if (challengeID == 0 || !challenges[challengeID].resolved) {
+            return 0;
+        }
+
+        return challengeID;
     }
 
-    function challengeCanBeResolved(bytes32 _listingHash) public view returns (bool need) {
-        return true;
+    /**
+     * Determines if poll is over
+     * @dev Checks isExpired for specified poll's revealEndDate
+     * @return Boolean indication of whether polling period is over
+     */
+    function challengeEnded(uint _challengeID) constant public returns (bool ended) {
+        // require(challengeExists(_challengeID) > 0);
+
+        return isExpired(challenges[_challengeID].commitEndDate);
+    }
+
+    /**
+    * Determines whether voting has concluded in a challenge for a given listingHash. Throws if no challenge exists.
+    * @param _listingHash A listingHash with an unresolved challenge
+    */
+    function challengeCanBeResolved(bytes32 _listingHash) public view returns (bool) {
+        uint challengeID = listings[_listingHash].challengeID;
+        require(challengeExists(_listingHash) > 0);
+
+        return challengeEnded(challengeID);
     }
 
     function voterReward(address _voter, uint _challengeID) public view returns (uint tokenAmount) {
@@ -199,8 +426,6 @@ contract SimpleTCR is ITCR20 {
     function challengeReward(address _applierOrChallenger, uint _challengeID) public view returns (uint tokenAmount) {
         return 300;
     }
-
-
 
     /**
      * Returns true if apply was called for this listingHash

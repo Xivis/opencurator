@@ -24,7 +24,6 @@ interface ITCR20 {
 
     // Getters and Helpers functions
     function getParameter(string pName) public view returns (uint pValue);
-
     function isWhitelisted(bytes32 _listingHash) public view returns (bool whitelisted);
     function challengeExists(bytes32 _listingHash) public view returns (uint lastChallengeID);
     function challengeCanBeResolved(bytes32 _listingHash) public view returns (bool need);

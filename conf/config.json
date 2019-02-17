@@ -1,0 +1,16 @@
+{
+  "name": "Best Oracles",
+  "description": "A list of Best Oracles for ETH Price",
+  "acceptedDataType": "SHA3-STRING",
+  "paramDefaults": {
+    "minDeposit": 1000,
+    "applyStageLength": 172800,
+    "voteStageLength": 172800,
+    "dispensationPct": 80
+    },
+  "token": {
+    "name": "B-ORA",
+    "decimals": "18",
+    "symbol": "DT-RBT"
+  }
+}

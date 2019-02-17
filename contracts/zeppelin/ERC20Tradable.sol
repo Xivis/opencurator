@@ -7,7 +7,7 @@ import "./ERC20.sol";
  * @dev ERC20 with Trading logic (Buy/Sell)
  */
 contract ERC20Tradable is ERC20 {
-    
+
     using SafeMath for uint256;
 
     string private _name;
@@ -37,24 +37,23 @@ contract ERC20Tradable is ERC20 {
     /**
      * @return the number of decimals of the token.
      */
-
     function decimals() public view returns (uint8) {
         return _decimals;
     }
 
     function buy() external payable returns (bool){
-        _mint(msg.sender, msg.value*1000);
+        _mint(msg.sender, msg.value * 1000);
         return true;
     }
-    
+
     function sell(uint256 value) external payable returns (bool){
-        uint256 weiAmount =  value.div(1000);
+        uint256 weiAmount = value.div(1000);
         require(address(this).balance >= weiAmount);
-        
+
         _transfer(msg.sender, address(this), value);
         msg.sender.transfer(weiAmount);
-        
+
         _burn(address(this), value);
         return true;
-    }   
+    }
 }

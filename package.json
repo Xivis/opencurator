@@ -4,9 +4,12 @@
   "description": "OpenCurator is a decentralized application that allows to curate aggregated Token Curated Registries",
   "main": "index.js",
   "scripts": {
-    "deploy:rinkeby": "truffle migrate --network rinkeby --compile-all --reset",
-    "deploy:development": "truffle migrate --network development --compile-all --reset",
-    "deploy:mainnet": "truffle migrate --network mainnet --compile-all --reset"
+    "deploy:rinkeby": "truffle migrate --network rinkeby --reset",
+    "deploy:development": "truffle migrate --network development --reset",
+    "deploy:mainnet": "truffle migrate --network mainnet --reset",
+    "create-tcr:rinkeby": "truffle exec --network rinkeby ./scripts/create_tcr.js",
+    "create-tcr:development": "truffle exec --network ganache ./scripts/create_tcr.js",
+    "create-tcr:mainnet": "truffle exec --network mainnet ./scripts/create_tcr.js"
   },
   "repository": {
     "type": "git",

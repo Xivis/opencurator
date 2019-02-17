@@ -8,6 +8,7 @@ module.exports = async (deployer, network, accounts) => {
   console.log(`>> Deploying Simple TCR: ${network}`);
   console.log('');
   console.log(`>> Deployed Tradable Token: ${ERC20Tradable.address}`);
+  console.log(`>> Account: ${accounts[0]}`);
 
   //deployer.link(ITCR20, SimpleTCR);
   deployer.link(ERC20Tradable, SimpleTCR);
@@ -18,6 +19,6 @@ module.exports = async (deployer, network, accounts) => {
       'Really awesome Cryptokitties',
       'ERC721',
       ERC20Tradable.address,
-      [1000, 172800, 172800, 172800, 80, 50, 172800, 172800]
+      [1000, 172800, 172800, 80]
   );
 };

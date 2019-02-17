@@ -1,5 +1,5 @@
 {
-  "name": "Best Oracles",
+  "name": "Best Oracles TCR",
   "description": "A list of Best Oracles for ETH Price",
   "acceptedDataType": "SHA3-STRING",
   "paramDefaults": {
@@ -9,8 +9,8 @@
     "dispensationPct": 80
     },
   "token": {
-    "name": "B-ORA",
+    "name": "Oracles Token",
     "decimals": "18",
-    "symbol": "DT-RBT"
+    "symbol": "B-ORA"
   }
 }

@@ -68,6 +68,8 @@ module.exports = (done) => {
     console.log(`*  Token: ${tokenSymbol}`);
     console.log(`*  Apply deposit: ${paramConfig.minDeposit}`);
     console.log(`*  Dispensation: ${paramConfig.dispensationPct}%`);
+    console.log(`*  applyStageLengt: ${paramConfig.applyStageLength / (24 * 60 * 60)}hs`);
+    console.log(`*  voteStageLength: ${paramConfig.voteStageLength / (24 * 60 * 60)}hs`);
     console.log('*');
     console.log('*  Registry:');
     console.log(`*     ${registry}`);

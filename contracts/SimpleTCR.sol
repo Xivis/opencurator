@@ -32,16 +32,6 @@ contract SimpleTCR is ITCR20 {
     string private _tokenScheme;
     string private _exitScheme;
 
-    // TCR basic variables
-    uint private _minDeposit;
-    uint private _applyStageLen;
-    uint private _commitStageLen;
-    uint private _revealStageLen;
-    uint private _dispensationPct;
-    uint private _voteQuorum;
-    uint private _exitTimeDelay;
-    uint private _exitPeriodLen;
-
     // Challenge basic variables
     uint constant public INITIAL_POLL_ID = 0;
     uint public pollID;
@@ -68,6 +58,7 @@ contract SimpleTCR is ITCR20 {
         uint votesAgainst;      /// tally of votes countering proposal
         mapping(address => bool) tokenClaims; // Indicates whether a voter has claimed a reward yet
         mapping(address => uint) tokenStakes; // Indicates the amount of tokens locked by a voter
+        mapping(address => uint) votingOptions; // Indicates the amount of tokens locked by a voter
     }
 
     // Maps challengeIDs to associated challenge data
@@ -105,22 +96,10 @@ contract SimpleTCR is ITCR20 {
         set("applyStageLen", parameters[1]);
 
         // length of commit period for voting
-        set("commitStageLen", parameters[2]);
-
-        // length of reveal period for voting
-        set("revealStageLen", parameters[3]);
+        set("voteStageLen", parameters[2]);
 
         // percentage of losing party's deposit distributed to winning party
-        set("dispensationPct", parameters[4]);
-
-        // type of majority out of 100 necessary for candidate success
-        set("voteQuorum", parameters[5]);
-
-        // minimum length of time user has to wait to exit the registry
-        set("exitTimeDelay", parameters[6]);
-
-        // maximum length of time user can wait to exit the registry
-        set("exitPeriodLen", parameters[7]);
+        set("dispensationPct", parameters[3]);
 
         // sets the initial pollID
         pollID = INITIAL_POLL_ID;
@@ -270,7 +249,7 @@ contract SimpleTCR is ITCR20 {
         pollID = pollID + 1;
 
         // Defines voting commit duration
-        uint commitEndDate = block.timestamp.add(_commitStageLen);
+        uint commitEndDate = block.timestamp.add(_voteStageLen);
 
         uint oneHundred = 100;
         // Kludge that we need to use SafeMath
@@ -378,14 +357,72 @@ contract SimpleTCR is ITCR20 {
             _challenge.votesAgainst = _challenge.votesAgainst.add(_tokenAmount);
         }
 
+        // store voter's selected option
+        _challenge.votingOptions[msg.sender] = _voteOption;
+
         emit _Vote(_challengeID, _tokenAmount, msg.sender);
     }
 
     function claimChallengeReward(uint _challengeID) public {}
 
-    function claimVoterReward(uint _challengeID) public {}
+
+    /**
+    * Called by a voter to their reward for each completed vote.
+    * @dev Someone must call updateStatus() before this can be called.
+    * @param _challengeID The voting pollID of the challenge a reward is being claimed for
+    */
+    function claimVoterReward(uint _challengeID) public {
+        Challenge storage _challenge = challenges[_challengeID];
+        // Ensures the voter has not already claimed tokens and challengeInstance results have
+        // been processed
+        require(_challenge.tokenClaims[msg.sender] == false);
+        require(_challenge.resolved == true);
+
+        uint winningChoice = isPassed(_pollID) ? 1 : 0;
+        uint voterVoteOption = _challenge[_challengeID].voteOptions[_voter];
+
+        
+
+
+        
+
+    }
+
+    /**
+    * Deletes a listingHash from the whitelist and transfers remaining tokens back to owner
+    * @param _listingHash The listing hash to delete
+    */
+    function resetListing(bytes32 _listingHash) private {
+        Listing storage listing = listings[_listingHash];
+
+        // Emit events before deleting listing to check whether is whitelisted
+        if (listing.whitelisted) {
+            emit _ListingRemoved(_listingHash);
+        }
+
+        // Deleting listing to prevent reentry
+        address owner = listing.owner;
+        uint unstakedDeposit = listing.unstakedDeposit;
+        delete listings[_listingHash];
+
+        // Transfers any remaining balance back to the owner
+        if (unstakedDeposit > 0) {
+            require(token.transfer(owner, unstakedDeposit));
+        }
+    }
+
 
     function exit(bytes32 _listingHash, string _data) external {
+        Listing storage listing = listings[_listingHash];
+
+        require(msg.sender == listing.owner);
+        require(isWhitelisted(_listingHash));
+
+        // Cannot exit during ongoing challenge
+        require(listing.challengeID == 0 || challenges[listing.challengeID].resolved);
+
+        resetListing(_listingHash);
+
         emit _ListingExited(_listingHash);
     }
 

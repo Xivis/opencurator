@@ -1,5 +1,22 @@
 @import '../../styles/index';
 
-.active-option {
-  color: $light-black !important;
+.set-page{
+
+  .active-option {
+    color: $light-black !important;
+  }
+
+  .apply-button{
+    text-align: center;
+    padding: 40px 0;
+
+    button{
+      background-color: $green !important;
+      color: $white !important;
+      border-radius: 100px !important;
+      border-color: $white !important;
+      width: 150px
+    }
+  }
+
 }

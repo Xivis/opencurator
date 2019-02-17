@@ -3,6 +3,10 @@ pragma solidity ^0.4.24;
 import "./ITCR20.sol";
 import "./zeppelin/ERC20Tradable.sol";
 
+/**
+ * @title Simple implementation of TCRs
+ * @author Team: Xivis <xivis.com>
+ */
 contract SimpleTCR is ITCR20 {
     // -------
     // EVENTS:
@@ -51,7 +55,6 @@ contract SimpleTCR is ITCR20 {
         uint totalTokens;       // (remaining) Number of tokens used in voting by the winning side
         uint rewardPool;        // (remaining) Pool of tokens to be distributed to winning voters
         uint commitEndDate;     /// expiration date of commit period for poll
-        uint voteQuorum;        /// number of votes required for a proposal to pass
         uint votesFor;          /// tally of votes supporting proposal
         uint votesAgainst;      /// tally of votes countering proposal
         mapping(address => bool) tokenClaims; // Indicates whether a voter has claimed a reward yet
@@ -249,18 +252,17 @@ contract SimpleTCR is ITCR20 {
         pollID = pollID + 1;
 
         // Defines voting commit duration
-        uint commitEndDate = block.timestamp.add(_voteStageLen);
+        uint commitEndDate = block.timestamp.add(get("voteStageLen"));
 
         uint oneHundred = 100;
         // Kludge that we need to use SafeMath
         challenges[pollID] = Challenge({
             challenger : msg.sender,
             rewardPool : ((oneHundred.sub(get("dispensationPct"))).mul(requiredDeposit)).div(100),
-            stake : requiredDeposit,
+            stake : get("requiredDeposit"),
             resolved : false,
             totalTokens : 0,
-            commitEndDate : commitEndDate,
-            voteQuorum : _voteQuorum,
+            commitEndDate : get("commitEndDate"),
             votesFor: 0,
             votesAgainst : 0
             });
@@ -365,7 +367,6 @@ contract SimpleTCR is ITCR20 {
 
     function claimChallengeReward(uint _challengeID) public {}
 
-
     /**
     * Called by a voter to their reward for each completed vote.
     * @dev Someone must call updateStatus() before this can be called.
@@ -373,19 +374,31 @@ contract SimpleTCR is ITCR20 {
     */
     function claimVoterReward(uint _challengeID) public {
         Challenge storage _challenge = challenges[_challengeID];
-        // Ensures the voter has not already claimed tokens and challengeInstance results have
+        // Ensures the voter has not already claimed tokens and _challenge results have
         // been processed
-        require(_challenge.tokenClaims[msg.sender] == false);
-        require(_challenge.resolved == true);
+        require(_challenge.tokenClaims[msg.sender] == false, "Reward already redeemed");
+        require(_challenge.resolved == true, "Challenge must be resolved before trying to claim the reward");
 
-        uint winningChoice = isPassed(_pollID) ? 1 : 0;
-        uint voterVoteOption = _challenge[_challengeID].voteOptions[_voter];
+        uint reward = voterReward(msg.sender, _challengeID);
+        uint voterTokens = _challenge.tokenStakes[msg.sender];
 
-        
+        if (reward > 0) {
+            // Subtracts the voter's information to preserve the participation ratios
+            // of other voters compared to the remaining pool of rewards
+            _challenge.totalTokens = _challenge.totalTokens.sub(voterTokens);
+            _challenge.rewardPool = _challenge.totalTokens.sub(reward);
 
+            // Ensures a voter cannot claim tokens again
+            _challenge.tokenClaims[msg.sender] = true;
 
-        
+            require(_token.transfer(msg.sender, reward)); // Reward + Unlock could be implemented in one single transfer
+        }
 
+        // Unlock staked tokens in the challenge
+        if (voterTokens > 0) {
+            voteTokenBalance[msg.sender] = voteTokenBalance[msg.sender].sub(voterTokens);
+            require(_token.transfer(msg.sender, voterTokens));
+        }
     }
 
     /**
@@ -395,11 +408,6 @@ contract SimpleTCR is ITCR20 {
     function resetListing(bytes32 _listingHash) private {
         Listing storage listing = listings[_listingHash];
 
-        // Emit events before deleting listing to check whether is whitelisted
-        if (listing.whitelisted) {
-            emit _ListingRemoved(_listingHash);
-        }
-
         // Deleting listing to prevent reentry
         address owner = listing.owner;
         uint unstakedDeposit = listing.unstakedDeposit;
@@ -407,7 +415,7 @@ contract SimpleTCR is ITCR20 {
 
         // Transfers any remaining balance back to the owner
         if (unstakedDeposit > 0) {
-            require(token.transfer(owner, unstakedDeposit));
+            require(_token.transfer(owner, unstakedDeposit));
         }
     }
 
@@ -464,7 +472,29 @@ contract SimpleTCR is ITCR20 {
     }
 
     function voterReward(address _voter, uint _challengeID) public view returns (uint tokenAmount) {
-        return 100;
+        Challenge storage _challenge = challenges[_challengeID];
+        // Ensures the voter has not already claimed tokens and _challenge results have
+        // been processed
+        require(_challenge.tokenClaims[_voter] == false, "Reward already redeemed");
+        require(_challenge.resolved == true, "Challenge must be resolved before trying to claim the reward");
+
+        uint _voterOption = _challenge.votingOptions[_voter];
+
+        // calculates the winning choice
+        uint winningChoice;
+        if (_challenge.votesFor >= _challenge.votesAgainst) {
+            winningChoice = 0;
+        } else {
+            winningChoice = 1;
+        }
+
+        // voter's tokens staked at this challenge 
+        uint voterTokens = _challenge.tokenStakes[_voter];
+        if (_voterOption == winningChoice) {
+            return voterTokens.mul(_challenge.rewardPool).div(_challenge.totalTokens);
+        } else {
+            return 0;
+        }
     }
 
     function challengeReward(address _applierOrChallenger, uint _challengeID) public view returns (uint tokenAmount) {

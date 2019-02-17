@@ -1,9 +1,7 @@
 pragma solidity ^0.4.24;
 
 import "./ITCR20.sol";
-import "./zeppelin/IERC20.sol";
 import "./zeppelin/ERC20Tradable.sol";
-import "./zeppelin/SafeMath.sol";
 
 contract SimpleTCR is ITCR20 {
     // -------
@@ -78,15 +76,17 @@ contract SimpleTCR is ITCR20 {
      * @param token The address where the ERC20 token contract is deployed
      */
     constructor(string name, string description, string acceptedDataType, address token, uint[] parameters) {
-        require(token != 0 && address(token) == 0);
+        require(token != 0 && address(_token) == 0);
         
         // Base registry parameters
         _name = name;
         _description = description;
-        _voteScheme = "SIMPLE";
-        _tokenScheme = "ERC20";
-        _exitScheme = "SIMPLE";
         _acceptedDataType = acceptedDataType;
+        _applyScheme = "SIMPLE";
+        _voteScheme = "SIMPLE";
+        _exitScheme = "SIMPLE";
+
+        _tokenScheme = "ERC20";
         _token = ERC20Tradable(token);
 
         // required deposit for listing to be whitelisted. No more, no less.
@@ -478,7 +478,6 @@ contract SimpleTCR is ITCR20 {
     function appWasMade(bytes32 _listingHash) view public returns (bool exists) {
         return listings[_listingHash].applicationExpiry > 0;
     }
-
 
     /**
      * Gets the parameter keyed by the provided name value from the params mapping

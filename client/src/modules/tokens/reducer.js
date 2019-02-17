@@ -1,5 +1,6 @@
 import {
-  TOKEN_ALLOWANCE_REQUEST
+  TOKEN_ALLOWANCE_REQUEST,
+	BUY_TOKENS_REQUEST
 } from './actions';
 
 let INITIAL_STATE = {
@@ -21,6 +22,14 @@ export function tokenReducer(state = INITIAL_STATE, action) {
         }
       }
     }
+		case BUY_TOKENS_REQUEST: {
+			return {
+				...state.data,
+				[action.payload.account]: {
+					loading: true
+				}
+			}
+		}
 
     default:
       break;

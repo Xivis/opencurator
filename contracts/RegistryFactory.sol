@@ -14,7 +14,7 @@ contract RegistryFactory is Ownable {
     IERC20 public reserveToken;
 
     /// @dev constructor deploys a new proxyFactory.
-    constructor(Registry _baseRegistry) public {
+    constructor(SimpleTCR _baseRegistry) public {
         baseRegistry = _baseRegistry;
     }
 
@@ -46,7 +46,7 @@ contract RegistryFactory is Ownable {
         SimpleTCR registry = new SimpleTCR(_registryName, _description, _acceptedDataType, tradableToken, _parameters);
         //SimpleTCR registry = SimpleTCR(deployNewRegistry(baseRegistry));
 
-        emit _RegistryCreated(msg.sender, bondedToken, registry, _registryName, _description);
+        emit _RegistryCreated(msg.sender, tradableToken, registry, _registryName, _description);
         return registry;
     }
 
@@ -55,7 +55,7 @@ contract RegistryFactory is Ownable {
      * Set the base Registry to be use in all future Registry creations
      * @param _newRegistry Any Registry implementation
      */
-    function setBaseRegistry(Registry _newRegistry) onlyOwner external {
+    function setBaseRegistry(SimpleTCR _newRegistry) onlyOwner external {
         baseRegistry = _newRegistry;
         emit _BasicParameterUpdated('baseRegistry', address(_newRegistry));
     }

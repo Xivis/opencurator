@@ -20,7 +20,8 @@ class CreateSetPage extends React.Component {
   state = {
     name: '',
     description: '',
-    type: TYPES[0]
+    type: TYPES[0],
+    symbol: ''
   }
 
   onSubmit = (ev) => {
@@ -35,12 +36,16 @@ class CreateSetPage extends React.Component {
     this.setState({description: ev.target.value})
   }
 
+  handleSymbolInput = (ev) => {
+    this.setState({symbol: ev.target.value});
+  }
+
   handleChange = (ev) => {
     this.setState({type: ev.target.value});
   }
 
   render() {
-    let {name, description, type} = this.state
+    let {name, description, type, symbol} = this.state
 
     return (
       <div className={'create-page container'}>
@@ -70,6 +75,18 @@ class CreateSetPage extends React.Component {
                   value={description}
                   fullWidth
                   onChange={this.handleDescriptionInput}
+                  multiline
+                />
+              </div>
+              <div className={'set-token-input-container'}>
+                <label className={'input-label'}>token symbol</label>
+                <TextField
+                  id={'set-description'}
+                  name={'Token'}
+                  placeholder={'How should the token be called?'}
+                  value={symbol}
+                  fullWidth
+                  onChange={this.handleSymbolInput}
                   multiline
                 />
               </div>

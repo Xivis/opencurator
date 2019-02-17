@@ -9,18 +9,11 @@ import _ from 'lodash';
 
 let INITIAL_STATE = {
   data: {
-    '0x1234': {
-      'name': 'Awesome set',
-      'description': 'Lorem ipsum',
-      'address': '0x1234',
-      'symbol': 'RTK',
-      'tokens': '-'
-    },
-    '0x1235': {
-      'name': 'Awesome set',
-      'description': 'Lorem ipsum',
-      'address': '0x1235',
-      'symbol': 'RTK',
+    "0xc8c2d8761e63203829372018b978389fb0c3532b": {
+      'name': 'Awesome Cryptokitties"',
+      'description': 'Really awesome Cryptokitties',
+      'address': '0xc8c2d8761e63203829372018b978389fb0c3532b',
+      'symbol': 'TTK',
       'tokens': '-'
     }
   },

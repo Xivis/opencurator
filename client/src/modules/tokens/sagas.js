@@ -46,7 +46,9 @@ function* handleBuyTokenRequest(action) {
       } else {
         dispatch(successBuyToken(action.payload))
         dispatch(updateUI('close_modal'))
-        dispatch(addAddress(registryAddress))
+        setTimeout(() => {
+          dispatch(addAddress(registryAddress))
+        }, 10000)
 			}
 		})
 	}catch (e){
@@ -75,7 +77,10 @@ function* handleSellTokenRequest(action) {
       } else {
         dispatch(successSellToken(action.payload))
         dispatch(updateUI('close_modal'))
-        dispatch(addAddress(registryAddress))
+        dispatch(updateUI('close_modal'))
+        setTimeout(() => {
+          dispatch(addAddress(registryAddress))
+        }, 10000)
       }
 		})
 	}catch (e){

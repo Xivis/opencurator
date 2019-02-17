@@ -11,6 +11,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 import {loginRequest} from "../../modules/account/actions";
 import {requestBuyToken, requestSellToken} from "../../modules/tokens/actions";
@@ -213,7 +215,7 @@ class ExchangeButtons extends React.Component {
 						</Grid>
 					</Grid>
 				</DialogContent>
-
+					{ !buttonsDisabled &&
 					<DialogActions>
 						<Button
 							disabled={buttonsDisabled}
@@ -229,7 +231,13 @@ class ExchangeButtons extends React.Component {
 						>
 							{this.renderModalActionText()}
 						</Button>
-					</DialogActions>
+					</DialogActions> }
+					{buttonsDisabled &&
+					<DialogActions className={'loader'}>
+						<div>
+						<CircularProgress/>
+						</div>
+					</DialogActions>}
 				</Dialog>
 				}
 			</div>

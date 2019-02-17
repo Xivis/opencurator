@@ -2,6 +2,7 @@ import React from "react";
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Swal from 'sweetalert2'
 
 import StatusButton from "../../components/StatusButton/StatusButton";
 
@@ -22,6 +23,14 @@ class ItemDescription extends React.Component {
 		} else {
 			return <ChallengedButton/>
 		}
+	}
+
+	comingSoon = () => {
+		Swal.fire({
+			type: 'error',
+			title: 'Oops...',
+			text: 'This feature is coming soon!',
+		})
 	}
 
 	render() {
@@ -60,9 +69,9 @@ class ItemDescription extends React.Component {
 			</Grid>
 			<hr className={'hr'}/>
 			<Grid container spacing={8} className={'market-buttons'}>
-				<Grid item><Button variant="outlined">Buy</Button></Grid>
-				<Grid item><Button variant="outlined">Bid</Button></Grid>
-				<Grid item><Button variant="outlined">Sell</Button></Grid>
+				<Grid item><Button onClick={this.comingSoon} variant="outlined">Buy</Button></Grid>
+				<Grid item><Button onClick={this.comingSoon} variant="outlined">Bid</Button></Grid>
+				<Grid item><Button onClick={this.comingSoon} variant="outlined">Sell</Button></Grid>
 
 			</Grid>
 			</div>

@@ -5,8 +5,7 @@ import {
 	VOTE,
 	CHALLENGED,
 	REFRESH_LISTINGS_REQUEST,
-	REFRESH_LISTINGS_SUCCESS,
-	REFRESH_LISTINGS_FAILURE,
+	REFRESH_LISTINGS_SUCCESS
   newListingFetched
 } from './actions'
 import {dispatch, getState} from "../../store";
@@ -14,54 +13,52 @@ import {web3, infuraW3} from "../../utils/getWeb3";
 import {abi as abiTCR } from '../../contracts/ITCR20';
 import {abi as abiERCT} from "../../contracts/ERC20Tradable";
 import {failureSellToken, successSellToken} from "../tokens/actions";
-import {updateUI} from "../ui/actions";
-import {addAddress} from "../sets/actions";
-import {abi} from "../../contracts/RegistryFactory";
-import {newCreatedEvent} from "../newSet/actions";
 
 
 export function* listingsSaga() {
 	yield takeEvery(CHALLENGED, handleChallengeRequest)
 	yield takeEvery(REFRESH_LISTINGS_REQUEST, handleListingRefreshRequest)
 	yield takeEvery(REFRESH_LISTINGS_SUCCESS, handleListingFound)
-//	yield takeEvery(VOTE, handleVoteRequest)
+	yield takeEvery(VOTE, handleVoteRequest)
 }
 
-// function* handleVoteRequest(action) {
-//
-// 	let {vote} = action.payload
-//
-// 	const account = getState().account
-//
-// 	if (!account.loggedIn || !account.walletAddress){
-// 		return false;
-// 	}
-//
-// 	const registry = new web3.eth.Contract(abiERCT, registryAddress);
-// 	try{
-// 		registry.methods.vote(listingHash ,amount, description).send({
-// 			from: account.walletAddress,
-// 		}, (err, result) => {
-// 			if (err) {
-// 				//dispatch(failureSellToken(action.payload))
-// 			} else {
-// 				// dispatch(successSellToken(action.payload))
-// 				// dispatch(updateUI('close_modal'))
-// 				// dispatch(updateUI('close_modal'))
-// 				// setTimeout(() => {
-// 				// 	dispatch(addAddress(registryAddress))
-// 				// }, 10000)
-// 			}
-// 		})
-// 	}catch (e){
-// 		yield put(failureSellToken(action.payload))
-// 	}
-//
-// }
+function* handleVoteRequest(action) {
+
+	let {listingHash, amount, vote, registryAddress } = action.payload
+
+	const account = getState().account
+
+	if (!account.loggedIn || !account.walletAddress){
+		return false;
+	}
+
+	const registry = new web3.eth.Contract(abiERCT, registryAddress);
+	try{
+		registry.methods.vote(listingHash ,amount, vote+'').send({
+			from: account.walletAddress,
+		}, (err, result) => {
+			if (err) {
+				//dispatch(failureSellToken(action.payload))
+			} else {
+				// dispatch(successSellToken(action.payload))
+				// dispatch(updateUI('close_modal'))
+				// dispatch(updateUI('close_modal'))
+				// setTimeout(() => {
+				// 	dispatch(addAddress(registryAddress))
+				// }, 10000)
+			}
+		})
+	}catch (e){
+		yield put(failureSellToken(action.payload))
+	}
+
+}
 
 function* handleChallengeRequest(action) {
 
 	let {listingHash, amount, description, registryAddress} = action.payload
+
+	console.log(action.payload)
 
 	const account = getState().account
 

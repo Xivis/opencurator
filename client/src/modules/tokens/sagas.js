@@ -44,9 +44,10 @@ function* handleBuyTokenRequest(action) {
 			if (err) {
         dispatch(failureBuyToken(action.payload))
       } else {
-        dispatch(successBuyToken(action.payload))
-        dispatch(updateUI('close_modal'))
+
         setTimeout(() => {
+					dispatch(successBuyToken(action.payload))
+					dispatch(updateUI('close_modal'))
           dispatch(addAddress(registryAddress))
         }, 10000)
 			}
@@ -75,10 +76,10 @@ function* handleSellTokenRequest(action) {
       if (err) {
         dispatch(failureSellToken(action.payload))
       } else {
-        dispatch(successSellToken(action.payload))
-        dispatch(updateUI('close_modal'))
-        dispatch(updateUI('close_modal'))
+
         setTimeout(() => {
+					dispatch(successSellToken(action.payload))
+					dispatch(updateUI('close_modal'))
           dispatch(addAddress(registryAddress))
         }, 10000)
       }

@@ -31,7 +31,7 @@ class ListingPage extends React.Component {
 				<Grid container className={'options-container'}>
 					<Grid className={'options-side'} item xs={3}>
 						<div className={'back'}>
-							<Link to={'/set/lala'}>
+							<Link to={`/set/${this.state.set.address}`}>
 								<ArrowBack className={'back-icon'} />
 								BACK TO THE LIST
 							</Link>

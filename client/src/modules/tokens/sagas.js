@@ -102,7 +102,7 @@ function* handleAllowanceRequest(action) {
   const token = new web3.eth.Contract(abiERCT, tokenAddress)
 
   try {
-    token.methods.approve(registryAddress, amount)
+    token.methods.approve(registryAddress, web3.utils.toWei(amount, 'ether'))
       .send({from: account.walletAddress}, (err, result) => {
         if (err) {
           dispatch(requestAllowanceFailure({tokenAddress}))

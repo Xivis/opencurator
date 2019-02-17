@@ -22,6 +22,7 @@ function* handleListingApply(action) {
 
   if (!account.loggedIn || !account.walletAddress ||
     !web3.utils.isAddress(registryAddress) || !web3.utils.isAddress(listingHash)) {
+    yield put(applyFailure())
     return false
   }
 
@@ -29,7 +30,7 @@ function* handleListingApply(action) {
 
   try {
     registry.methods
-      .apply(listingHash, stake, JSON.stringify({description}))
+      .apply(listingHash, web3.utils.toWei(stake, 'ether'), JSON.stringify({description}))
       .send({from: account.walletAddress}, (error, result) => {
         if (error) {
           dispatch(applyFailure())

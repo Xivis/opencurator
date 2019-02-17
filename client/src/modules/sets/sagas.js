@@ -70,7 +70,7 @@ function* handleAddSetRequest(action) {
       tokenAddress,
       tokens: balance,
       allowance,
-      minDeposit: 10 // TODO - Calculate
+      minDeposit: 1000
     }
     yield put(addSet(set))
   } catch (e) {

@@ -36,15 +36,6 @@ class SetPage extends React.Component {
 
   constructor(props) {
     super(props);
-    /**
-     const item = {
-			name: 'Name 1',
-			info: 'Info',
-			asset: 'https://i.blogs.es/84638b/kitty1/450_1000.jpg',
-			status: 'challenge',
-			id: 1
-		};
-    */
 
     let set = null;
 
@@ -55,7 +46,7 @@ class SetPage extends React.Component {
 
     this.state = {
       set,
-      items: [],
+      items: this.props.listings[set.address].data,
       openModal: false,
       nextAction: '',
 
@@ -74,16 +65,6 @@ class SetPage extends React.Component {
   componentDidMount() {
     if (!this.state.set) {
       this.props.history.push('/')
-    }
-
-    if (
-      !this.props.listings[this.state.set.address] ||
-      this.props.listings[this.state.set.address].data.length === 0
-    ){
-      setTimeout(() => {
-        console.log('refrsh')
-        this.props.refreshListings(this.state.set.address)
-      }, 2000)
     }
   }
 
@@ -110,10 +91,11 @@ class SetPage extends React.Component {
   }
 
   renderItems = items => {
-    return items.map(item => {
+    let itemMap = Object.keys(items).map(key => {return {...items[key], key}})
+    return itemMap.map(item => {
       return (
         <Grid key={item.id} container>
-          <SetItem item={item}/>
+          <SetItem item={item} set={this.state.set.address} />
         </Grid>
       )
     });

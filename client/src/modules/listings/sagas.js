@@ -5,7 +5,7 @@ import {
 	VOTE,
 	CHALLENGED,
 	REFRESH_LISTINGS_REQUEST,
-	REFRESH_LISTINGS_SUCCESS
+	REFRESH_LISTINGS_SUCCESS,
   newListingFetched
 } from './actions'
 import {dispatch, getState} from "../../store";

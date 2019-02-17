@@ -9,11 +9,32 @@ import _ from 'lodash';
 
 let INITIAL_STATE = {
   data: {
-    "0xe46ca7f9cf4dbdd9e649e9200d0821ee241bbaa9": {
-      'name': 'Awesome Cryptokitties"',
-      'description': 'Really awesome Cryptokitties',
-      'address': '0xe46ca7f9cf4dbdd9e649e9200d0821ee241bbaa9',
-      'symbol': 'TTK',
+    "0x6b0df44e51047f713bd2a66484034d1f8f4076c2": {
+      'name': 'Best Oracles TCR',
+      'description': 'A list of best Oracles for ETH Price',
+      'address': '0x6b0df44e51047f713bd2a66484034d1f8f4076c2',
+      'symbol': 'B-ORA',
+      'tokens': '-'
+    },
+    "0xeEF5F236e3c5a9B0B53A64b343D490CFb3F44849": {
+      'name': 'Robots',
+      'description': 'Super cool robots',
+      'address': '0xeEF5F236e3c5a9B0B53A64b343D490CFb3F44849',
+      'symbol': 'ROB',
+      'tokens': '-'
+    },
+    "0x1ddd331c907b63db5c85081d4d138887147e82e9":{
+      'name': 'FOAM',
+      'description': 'The FOAM Proof of Location protocol empowers a permissionless and autonomous network of radio beacons that can offer secure location services independent of external centralized sources such as GPS through time synchronization.',
+      'address': '0xeEF5F236e3c5a9B0B53A64b343D490CFb3F44849',
+      'symbol': 'FOAM',
+      'tokens': '-'
+    },
+    "0x88566fccfda47d26b0279644139a8f07db80adc4":{
+      'name': 'Adchain',
+      'description': 'The FOAM Proof of Location protocol empowers a permissionless and autonomous network of radio beacons that can offer secure location services independent of external centralized sources such as GPS through time synchronization.',
+      'address': '0xeEF5F236e3c5a9B0B53A64b343D490CFb3F44849',
+      'symbol': 'ADC',
       'tokens': '-'
     }
   },

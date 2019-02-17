@@ -8,32 +8,27 @@ import StatusButton from '../../components/StatusButton/index';
 import './SetItem.scss';
 
 class SetItem extends React.Component {
-
-	state = {
-		itemName: this.props.item.name,
-		itemInfo: this.props.item.info,
-		itemAsset: this.props.item.asset,
-		itemStatus: this.props.item.status
-	};
-
-
 	render() {
+
+		let {set, item} = this.props;
+		let {key, name, description, status, asset} = item
+
 		return (
-			<Link className={'link-item-container'} to={'/set/lala/listing/lalal'}>
+			<Link className={'link-item-container'} to={`/set/${set}/listing/${key}`}>
 				<div>
 				<Grid container className={'item-container'} alignItems={'center'} spacing={24}>
 					<Grid item xs={3}>
-						<img alt='listing' className={'asset-image'} src={this.state.itemAsset} />
+						<img alt='listing' className={'asset-image'} src={asset} />
 					</Grid>
 					<Grid item xs={5}>
-						<h2 className={'item-name'}>{this.state.itemName}</h2>
-						<h3 className={'item-info'}>{this.state.itemInfo}</h3>
+						<h2 className={'item-name'}>{name}</h2>
+						<h3 className={'item-info'}>{description}</h3>
 					</Grid>
 					<Grid item xs={1}>
 						<h4 className={'medium-grey'}>2h</h4>
 					</Grid>
 					<Grid item xs={3}>
-						<StatusButton status={this.state.itemStatus}/>
+						<StatusButton status={status}/>
 					</Grid>
 				</Grid>
 				</div>

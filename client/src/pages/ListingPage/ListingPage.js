@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid';
 import ArrowBack from '@material-ui/icons/KeyboardArrowLeft';
@@ -17,28 +17,34 @@ class ListingPage extends React.Component {
 		super(props);
 
 		this.state = {
-			set: this.props.sets.data['0xc8c2d8761e63203829372018b978389fb0c3532b'],
-			item: this.props.listing['0x0123'].data['0x0123']
+      address: this.props.match.params.address,
+			item: this.props.match.params.listingHash
 		};
 	}
 
 
 
 	render() {
+
+
+
+		console.log(this.state)
+		let set = this.props.sets.data[this.state.address]
+		let item = this.props.listing[this.state.address].data[this.state.item]
 		return (
 			<div className="Page container">
-				<SetInfo set={this.state.set}/>
+				<SetInfo set={set}/>
 				<Grid container className={'options-container'}>
 					<Grid className={'options-side'} item xs={3}>
 						<div className={'back'}>
-							<Link to={`/set/${this.state.set.address}`}>
+							<Link to={`/set/${this.state.address}`}>
 								<ArrowBack className={'back-icon'} />
 								BACK TO THE LIST
 							</Link>
 						</div>
 					</Grid>
 					<Grid className={'items-container'} item xs={9}>
-						<ItemDescription item={this.state.item} />
+						<ItemDescription item={item} />
 					</Grid>
 				</Grid>
 			</div>
@@ -53,4 +59,4 @@ const mapStateToProps = (state) => {
 	}
 };
 
-export default connect(mapStateToProps)(ListingPage)
+export default withRouter(connect(mapStateToProps)(ListingPage))

@@ -56,6 +56,7 @@ class SetPage extends React.Component {
       items: [],
       openModal: false,
       nextAction: '',
+
       allowance: 0,
       allowanceError: null,
 

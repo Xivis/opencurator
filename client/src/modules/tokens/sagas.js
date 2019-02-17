@@ -3,17 +3,71 @@ import {takeEvery, put, call} from 'redux-saga/effects';
 import {
   TOKEN_ALLOWANCE_REQUEST,
   requestAllowanceSuccess,
-  requestAllowanceFailure
+  requestAllowanceFailure,
+	BUY_TOKENS_REQUEST,
+	failureBuyToken,
+	successBuyToken,
+	failureSellToken,
+	successSellToken,
+	SELL_TOKENS_REQUEST
 } from './actions'
 
-import {abi as abiERC} from '../../contracts/ERC20Detailed.json';
+import {abi as abiERCT} from '../../contracts/ERC20Tradable.json';
 import {getState, dispatch} from "../../store";
 import {web3} from '../../utils/getWeb3';
+// import {addAddress} from "../sets/actions";
+import { updateUI } from '../ui/actions';
 
-const delay = (ms) => new Promise(res => setTimeout(res, ms))
 
 export function* tokensSaga() {
   yield takeEvery(TOKEN_ALLOWANCE_REQUEST, handleAllowanceRequest)
+  yield takeEvery(BUY_TOKENS_REQUEST, handleBuyTokenRequest)
+  yield takeEvery(SELL_TOKENS_REQUEST, handleSellTokenRequest)
+}
+
+function* handleBuyTokenRequest(action) {
+
+	let {tokenAddress, amount} = action.payload
+
+	const account = getState().account
+
+	if (!account.loggedIn || !account.walletAddress){
+		return false;
+	}
+
+	const token = new web3.eth.Contract(abiERCT, tokenAddress);
+	try{
+		yield token.methods.buy().send({
+			from: account.walletAddress,
+			value: amount
+		})
+		yield put(successBuyToken(action.payload))
+	}catch (e){
+		yield put(failureBuyToken(action.payload))
+	}
+
+}
+
+function* handleSellTokenRequest(action) {
+
+	let {tokenAddress, amount} = action.payload
+
+	const account = getState().account
+
+	if (!account.loggedIn || !account.walletAddress){
+		return false;
+	}
+
+	const token = new web3.eth.Contract(abiERCT, tokenAddress);
+	try{
+		yield token.methods.sell(amount).send({
+			from: account.walletAddress,
+		})
+		yield put(successSellToken(action.payload))
+	}catch (e){
+		yield put(failureSellToken(action.payload))
+	}
+
 }
 
 function* handleAllowanceRequest(action) {
@@ -26,11 +80,18 @@ function* handleAllowanceRequest(action) {
     return false
   }
 
-  const token = new web3.eth.Contract(abiERC, tokenAddress)
+  const token = new web3.eth.Contract(abiERCT, tokenAddress)
 
   try {
-    yield call(() => token.methods.approve(registryAddress, amount).send({from: account.walletAddress}))
-    yield put(requestAllowanceSuccess({tokenAddress}))
+    token.methods.approve(registryAddress, amount)
+      .send({from: account.walletAddress}, (err, result) => {
+        if (err) {
+          dispatch(requestAllowanceFailure({tokenAddress}))
+        } else {
+          dispatch(requestAllowanceSuccess({tokenAddress}))
+          dispatch(updateUI('close_modal'))
+        }
+      })
   } catch (e) {
     yield put(requestAllowanceFailure({tokenAddress}))
   }

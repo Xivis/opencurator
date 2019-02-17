@@ -56,7 +56,7 @@ function* handleAddSetRequest(action) {
 
   let symbol = '-'
   try{
-    symbol = yield call(() => token.methods.decimals().call())
+    symbol = yield call(() => token.methods.symbol().call())
   }catch (e){
     console.log(e)
   }
@@ -67,7 +67,7 @@ function* handleAddSetRequest(action) {
     description,
     symbol,
     tokenAddress,
-    tokens: 100, // TODO - Remove hardcoded
+    tokens: balance,
     allowance,
     minDeposit: 10 // TODO - Calculate
   }

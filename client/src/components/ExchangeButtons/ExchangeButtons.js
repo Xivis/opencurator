@@ -156,7 +156,7 @@ class ExchangeButtons extends React.Component {
 								autoFocus
 								margin="dense"
 								id="amount"
-								label="Amount"
+								label="Tokens"
 								type="number"
 								placeholder="1"
 								value={this.state.tradeAmount}

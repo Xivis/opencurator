@@ -46,7 +46,7 @@ function* handleAddSetRequest(action) {
   const token = new web3.eth.Contract(abiERC, tokenAddress)
 
   const account = getState().account;
-  let balance = 0 // TODO - GO BACK TO '-'
+  let balance = '-'
   let allowance = '-'
   if (account.loggedIn) {
     balance = yield call(() => token.methods.balanceOf(account.walletAddress).call())
@@ -71,6 +71,7 @@ function* handleAddSetRequest(action) {
     allowance,
     minDeposit: 10 // TODO - Calculate
   }
+  console.log('UPDATING: ', set)
   yield put(addSet(set))
 }
 

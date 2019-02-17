@@ -17,6 +17,7 @@ import EmptyState from "../../components/EmptyState";
 import { loginRequest } from '../../modules/account/actions'
 import { requestAllowanceRequest } from '../../modules/tokens/actions'
 import { applyRequest } from '../../modules/newListing/actions'
+import { updateUI } from '../../modules/ui/actions'
 
 import { web3 } from '../../utils/getWeb3'
 import './SetPage.scss'
@@ -76,6 +77,8 @@ class SetPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('Will Receive Props')
+    console.log(nextProps)
     let { set } = this.state
     if (nextProps.sets && nextProps.sets.data[set.address]) {
       if (set.tokens !== nextProps.sets.data[set.address].tokens){
@@ -129,7 +132,7 @@ class SetPage extends React.Component {
         this.openModal(STEPS.ALLOWANCE)
       }
     } else {
-      alert('Insufficient funds')
+      this.props.updateUI('open_buy_modal')
     }
 
   }
@@ -410,6 +413,7 @@ const mapDispatchToProps = dispatch => ({
   onLogin: () => dispatch(loginRequest()),
   requestAllowance: (payload) => dispatch(requestAllowanceRequest(payload)),
   applyRequest: (payload) => dispatch(applyRequest(payload)),
+  updateUI: (payload) => dispatch(updateUI(payload)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetPage)

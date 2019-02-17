@@ -15,7 +15,7 @@ import {
 import {abi as abiERCT} from '../../contracts/ERC20Tradable.json';
 import {getState, dispatch} from "../../store";
 import {web3} from '../../utils/getWeb3';
-// import {addAddress} from "../sets/actions";
+import {addAddress} from "../sets/actions";
 import { updateUI } from '../ui/actions';
 
 
@@ -27,7 +27,7 @@ export function* tokensSaga() {
 
 function* handleBuyTokenRequest(action) {
 
-	let {tokenAddress, amount} = action.payload
+	let {tokenAddress, amount, registryAddress} = action.payload
 
 	const account = getState().account
 
@@ -37,11 +37,18 @@ function* handleBuyTokenRequest(action) {
 
 	const token = new web3.eth.Contract(abiERCT, tokenAddress);
 	try{
-		yield token.methods.buy().send({
+		token.methods.buy().send({
 			from: account.walletAddress,
 			value: amount
+		}, (err, result) => {
+			if (err) {
+        dispatch(failureBuyToken(action.payload))
+      } else {
+        dispatch(successBuyToken(action.payload))
+        dispatch(updateUI('close_modal'))
+        dispatch(addAddress(registryAddress))
+			}
 		})
-		yield put(successBuyToken(action.payload))
 	}catch (e){
 		yield put(failureBuyToken(action.payload))
 	}
@@ -50,7 +57,7 @@ function* handleBuyTokenRequest(action) {
 
 function* handleSellTokenRequest(action) {
 
-	let {tokenAddress, amount} = action.payload
+	let {tokenAddress, amount, registryAddress} = action.payload
 
 	const account = getState().account
 
@@ -60,10 +67,17 @@ function* handleSellTokenRequest(action) {
 
 	const token = new web3.eth.Contract(abiERCT, tokenAddress);
 	try{
-		yield token.methods.sell(amount).send({
+		token.methods.sell(amount).send({
 			from: account.walletAddress,
+		}, (err, result) => {
+      if (err) {
+        dispatch(failureSellToken(action.payload))
+      } else {
+        dispatch(successSellToken(action.payload))
+        dispatch(updateUI('close_modal'))
+        dispatch(addAddress(registryAddress))
+      }
 		})
-		yield put(successSellToken(action.payload))
 	}catch (e){
 		yield put(failureSellToken(action.payload))
 	}
@@ -88,6 +102,7 @@ function* handleAllowanceRequest(action) {
         if (err) {
           dispatch(requestAllowanceFailure({tokenAddress}))
         } else {
+          dispatch(addAddress(registryAddress))
           dispatch(requestAllowanceSuccess({tokenAddress}))
           dispatch(updateUI('close_modal'))
         }

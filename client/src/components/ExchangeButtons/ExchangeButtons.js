@@ -35,8 +35,19 @@ class ExchangeButtons extends React.Component {
 
 	}
 
+  componentWillReceiveProps(nextProps) {
+
+    if (!this.props.ui && nextProps.ui === 'close_modal') {
+      this.handleClose()
+    }
+
+    if (!this.props.ui && nextProps.ui === 'open_buy_modal') {
+      this.buyModal()
+    }
+
+  }
+
 	buyModal = () => {
-		console.log(this.tokenAddress);
 		if (this.props.account.loggedIn) {
 			this.openModal(BUY);
 		} else {
@@ -67,7 +78,10 @@ class ExchangeButtons extends React.Component {
 
 	renderModalContentText = () => {
 		if (this.state.action === BUY) {
-			return"Please enter the amount of tokens that you wish to buy";
+			if (this.props.ui === 'open_buy_modal') {
+				return "To participate in the set, you first need to get tokens "
+			}
+			return "Please enter the amount of tokens that you wish to buy";
 		}
 			return "Please enter the amount of tokens that you wish to sell"
 	};
@@ -99,6 +113,7 @@ class ExchangeButtons extends React.Component {
 		if (this.state.action === BUY) {
 			return () => {
 				this.props.onBuy({
+          registryAddress: this.props.set.address,
 					tokenAddress: this.props.set.tokenAddress,
 					amount: this.getWeiFromTokens(this.state.tradeAmount)
 				})
@@ -106,14 +121,13 @@ class ExchangeButtons extends React.Component {
 		} else {
 			return () => {
 				this.props.onSell({
+          registryAddress: this.props.set.address,
 					tokenAddress: this.props.set.tokenAddress,
 					amount: this.toWeiTokens(this.state.tradeAmount)
 				})
 			}
 		}
 	}
-
-
 
 	render() {
 		let { tokens, set } = this.props
@@ -239,7 +253,8 @@ class ExchangeButtons extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		account: state.account,
-		tokens: state.tokens
+		tokens: state.tokens,
+    ui: state.ui.value
 	}
 };
 

@@ -20,7 +20,7 @@ module.exports = (done) => {
       registryFactoryAddress = 'Put here Ropsten address of factory contract';
     } else if (networkID === '4') {
       // Rinkeby registry factory address
-      registryFactoryAddress = 'Put here Rinkeby address of factory contract';
+      registryFactoryAddress = '0x1b083f3f3dafaa32ebbf480f621f08adee76a02e';
     } else {
       // Any other network, take Registry Factory address from local artifact
       registryFactoryAddress = RegistryFactory.address;

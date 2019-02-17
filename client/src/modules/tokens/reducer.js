@@ -1,6 +1,6 @@
 import {
-  TOKEN_ALLOWANCE_REQUEST,
-	BUY_TOKENS_REQUEST
+	TOKEN_ALLOWANCE_REQUEST,
+	BUY_TOKENS_REQUEST, BUY_TOKENS_FAILURE, BUY_TOKENS_SUCCESS
 } from './actions';
 
 let INITIAL_STATE = {
@@ -12,7 +12,6 @@ let INITIAL_STATE = {
 }
 
 export function tokenReducer(state = INITIAL_STATE, action) {
-  console.log(action)
   switch (action.type) {
     case TOKEN_ALLOWANCE_REQUEST: {
       return {
@@ -24,9 +23,22 @@ export function tokenReducer(state = INITIAL_STATE, action) {
     }
 		case BUY_TOKENS_REQUEST: {
 			return {
-				...state.data,
-				[action.payload.account]: {
-					loading: true
+				data:{
+					...state.data,
+					[action.payload.tokenAddress]: {
+						loading: true
+					}
+				}
+			}
+		}
+		case BUY_TOKENS_FAILURE:
+		case BUY_TOKENS_SUCCESS: {
+			return {
+				data:{
+					...state.data,
+					[action.payload.tokenAddress]: {
+						loading: false
+					}
 				}
 			}
 		}

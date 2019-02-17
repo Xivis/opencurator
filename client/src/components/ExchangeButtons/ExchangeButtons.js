@@ -1,4 +1,5 @@
 import React from "react";
+import {web3} from '../../utils/getWeb3';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -30,17 +31,16 @@ class ExchangeButtons extends React.Component {
 			openModal: false,
 			tradeAmount: 0,
 			action: '',
-			nextAction: ''
 		}
 
 	}
 
 	buyModal = () => {
-		console.log(this.props.account.loggedIn);
+		console.log(this.tokenAddress);
 		if (this.props.account.loggedIn) {
 			this.openModal(BUY);
 		} else {
-			this.setState({nextAction: BUY}, this.props.onLogin)
+			this.setState({action: BUY, openModal: true}, this.props.onLogin)
 		}
 	};
 
@@ -48,7 +48,7 @@ class ExchangeButtons extends React.Component {
 		if (this.props.account.loggedIn) {
 			this.openModal(SELL);
 		} else {
-			this.setState({nextAction: SELL}, this.props.onLogin)
+			this.setState({action: SELL, openModal: true}, this.props.onLogin)
 		}	};
 
 	openModal = action => {
@@ -86,34 +86,55 @@ class ExchangeButtons extends React.Component {
 		return "Sell"
 	};
 
-	componentWillUpdate(nextProps) {
-		if (!this.props.account.loggedIn && nextProps.account.loggedIn) {
-			if (this.state.nextAction === BUY) {
-				this.buyModal();
-			} else if (this.state.nextAction === SELL ) {
-				this.sellModal();
+	getWeiFromTokens = tokens => {
+		return web3.utils.toWei(tokens/1000+'', 'ether');
+
+	};
+
+	getTokensfromEth = tokens => {
+		return tokens/1000;
+
+	};
+
+	renderModalAction = () => {
+		if (this.state.action === BUY) {
+			return () => {
+				this.props.onBuy({
+					tokenAddress: this.props.set.tokenAddress,
+					amount: this.getWeiFromTokens(this.state.tradeAmount)
+				})
+			}
+		} else {
+			return () => {
+				const amountInWei = web3.utils.toWei(this.state.tradeAmount/1000, 'ether');
+				this.props.onBuy({tokenAddress: this.props.set.tokenAddress, amount: amountInWei})
 			}
 		}
 	}
 
 
+
 	render() {
-		{console.log(this.state)}
+		let { tokens, set } = this.props
+		let buttonsDisabled = false
+		if (tokens.data && tokens.data[set.tokenAddress] && tokens.data[set.tokenAddress].loading){
+			buttonsDisabled = true
+		}
 		return (
 			<div className={'exchange-buttons'}>
 				<Grid container spacing={8} direction="column" justify="center"  alignItems="stretch">
-					<Grid item xs={6}>
+					<Grid item xs={12}>
 						<Button onClick={this.buyModal} className={'buy'} variant="outlined">
 							Buy Tokens
 						</Button>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12}>
 						<Button onClick={this.sellModal} className={'sell'} variant="outlined">
 							Sell Tokens
 						</Button>
 					</Grid>
 				</Grid>
-				{this.state.openModal &&
+				{(this.state.openModal && this.props.account.loggedIn) &&
 				<Dialog
 					open={true}
 					aria-labelledby="alert-dialog-slide-title"
@@ -147,7 +168,7 @@ class ExchangeButtons extends React.Component {
 					</Grid>
 					<Grid container spacing={0}>
 						<Grid item xs={4}>
-							Amount (Wei):
+							Amount (Eth):
 						</Grid>
 						<Grid item>
 							{(this.state.tradeAmount)/1000}
@@ -157,13 +178,15 @@ class ExchangeButtons extends React.Component {
 
 					<DialogActions>
 						<Button
+							disabled={buttonsDisabled}
 							onClick={this.handleClose}
 							color="primary"
 						>
 							Cancel
 						</Button>
 						<Button
-							onClick={this.handleClose}
+							disabled={buttonsDisabled}
+							onClick={this.renderModalAction()}
 							color="primary"
 						>
 							{this.renderModalActionText()}
@@ -215,7 +238,7 @@ class ExchangeButtons extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		account: state.account,
-		//loading: state.loading
+		tokens: state.tokens
 	}
 };
 

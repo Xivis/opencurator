@@ -2,14 +2,17 @@ import {takeEvery, put, call} from 'redux-saga/effects';
 
 import {
   TOKEN_ALLOWANCE_REQUEST,
-	BUY_TOKENS_REQUEST
+	BUY_TOKENS_REQUEST,
+	failureBuyToken,
+	successBuyToken
 } from './actions'
 
 
 import {abi as abiERC} from '../../contracts/ERC20Detailed.json';
-//import {abi as abiERC} from '../../contracts/E.json';
+import {abi as abiERCT} from '../../contracts/ERC20Tradable.json';
 import {getState} from "../../store";
 import {web3} from '../../utils/getWeb3';
+import {addAddress} from "../sets/actions";
 
 export function* tokensSaga() {
   yield takeEvery(TOKEN_ALLOWANCE_REQUEST, handleAllowanceRequest)
@@ -17,6 +20,9 @@ export function* tokensSaga() {
 }
 
 function* handleBuyTokenRequest(action) {
+
+	console.log(action)
+
 	let {tokenAddress, amount} = action.payload
 
 	const account = getState().account
@@ -25,13 +31,16 @@ function* handleBuyTokenRequest(action) {
 		return false;
 	}
 
-	const token = new web3.eth.Contract(abiERC, tokenAddress)
-
-	token.methods.buy(registryAddress, amount).send({
-		from: account.walletAddress
-	}).then(console.log)
-
-
+	const token = new web3.eth.Contract(abiERCT, tokenAddress);
+	try{
+		yield token.methods.buy().send({
+			from: account.walletAddress,
+			value: amount
+		})
+		yield put(successBuyToken(action.payload))
+	}catch (e){
+		yield put(failureBuyToken(action.payload))
+	}
 
 }
 

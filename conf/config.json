@@ -1,7 +1,7 @@
 {
-  "name": "Best Oracles TCR",
-  "description": "A list of Best Oracles for ETH Price",
-  "acceptedDataType": "SHA3-STRING",
+  "name": "Decentraland Avatars",
+  "description": "A curated list of Avatars than can be use to whitelisted users to any land in Decentraland",
+  "acceptedDataType": "SHA3-HANDLE",
   "paramDefaults": {
     "requiredDeposit": 1000,
     "applyStageLength": 172800,
@@ -9,8 +9,8 @@
     "dispensationPct": 80
     },
   "token": {
-    "name": "Oracles Token",
+    "name": "Avatar Token",
     "decimals": "18",
-    "symbol": "B-ORA"
+    "symbol": "DT-AVA"
   }
 }

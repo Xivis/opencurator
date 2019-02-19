@@ -20,7 +20,7 @@ module.exports = (done) => {
       registryFactoryAddress = 'Put here Ropsten address of factory contract';
     } else if (networkID === '4') {
       // Rinkeby registry factory address
-      registryFactoryAddress = '0x1b083f3f3dafaa32ebbf480f621f08adee76a02e';
+      registryFactoryAddress = '0xafe173e4e987ac5c5b1808d42d762a464bc580b7';
     } else {
       // Any other network, take Registry Factory address from local artifact
       registryFactoryAddress = RegistryFactory.address;
@@ -46,7 +46,7 @@ module.exports = (done) => {
       config.token.decimals,
       config.token.symbol,
       [
-        paramConfig.minDeposit,
+        paramConfig.requiredDeposit,
         paramConfig.applyStageLength,
         paramConfig.voteStageLength,
         paramConfig.dispensationPct,
